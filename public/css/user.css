@@ -1,0 +1,28 @@
+body {
+    padding-top: 56px; 
+}
+.navbarBG {
+    background: rgba(0, 114, 185, 0.72) !important;
+    padding-right: ;
+}
+
+.navbar-logo{
+    margin-right: auto;
+}
+
+
+.navbar-nav .fitur p {
+    margin-bottom: 0;
+}
+.fitur {
+    color: #FFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 50px;
+}
+.fiturNav{
+    width: 70%;
+}

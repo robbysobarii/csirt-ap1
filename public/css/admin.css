@@ -1,0 +1,27 @@
+.styleNav{
+    width: 20% !important;
+}
+.menu{
+    margin: 10px;
+}
+.tableContent{
+    margin:auto;
+}
+.ButtonAksi{
+    margin: 10px;
+}
+tr, td {
+    padding: 3px;
+}
+.addButton{
+    margin-bottom: 10px;
+}
+.custom-dropdown .dropdown-toggle::after {
+    display: none; /* Menghilangkan ikon panah */
+}
+
+.custom-dropdown .dropdown-menu {
+    border: none; /* Menghilangkan border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Menambahkan shadow */
+    padding: 10px; /* Padding isi dropdown */
+}
