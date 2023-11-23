@@ -15,23 +15,28 @@
                             <th scope="col">Role User</th>
                             <th scope="col">Nama User</th>
                             <th scope="col">Email User</th>
+                            <th scope="col">Password</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        @for ($i = 1; $i < 5; $i++)
+                        @foreach($users as $user)
                             <tr>
-                                <th scope="row">#</th>
-                                <td>Superuser</td>
-                                <td>Admin AP</td>
-                                <td>robby@ap.com</td>
+                                <th scope="row">{{ $user->id }}</th>
+                                <td>{{ $user->role_user }}</td>
+                                <td>{{ $user->nama_user }}</td>
+                                <td>{{ $user->email_user }}</td>
+                                <td>{{ $user->password }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal() ">Edit</a>
-                                    <a class="btn btn-sm btn-danger ButtonAksi" href="">Hapus</a>
+                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal()">Edit</a>
+                                    <form method="POST" action="{{ route('user.delete', $user->id) }}" style="display:inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger ButtonAksi" onclick="return confirm('Are you sure?')">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -47,29 +52,39 @@
                 <h5 class="modal-title">Tambah Konten</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="{{ route('user.store') }}">
+                    @csrf
                     <div class="mb-3">
-                        <label for="judul">Role User</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
+                        <label for="role_user">Role User</label>
+                        <select class="form-control" id="role_user" name="role_user">
+                            <option value="Pelapor">Pelapor</option>
+                            <option value="Pimpinan">Pimpinan</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Superuser">Superuser</option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Nama User</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="nama_user">Nama User</label>
+                        <input type="text" class="form-control" id="nama_user" name="nama_user">
                     </div>
                     <div class="mb-3">
-                        <label for="gambar">Email User</label>
-                        <input type="" class="form-control" id="gambar" name="gambar">
+                        <label for="email_user">Email User</label>
+                        <input type="email" class="form-control" id="email_user" name="email_user">
                     </div>
+                    <div class="mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
 </div>
+
 @endsection
+
 @push('scripts')
     <script>
         function tampilkanModal() {
@@ -80,8 +95,7 @@
                 $('#tambahKontenModal').modal('hide');
             });
         }
-
     </script>
 @endpush
 
-@section('title','Admin | User Managemen')
+@section('title','Admin | User Management')

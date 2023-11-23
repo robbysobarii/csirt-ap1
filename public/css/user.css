@@ -1,9 +1,6 @@
-body {
-    padding-top: 56px; 
-}
+
 .navbarBG {
     background: rgba(0, 114, 185, 0.72) !important;
-    padding-right: ;
 }
 
 .navbar-logo{
@@ -15,14 +12,215 @@ body {
     margin-bottom: 0;
 }
 .fitur {
-    color: #FFF;
+    color: #FFF !important;
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-left: 50px;
+    margin-left: 30px;
 }
 .fiturNav{
     width: 70%;
+}
+.bg{
+    background-color: white;
+    padding-bottom: 100px;
+}
+.overlay-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.carousel-item{
+    opacity: 90%;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    opacity: 70%;
+    width: 100%;
+    height: 40%;
+    justify-content: center;
+}
+
+.containerAJudul{
+    background-color: #66B82E;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    opacity: 75%;
+    bottom: 0;
+
+}
+.containerAJudul h4{
+    color: white;
+    margin-block:auto ;
+}
+.search-container {
+    position: relative;
+}
+
+.search-bar {
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #333; /* You can change the color as needed */
+}
+.containerContent{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+}
+hr{
+    margin: 0;
+}
+.main{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 100px;
+}
+.kiri{
+    padding: 30px;
+}
+.kanan{
+    background-color: rgba(234, 241, 255, 0.4);
+}
+.tgl{
+    color: #66B82E;
+    margin-block: 10px;
+}
+.selengkap{
+    color: #0072B9;
+    margin-top: 80px;
+}
+.contentBerita{
+    padding: 30px;
+    text-align: center;
+}
+.selengkapKanan{
+    color: #0072B9;
+}
+.lihatSemua{
+    background-color: #E5EFFE;
+    color: #0072B9;
+    padding: 5px;
+    text-align: center;
+    width: 100%;
+}
+.carousel-inner-galery {
+    display: flex;
+    transition: transform 0.5s ease;
+    overflow-x: auto;
+    width: 80%;
+    margin: auto;
+    
+}
+
+.carousel-item-galery {
+    flex: 0 0 auto;
+    margin-right: 1px;
+    width: 20%;
+    word-wrap: break-word;
+    position: relative;
+}
+.bgGalery{
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 10px;
+    text-align: justify;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.lowerFooter{
+    /* background: linear-gradient(180deg, #015EC5 0%, #0045A4 100%); */
+    background: #4F9E19;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: white;
+    padding-top: 20px;
+    display: flex;
+
+}
+.highFooter{
+    background: linear-gradient(180deg, #015EC5 0%, #0045A4 100%); color: white; padding: 20px; 
+}
+.konten{
+    display: flex;
+    flex-direction: row;
+}
+.profilKiri{
+    background-color: #F5F9FF;
+    width: 30%;
+    padding: 30px;
+    color: rgba(0, 0, 0, 0.8);
+    text-align: justify;
+}
+.profilKanan{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    width: 70%;
+    text-align: center;
+}
+
+.green-box-list h4 {
+    margin-bottom: 10px;
+}
+
+.green-box-list ul {
+    list-style-type: none; 
+    padding: 0;
+}
+
+.green-box-list li {
+    position: relative;
+    padding-left: 40px; 
+    margin-bottom: 5px;
+}
+
+.green-box-list li::before {
+    content: "\25A0"; 
+    color: #66B82E; 
+    font-size: 20px; 
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 5px; 
+}
+
+.profil > .konten > div {
+    margin-right: 20px;
+}
+.layanan{
+    margin-top: 30px;
+}
+.layanan li{
+    margin: 10px;
+}
+.alamat{
+    padding-bottom: 20px;
 }

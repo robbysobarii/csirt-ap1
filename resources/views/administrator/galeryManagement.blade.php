@@ -8,7 +8,6 @@
             <h2 class="mb-4 text-center">Pengaturan Konten</h2>
             <div class="table-responsive">
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-info ms-2 addButton">Lihat Preview</button>
                     <button type="button" class="btn btn-success ms-2 addButton" onclick="tampilkanModal()">Tambah Konten</button>
                 </div>
                 <table class="table align-middle text-center">
@@ -22,18 +21,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i < 10; $i++)
+                        @foreach ($galleries as $gallery)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Serangan DDOS Merajalela</td>
-                                <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptates officia at nesciunt! Rem ducimus, aliquam assumenda delectus modi quibusdam, sequi eveniet distinctio quod suscipit blanditiis, reprehenderit illum et quis? Beatae.</td>
-                                <td><img src="/img/galery.svg" alt="Logo" class="img-fluid"></td>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $gallery->judul }}</td>
+                                <td>{{ $gallery->caption }}</td>
+                                <td><img src="{{ asset('storage/' . $gallery->gambar) }}" alt="Gambar" class="img-fluid"></td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal() ">Edit</a>
-                                    <a class="btn btn-sm btn-danger ButtonAksi" href="">Hapus</a>
+                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal()">Edit</a>
+                                    <form action="{{ route('gallery.delete', ['id' => $gallery->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this content?')">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-sm btn-danger ButtonAksi">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -49,24 +52,25 @@
                 <h5 class="modal-title">Tambah Konten</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('galleries.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="mb-3">
                         <label for="judul">Judul</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
+                        <input type="text" class="form-control" id="judul" name="judul" required>
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Caption</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="caption">Caption</label>
+                        <textarea class="form-control" id="caption" name="caption" rows="4" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="gambar">Gambar</label>
-                        <input type="file" class="form-control" id="gambar" name="gambar">
+                        <input type="file" class="form-control" id="gambar" name="gambar" required>
                     </div>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>

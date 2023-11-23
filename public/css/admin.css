@@ -6,6 +6,7 @@
 }
 .tableContent{
     margin:auto;
+    width: 100%;
 }
 .ButtonAksi{
     margin: 10px;
@@ -17,7 +18,7 @@ tr, td {
     margin-bottom: 10px;
 }
 .custom-dropdown .dropdown-toggle::after {
-    display: none; /* Menghilangkan ikon panah */
+    display: none; 
 }
 
 .custom-dropdown .dropdown-menu {

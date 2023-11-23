@@ -8,7 +8,6 @@
             <h2 class="mb-4 text-center">Pengaturan Konten</h2>
             <div class="table-responsive">
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-info ms-2 addButton">Lihat Preview</button>
                     <button type="button" class="btn btn-success ms-2 addButton" onclick="tampilkanModal()">Tambah Konten</button>
                 </div>
                 <table class="table align-middle text-center">
@@ -16,6 +15,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Acara</th>
+                            <th scope="col">Deskripsi</th>
                             <th scope="col">Tanggal Awal</th>
                             <th scope="col">Tanggal Akhir</th>
                             <th scope="col">Tempat</th>
@@ -23,19 +23,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i < 10; $i++)
+                        @foreach ($events as $event)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Belajar GCP</td>
-                                <td>20/10/2023</td>
-                                <td>22/10/2023</td>
-                                <td>Jakarta Barat</td>
+                                <th scope="row">{{ $event->id }}</th>
+                                <td>{{ $event->name }}</td>
+                                <td>{{ $event->description }}</td>
+                                <td>{{ $event->start_date }}</td>
+                                <td>{{ $event->end_date }}</td>
+                                <td>{{ $event->location }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal() ">Edit</a>
-                                    <a class="btn btn-sm btn-danger ButtonAksi" href="">Hapus</a>
+                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal()">Edit</a>
+                                    <form action="{{ route('event.delete', ['id' => $event->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this event?')">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-sm btn-danger ButtonAksi">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -51,32 +56,39 @@
                 <h5 class="modal-title">Tambah Konten</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('event.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="mb-3">
-                        <label for="judul">Acara</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
+                        <label for="name">Acara</label>
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Tanggal Awal</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="description">Deskripsi</label>
+                        <input type="text" class="form-control" id="description" name="description">
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Tanggal Akhir</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="start_date">Tanggal Awal</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date">
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Tempat</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="end_date">Tanggal Akhir</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="location">Tempat</label>
+                        <textarea class="form-control" id="location" name="location" rows="4"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
 </div>
+
+
 @endsection
 @push('scripts')
     <script>

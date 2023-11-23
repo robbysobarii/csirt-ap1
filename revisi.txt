@@ -1,0 +1,29 @@
+insiden type tambahin other
+tambahin view bukti img
+png atau jpg bisa backdoor -----
+beranda kiri kanan samain
+tanem backdoor digambar ----
+
+1. skema database
+2. login
+3. pelaporan
+4. cms
+
+deadline jumat 24 
+
+
+edit content 
+
+
+login pake jwt sesuai
+akses pelapor admin pimpinan dan super clear
+user management admin bisa rubah, menu activation setelah login, 
+hardening
+
+email blm 
+
+
+
+
+
+

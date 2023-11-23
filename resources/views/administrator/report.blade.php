@@ -17,25 +17,38 @@
                             <th scope="col">Insiden Type</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Penanganan</th>
+                            <th scope="col">Nama User</th>
+                            <th scope="col">Bukti</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        @for ($i = 1; $i < 5; $i++)
+                        @foreach($reports as $report)
                             <tr>
-                                <th scope="row">#</th>
-                                <td>Superuser</td>
-                                <td>20/10/2023</td>
-                                <td>SQL Injection</td>
-                                <td>Eror didapat pada saat bla bla bla</td>
-                                <td>Memperkuat SQL Sec</td>
+                                <th scope="row">{{ $report->id }}</th>
+                                <td>{{ $report->satker }}</td>
+                                <td>{{ $report->tanggal }}</td>
+                                <td>{{ $report->insiden_type }}</td>
+                                <td>{{ $report->keterangan }}</td>
+                                <td>{{ $report->penanganan }}</td>
+                                <td>{{ $report->user->nama_user }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal() ">Update</a>
-                                    <a class="btn btn-sm btn-danger ButtonAksi" href="">Hapus</a>
+                                    @if($report->bukti)
+                                        <img src="{{ asset('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                    @else
+                                        No Image
+                                    @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal()">Update</a>
+                                    <form method="POST" action="{{ route('report.delete', $report->id) }}" style="display:inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger ButtonAksi" onclick="return confirm('Are you sure?')">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -51,49 +64,54 @@
                 <h5 class="modal-title">Tambah Konten</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="{{ route('report.store') }}" enctype="multipart/form-data">
+                    @csrf
                     <div class="mb-3">
-                        <label for="judul">SATKER</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
+                        <label for="tanggal">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Tanggal</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="insiden_type">Insiden Type</label>
+                        <select class="form-control" id="insiden_type" name="insiden_type" required>
+                            <option value="Malware">Malware</option>
+                            <option value="DDoS">Serangan DDoS</option>
+                            <option value="Phishing">Serangan Phishing</option>
+                            <option value="SQL Injection">Serangan SQL Injection</option>
+                            <option value="Web Defacement">Web Defacement</option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Insiden Type</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="keterangan">Keterangan</label>
+                        <textarea class="form-control" id="keterangan" name="keterangan" rows="4" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Keterangan</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="penanganan">Penanganan</label>
+                        <textarea class="form-control" id="penanganan" name="penanganan" rows="4" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="isiKonten">Penanganan</label>
-                        <textarea class="form-control" id="isiKonten" name="isiKonten" rows="4"></textarea>
+                        <label for="bukti">Bukti</label>
+                        <input type="file" class="form-control" id="bukti" name="bukti">
                     </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
 </div>
 @endsection
 @push('scripts')
-    <script>
-        function tampilkanModal() {
-            $('#tambahKontenModal').modal('show');
-        }
-        function tutupModal() {
-            $('#tutupModalButton').click(function () {
-                $('#tambahKontenModal').modal('hide');
-            });
-        }
+<script>
+    function tampilkanModal() {
+        $('#tambahKontenModal').modal('show');
+    }
 
-    </script>
+    function tutupModal() {
+        $('#tutupModalButton').click(function () {
+            $('#tambahKontenModal').modal('hide');
+        });
+    }
+    
+</script>
 @endpush
-
 @section('title','Admin | Report Managemen')
