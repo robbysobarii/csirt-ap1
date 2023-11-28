@@ -43,8 +43,12 @@
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                 </div>
                 <div class="ms-3">
-                    <h6 class="mb-0">Administrator</h6>
-                    <span>Admin</span>
+                    @auth
+                        <h6 class="mb-0">{{ auth()->user()->nama_user }}</h6>
+                        <span>{{ auth()->user()->role_user }}</span>
+                    @else
+                        <p>No user logged in</p>
+                    @endauth
                 </div>
             </div>
             <div class="navbar-nav w-100">
@@ -76,9 +80,6 @@
 
 
             <div class="navbar-nav w-100">
-                <a href="{{ route('admin.userManagement') }}" class="nav-item nav-link text-center menu">User Managemen</a>
-            </div>
-            <div class="navbar-nav w-100">
                 <a href="{{ route('admin.reportManagement') }}" class="nav-item nav-link text-center menu">Report Managemen</a>
             </div>
         </nav>
@@ -90,15 +91,19 @@
             <i class="fa fa-bars"></i>
         </a>
         <div class="navbar-nav align-items-center ms-auto">
-            
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src={{ asset('img/user.png') }} alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">Log Out</a>
+                    <a href="{{ route('editProfil', ['id' => auth()->user()->id]) }}" class="dropdown-item">Edit Profile</a>
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Log Out</button>
+                    </form>
                 </div>
             </div>
+            
         </div>
     </nav>
     <!-- Navbar End -->

@@ -17,7 +17,6 @@
             align-items: center;
             justify-content: center;
         }
-
     </style>
 </head>
 <body>
@@ -28,9 +27,12 @@
                 <p style="margin: 0;padding: 0;">SISTEM LAPORKAN INSIDEN</p>
             </div>
             <div class="login-form">
-                <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                <button>Login</button>
+                <form id="loginForm" method="post" action="{{ route('masuk') }}">
+                    @csrf
+                    <input type="email" name="email_user" id="email_user" class="form-control" placeholder="Email" required>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
             </div>
         </div>
         <div class="right-box">
@@ -40,5 +42,15 @@
             <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            var emailInput = document.getElementById('email_user');
+            if (!emailInput.value.endsWith('@gmail.com')) {
+                alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
+                event.preventDefault(); // Mencegah form dari pengiriman jika email tidak valid
+            }
+        });
+    </script>
 </body>
 </html>

@@ -21,6 +21,64 @@ user management admin bisa rubah, menu activation setelah login,
 hardening
 
 email blm 
+---------------------------
+Path login apa? -> user 1
+Image resolusinya harus dibuat default -> user 2
+footer -> user 3
+Text artikel dan berita (desain) ->admin 4
+Coba liat form isiannya waktu tambah konten, input insiden -> admin 5
+Pelapor bisa ubah status? bukannya admin aja ya -> admin 6
+
+
+chart 3
+Gabisa diblok -> user
+
+gambar original
+gaboleh diblock
+
+
+usermangement di superuser fokus disini -> admin 7
+pelapor, pimpinan, admin,superuser change pass -> admin 8
+batasan user jelasin -> admin 9
+pimpinan asc desc -> admin 
+superuser bisa edit semua pass -> admin
+
+logo
+semua aset/warna edit ulang
+
+
+----------------------------------------------------------
+ admin -> tambah foto edit profil
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

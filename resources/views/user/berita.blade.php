@@ -11,7 +11,7 @@
     <hr>
     <div class="kontenBerita" style="display: flex;flex-direction: column; text-align: justify; word-wrap: break-word;">
         <img src="{{ asset('storage/' . $content->gambar) }}" alt="content" style="width: 50%; margin-block: 30px; margin-inline: auto;">
-        <p style="text-align: justify; padding: 5px">{{ $content->isi_konten }}</p>
+        <p style="text-align: justify; padding: 5px">{!! nl2br(e($content->isi_konten)) !!}</p>
         <div class="breadcrumb d-flex justify-content-between" style="padding-top: 20px; margin-bottom: 0;">
             @if($prevContent)
                 <div><a href="{{ route('berita', $prevContent->id) }}">Sebelumnya</a></div>

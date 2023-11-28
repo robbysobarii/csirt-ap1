@@ -12,7 +12,7 @@
     <h3>Struktur Organisasi</h3>
     <hr>
     <div class="profil">
-        <img src="/img/struktur.svg" alt="Profil" style="margin-top:30px ">
+        <img src="/img/struktur.png" alt="Profil" style="margin-top:30px ">
     </div>
 </div>
 

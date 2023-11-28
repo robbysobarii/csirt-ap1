@@ -5,43 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Reports;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ReportsController extends Controller
 {
     public function index()
     {
         $reports = Reports::all();
-        $users = User::all();
-        $roles = $users->pluck('role_user')->unique();
-        
-        // Retrieve users based on roles using whereIn
-        $nama_user = User::whereIn('role_user', $roles)->get(['id', 'nama_user']);
+        $auth = auth()->user();
 
-        return view('administrator.report', compact('reports', 'users', 'roles', 'nama_user'));
+        return view('administrator.report', compact('reports', 'auth'));
     }
 
 
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required',
-            'satker' => 'required',
-            'tanggal' => 'required',
-            'insiden_type' => 'required',
-            'keterangan' => 'required',
-            'penanganan' => 'required',
-            'nama_user' => 'required',
-            'bukti' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bukti' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ]);
 
-        // Get the user data
         $user = User::find($request->user_id);
 
-        // Upload gambar jika ada
         $imageName = null;
         if ($request->hasFile('bukti')) {
             $imageName = time() . '.' . $request->bukti->extension();
-            $request->bukti->storeAs('images', $imageName, 'public'); // Using Storage facade
+            $request->bukti->storeAs('images', $imageName, 'public');
         }
 
         Reports::create([
@@ -51,7 +40,8 @@ class ReportsController extends Controller
             'insiden_type' => $request->insiden_type,
             'keterangan' => $request->keterangan,
             'penanganan' => $request->penanganan,
-            'nama_user' => $user->nama_user, // Store the user's name
+            'nama_user' => $user->nama_user,
+            'status' => $request->status,
             'bukti' => $imageName,
         ]);
 
@@ -67,12 +57,90 @@ class ReportsController extends Controller
                 $user->delete();
                 return redirect()->route('admin.reportManagement')->with('success', 'User deleted successfully');
             } catch (\Exception $e) {
-                // Handle any exceptions here, e.g., log the error
                 return redirect()->route('admin.reportManagement')->with('error', 'Failed to delete user');
             }
         }
 
         return redirect()->route('admin.reportManagement')->with('error', 'User not found');
     }
+    public function indexPelapor()
+    {
+        $auth = auth()->user();
+        $reports = Reports::where('user_id', $auth->id)->get();
+
+        return view('pelapor.pelapor', compact('reports','auth'));
+    }
+    public function indexPimpinan()
+    {
+        $auth = auth()->user();
+        $reports = Reports::all();
+
+        return view('pimpinan.dataReport', compact('reports', 'auth'));
+    }
+    public function showDashboard()
+    {
+        $reports = Reports::all();
+
+        $totalPerType = $reports->groupBy('insiden_type')->map->count();
+        $totalStatus = $reports->groupBy('status')->map->count();
+
+        return view('pimpinan.dashboard', [
+            'totalPerType' => $totalPerType,
+            'totalStatus' => $totalStatus,
+            'reports' => $reports
+        ]);
+    }
+    public function update(Request $request)
+    {
+        $request->validate([
+            'bukti' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+        ]);
+
+        $user = User::find($request->user_id);
+
+        $report = Reports::find($request->report_id);
+
+        // Check if a new image is provided
+        if ($request->hasFile('bukti')) {
+            // Upload and store the new image
+            $imageName = time() . '.' . $request->bukti->extension();
+            $request->bukti->storeAs('images', $imageName, 'public');
+
+            // Delete the old image if it exists
+            if ($report->bukti) {
+                Storage::disk('public')->delete('images/' . $report->bukti);
+            }
+
+            // Update the report with the new image
+            $report->update([
+                'user_id' => $request->user_id,
+                'satker' => $request->satker,
+                'tanggal' => $request->tanggal,
+                'insiden_type' => $request->insiden_type,
+                'keterangan' => $request->keterangan,
+                'penanganan' => $request->penanganan,
+                'nama_user' => $user->nama_user,
+                'status' => $request->status,
+                'bukti' => $imageName,
+            ]);
+        } else {
+            // No new image provided, update the report without changing the existing image
+            $report->update([
+                'user_id' => $request->user_id,
+                'satker' => $request->satker,
+                'tanggal' => $request->tanggal,
+                'insiden_type' => $request->insiden_type,
+                'keterangan' => $request->keterangan,
+                'penanganan' => $request->penanganan,
+                'nama_user' => $user->nama_user,
+                'status' => $request->status,
+            ]);
+        }
+
+        return redirect()->route('admin.reportManagement')->with('success', 'Laporan berhasil diperbarui');
+    }
+
+
+    
 
 }

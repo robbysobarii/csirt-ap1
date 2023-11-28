@@ -21,6 +21,7 @@ class CreateReportsTable extends Migration
             $table->text('keterangan');
             $table->text('penanganan');
             $table->string('nama_user'); // Add nama_user field
+            $table->string('status');
             $table->string('bukti')->nullable(); // Assuming you want to store the image file name
             $table->timestamps();
         });

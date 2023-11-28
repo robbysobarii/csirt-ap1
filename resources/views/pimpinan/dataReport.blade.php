@@ -16,44 +16,44 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">SATKER</th>
+                            <th scope="col">Nama User</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Insiden Type</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Penanganan</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Bukti</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        @for ($i = 1; $i < 5; $i++)
-                            <tr>
-                                <th scope="row">#</th>
-                                <td>Superuser</td>
-                                <td>20/10/2023</td>
-                                <td>SQL Injection</td>
-                                <td>Eror didapat pada saat bla bla bla</td>
-                                <td>Memperkuat SQL Sec</td>
-                                <td>Ditangani</td>
-                            </tr>
-                        @endfor
+                        @foreach($reports as $report)
+                        <tr>
+                            <th scope="row">{{ $report->id }}</th>
+                            <td>{{ $report->satker }}</td>
+                            <td>{{ $report->user->nama_user }}</td>
+                            <td>{{ $report->tanggal }}</td>
+                            <td>{{ $report->insiden_type }}</td>
+                            <td>{{ $report->keterangan }}</td>
+                            <td>{{ $report->penanganan }}</td>
+                            <td>{{ $report->status }}</td>
+                            <td>
+                                @if($report->bukti)
+                                    <img src="{{ Storage::url('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
+                           
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-@endsection
-@push('scripts')
-    <script>
-        function tampilkanModal() {
-            $('#tambahKontenModal').modal('show');
-        }
-        function tutupModal() {
-            $('#tutupModalButton').click(function () {
-                $('#tambahKontenModal').modal('hide');
-            });
-        }
-    </script>
-@endpush
 
-@section('title','Pelapor | Report Managemen')
+@endsection
+
+
+@section('title','Pimpinan | Report Managemen')

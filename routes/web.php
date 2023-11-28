@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RfcPdfController;
 use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\ContentController;
@@ -8,6 +9,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\FeatureController;
+use App\Models\Reports;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,11 +23,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/masuk', [AuthController::class, 'showLoginForm'])->name('masuk');
+Route::post('/masuk', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [ContentController::class, 'getContents'] )->name('user.beranda');
+Route::get('/', [ContentController::class, 'getContents'])->name('user.beranda');
 
 // Route::get('/get-content/{type}', [ContentController::class, 'getContent']);
 
@@ -80,33 +84,29 @@ Route::get('/hubungiKami', function () {
     return view('user.hubungiKami');
 })->name('user.hubungiKami');
 
-Route::get('/laporkanInsiden', function () {
+Route::get('/login', function () {
     return view('user.laporkanInsiden');
 })->name('user.laporkanInsiden');
 
-Route::prefix('/admin')->middleware('auth')->name('admin.')->group(function () {
+Route::prefix('/admin')->middleware(['auth', 'role:Admin,Superuser'])->name('admin.')->group(function () {
     Route::get('/', [ContentController::class, 'index'])->name('contentManagement');
-    
-    
+
+
     Route::get('/galeryManagement', [GalleryController::class, 'index'])->name('galeryManagement');
-    
+
     Route::get('/eventManagement', [EventController::class, 'getEvents'])->name('eventManagement');
 
     Route::get('/carouselManagement', [CarouselController::class, 'showCarousels'])->name('carousel');
-    // Route::get('activateManagement', function () {
-    //     return view('administrator.activate');
-    // })->name('activate');
 
-    Route::get('/userManagement',  [UserController::class, 'index'])->name('userManagement');
-    
     Route::get('/reportManagement',  [ReportsController::class, 'index'])->name('reportManagement');
-
 });
 
 Route::post('/galleries', [GalleryController::class, 'store'])->name('galleries.store');
 Route::delete('/galleries/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
-Route::post('contents/store', [ContentController::class, 'store'])->name('contents.store');
+
+Route::post('contents/storeOrUpdate', [ContentController::class, 'storeOrUpdate'])->name('contents.storeOrUpdate');
 Route::delete('contents/delete/{id}', [ContentController::class, 'delete'])->name('contents.delete');
+
 Route::post('/event', [EventController::class, 'store'])->name('event.store');
 Route::delete('/event/{id}', [EventController::class, 'delete'])->name('event.delete');
 Route::post('/carousel', [CarouselController::class, 'store'])->name('carousel.store');
@@ -115,26 +115,28 @@ Route::post('/user', [UserController::class, 'store'])->name('user.store');
 Route::delete('/user/{id}', [UserController::class, 'delete'])->name('user.delete');
 Route::post('/report', [ReportsController::class, 'store'])->name('report.store');
 Route::delete('/report/{id}', [ReportsController::class, 'delete'])->name('report.delete');
+Route::put('/report/update', [ReportsController::class, 'update'])->name('report.update');
+Route::put('/updateProfile/{id}', [UserController::class, 'update'])->name('updateProfil');
+Route::get('/editProfile/{id}', [UserController::class, 'editProfile'])->name('editProfil');
 
 
-Route::prefix('pelapor')->name('pelapor.')->group(function () {
-    Route::get('/', function () {
-        return view('pelapor.pelapor');
-    })->name('reportPelapor');
+
+
+
+Route::prefix('pelapor')->middleware(['auth', 'role:Pelapor,Superuser'])->name('pelapor.')->group(function () {
+    Route::get('/',  [ReportsController::class, 'indexPelapor'])->name('reportPelapor');
 });
 
-Route::prefix('pimpinan')->name('pimpinan.')->group(function () {
-    Route::get('/', function () {
-        return view('pimpinan.dashboard');
-    })->name('dashboard');
-    Route::get('/dataReport', function () {
-        return view('pimpinan.dataReport');
-    })->name('dataReport');
+Route::prefix('pimpinan')->middleware(['auth', 'role:Pimpinan,Superuser'])->name('pimpinan.')->group(function () {
+    Route::get('/', [ReportsController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/dataReport',  [ReportsController::class, 'indexPimpinan'])->name('dataReport');
 });
 
-Route::get('/superuser', function () {
-    return view('superuser.superuser');
-})->name('superuser');
+Route::get('/superuser',  [UserController::class, 'index'])->middleware(['auth', 'role:Superuser,Admin'])->name('superuser');
 
 Route::get('/rfc/{filename}', [RfcPdfController::class, 'showRfcPdf'])->name('rfc.pdf');
 Route::get('/detail-panduan/{filename}/{name}', [PanduanController::class, 'showDetail'])->name('detailPanduan');
+
+Route::get('/features', [FeatureController::class, 'index'])->name('admin.activate');
+Route::get('/features/{id}/activate', [FeatureController::class, 'activate'])->name('features.activate');
+Route::get('/features/{id}/deactivate', [FeatureController::class, 'deactivate'])->name('features.deactivate');

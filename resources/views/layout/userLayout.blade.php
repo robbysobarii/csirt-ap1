@@ -34,46 +34,53 @@
 
 <body>
 
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-light navbar-light fixed-top mr-4 py-0 navbarBG">
-        <div class="navbar-logo">
-            <img src="{{ asset('img/logo.svg') }}" alt="logo">
+   <!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-light navbar-light fixed-top mr-4 py-0 navbarBG">
+    <div class="navbar-logo">
+        <img src="{{ asset('img/logo.svg') }}" alt="logo">
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="navbar-nav">
+            <a class="nav-link fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}">Beranda</a>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown"
+                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tentang Kami
+                </a>
+                <div class="dropdown-menu" aria-labelledby="tentangKamiDropdown">
+                    <a class="dropdown-item" href="{{ route('tentangKami.profil')}}">Profil</a>
+                    <a class="dropdown-item" href="{{ route('tentangKami.visiMisi')}}">Visi Misi</a>
+                    <a class="dropdown-item" href="{{ route('tentangKami.struktur')}}">Struktur Organisasi</a>
+                </div>
+            </li>
+
+            <a class="nav-link fitur{{ $rfcActive ?? '' }}" href="{{ route('user.rfc')}}">RFC 2350</a>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fitur{{ $layananActive ?? '' }}" href="#" id="layananDropdown"
+                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Layanan
+                </a>
+                <div class="dropdown-menu" aria-labelledby="layananDropdown">
+                    <a class="dropdown-item" href="{{ route('layanan.aduanSiber')}}">Aduan Siber</a>
+                    <a class="dropdown-item" href="{{ route('layanan.layananVA')}}">Layanan VA</a>
+                    <a class="dropdown-item" href="{{ route('layanan.panduan')}}">Panduan Teknis</a>
+                </div>
+            </li>
+
+            <a class="nav-link fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">Event</a>
+            <a class="nav-link fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">Hubungi Kami</a>
+            <a class="nav-link fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">Laporkan Insiden</a>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav">
-                <a class="nav-link fitur" href="{{ route('user.beranda')}}">Beranda</a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fitur" href="#" id="tentangKamiDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Tentang Kami
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="tentangKamiDropdown">
-                        <a class="dropdown-item" href="{{ route('tentangKami.profil')}}">Profil</a>
-                        <a class="dropdown-item" href="{{ route('tentangKami.visiMisi')}}">Visi Misi</a>
-                        <a class="dropdown-item" href="{{ route('tentangKami.struktur')}}">Struktur Organisasi</a>
-                    </div>
-                </li>
-                <a class="nav-link fitur" href="{{ route('user.rfc')}}">RFC 2350</a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fitur" href="#" id="tentangKamiDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Layanan
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="tentangKamiDropdown">
-                        <a class="dropdown-item" href="{{ route('layanan.aduanSiber')}}">Aduan Siber</a>
-                        <a class="dropdown-item" href="{{ route('layanan.layananVA')}}">Layanan VA</a>
-                        <a class="dropdown-item" href="{{ route('layanan.panduan')}}">Panduan Teknis</a>
-                    </div>
-                </li>
-                <a class="nav-link fitur" href="{{ route('user.event')}}">Event</a>
-                <a class="nav-link fitur" href="{{ route('user.hubungiKami')}}">Hubungi Kami</a>
-                <a class="nav-link fitur" href="{{ route('user.laporkanInsiden')}}">Laporkan Insiden</a>
-            </div>
-        </div>
-    </nav>
-    <!-- Navbar End -->
+    </div>
+</nav>
+<!-- Navbar End -->
+
 
 
     {{-- content --}}
@@ -124,7 +131,7 @@
             </div>
         </div>
     </div>
-    <div class="lowerFooter" style="padding: 20px;">
+    <div class="lowerFooter" >
         <p>© Copyright 2023 PT Angkasa Pura I</p>
     </div>
 </div>

@@ -17,6 +17,7 @@ class Reports extends Model
         'keterangan',
         'penanganan',
         'nama_user',
+        'status',
         'bukti',
     ];
 

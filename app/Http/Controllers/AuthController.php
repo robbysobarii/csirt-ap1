@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -20,33 +22,22 @@ class AuthController extends Controller
         $credentials = $request->only('email_user', 'password');
 
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
             $user = Auth::user();
-            $redirectTo = $this->redirectBasedOnRole($user->role_user);
+            $redirectTo = Role::redirectBasedOnRole($user->role_user);
             return redirect()->route($redirectTo);
         }
 
-        return redirect()->route('login')->with('error', 'Invalid login credentials');
+        return redirect()->route('user.laporkanInsiden')->with('error', 'Invalid login credentials');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('login');
-    }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    protected function redirectBasedOnRole($role)
-    {
-        switch ($role) {
-            case 'admin':
-                return 'admin.contentManagement'; 
-            case 'pelapor':
-                return 'pelapor.reportPelapor'; 
-            case 'pimpinan':
-                return 'pimpinan.dashboard'; 
-            case 'superuser':
-                return 'superuser'; 
-            default:
-                return 'user.beranda';
-        }
+        return redirect()->route('user.laporkanInsiden');
     }
 }

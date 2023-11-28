@@ -1,3 +1,9 @@
+body {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 
 .navbarBG {
     background: rgba(0, 114, 185, 0.72) !important;
@@ -151,20 +157,25 @@ hr{
     width: 100%;
 }
 
+.footer{
+    
+    background: linear-gradient(180deg, #015EC5 0%, #002E6E 100%);
+}
+
 .lowerFooter{
-    /* background: linear-gradient(180deg, #015EC5 0%, #0045A4 100%); */
-    background: #4F9E19;
-    width: 100%;
+    width: 100%;    
+    background: rgba(0, 29, 69, 0.31);
     justify-content: center;
     align-items: center;
     position: relative;
     color: white;
-    padding-top: 20px;
     display: flex;
+    padding-top: 20px;
 
 }
 .highFooter{
-    background: linear-gradient(180deg, #015EC5 0%, #0045A4 100%); color: white; padding: 20px; 
+    color: white; 
+    padding: 20px; 
 }
 .konten{
     display: flex;

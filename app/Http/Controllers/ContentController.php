@@ -6,9 +6,18 @@ use App\Models\Content;
 use App\Models\Gallery;
 use App\Models\Carousel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContentController extends Controller
 {
+    public function show($id)
+    {
+        // Retrieve the content by ID
+        $content = Content::findOrFail($id);
+
+        // Return the content as JSON
+        return response()->json($content);
+    }
     public function index()
     {
         $contents = Content::all();
@@ -50,28 +59,72 @@ class ContentController extends Controller
 
 
 
-    public function store(Request $request)
+    // Controller method
+    public function storeOrUpdate(Request $request)
     {
+        $contentId = $request->input('id');
+
         $request->validate([
             'judul' => 'required',
             'isiKonten' => 'required',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'type' => 'required',
         ]);
 
-        // Store the image in the storage directory
-        $gambarPath = $request->file('gambar')->store('images', 'public');
+        // Store or update the content based on the presence of content ID
+        if ($contentId) {
+            // Update existing content
+            $content = Content::find($contentId);
+            if (!$content) {
+                // Handle not found, for example, redirect back with an error message
+                return redirect()->route('admin.contentManagement')->with('error', 'Content not found');
+            }
 
-        // Save the file path in the database
-        Content::create([
-            'judul' => $request->judul,
-            'isi_konten' => $request->isiKonten,
-            'gambar' => $gambarPath,
-            'type' => $request->type,
-        ]);
+            // Update content data
+            $contentData = [
+                'judul' => $request->judul,
+                'isi_konten' => $request->isiKonten,
+                'type' => $request->type,
+            ];
 
-        return redirect()->route('admin.contentManagement');
+            // Update the image if a new one is provided
+            if ($request->hasFile('gambar')) {
+                // Delete the old image
+                Storage::disk('public')->delete($content->gambar);
+
+                // Store the new image
+                $gambarPath = $request->file('gambar')->store('images', 'public');
+                $contentData['gambar'] = $gambarPath;
+            }
+
+            $content->update($contentData);
+
+            // Handle the response after updating, for example, redirect with success message
+            return redirect()->route('admin.contentManagement')->with('success', 'Content updated successfully');
+        } else {
+            // Store new content
+            $request->validate([
+                'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+    
+            $gambarPath = $request->file('gambar')->store('images', 'public');
+    
+            // Save the file path in the database
+            $newContent = Content::create([
+                'judul' => $request->judul,
+                'isi_konten' => $request->isiKonten,
+                'gambar' => $gambarPath,
+                'type' => $request->type,
+            ]);
+    
+            // Handle the response after creating, for example, redirect with success message
+            return redirect()->route('admin.contentManagement')->with('success', 'New content created successfully');
+        }
     }
+    
+
+
+
     public function delete($id)
     {
 

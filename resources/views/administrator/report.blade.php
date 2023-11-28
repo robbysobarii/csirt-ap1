@@ -5,50 +5,50 @@
         <div class="bg-light rounded h-100 p-4">
             <h2 class="mb-4 text-center">Data Laporan</h2>
             <div class="table-responsive">
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-success ms-2 addButton" onclick="tampilkanModal()">Input Insiden</button>
-                </div>
                 <table class="table align-middle text-center">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">SATKER</th>
+                            <th scope="col">Nama User</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Insiden Type</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Penanganan</th>
-                            <th scope="col">Nama User</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Bukti</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($reports as $report)
-                            <tr>
-                                <th scope="row">{{ $report->id }}</th>
-                                <td>{{ $report->satker }}</td>
-                                <td>{{ $report->tanggal }}</td>
-                                <td>{{ $report->insiden_type }}</td>
-                                <td>{{ $report->keterangan }}</td>
-                                <td>{{ $report->penanganan }}</td>
-                                <td>{{ $report->user->nama_user }}</td>
-                                <td>
-                                    @if($report->bukti)
-                                        <img src="{{ asset('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
-                                    @else
-                                        No Image
-                                    @endif
-                                </td>
-                                <td>
-                                    <a class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal()">Update</a>
-                                    <form method="POST" action="{{ route('report.delete', $report->id) }}" style="display:inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger ButtonAksi" onclick="return confirm('Are you sure?')">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                        <tr>
+                            <th scope="row">{{ $report->id }}</th>
+                            <td>{{ $report->satker }}</td>
+                            <td>{{ $report->user->nama_user }}</td>
+                            <td>{{ $report->tanggal }}</td>
+                            <td>{{ $report->insiden_type }}</td>
+                            <td>{{ $report->keterangan }}</td>
+                            <td>{{ $report->penanganan }}</td>
+                            <td>{{ $report->status }}</td>
+                            <td>
+                                @if($report->bukti)
+                                    <img src="{{ Storage::url('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal('{{ $report->id }}')">Update</button>
+                                <form method="POST" action="{{ route('report.delete', $report->id) }}" style="display:inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger ButtonAksi" onclick="return confirm('Are you sure?')">Hapus</button>
+                                </form>
+                            </td>
+                            
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -61,11 +61,23 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Konten</h5>
+                <h5 class="modal-title">Update Konten</h5>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('report.store') }}" enctype="multipart/form-data">
+                <form action="{{ route('report.update') }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+                    <input type="text" name="user_id" id="user_id" value="{{ $auth->id }}" hidden>
+                    <input type="hidden" name="report_id" id="report_id" value="">
+                    
+                    <div class="mb-3">
+                        <label for="satker">SATKER</label>
+                        <input class="form-control" type="text" name="satker" id="satker" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama_user">Nama User</label>
+                        <input class="form-control" type="text" name="nama_user" id="nama_user" readonly >
+                    </div>
                     <div class="mb-3">
                         <label for="tanggal">Tanggal</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal" required>
@@ -89,29 +101,74 @@
                         <textarea class="form-control" id="penanganan" name="penanganan" rows="4" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="bukti">Bukti</label>
-                        <input type="file" class="form-control" id="bukti" name="bukti">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Ditangani">Ditangani</option>
+                            <option value="Close">Close</option>
+                        </select>
                     </div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
+                    <div class="mb-3">
+                        <label for="bukti">Bukti</label>
+                        <input type="file" class="form-control" id="bukti" name="bukti" onchange="updateFileName()">
+                        <div id="filename-preview"></div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="tutupModal()">Tutup</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-@endsection
+
 @push('scripts')
 <script>
-    function tampilkanModal() {
+    // Variable untuk menyimpan nama file
+    var buktiFilename = '';
+
+    function tampilkanModal(reportId) {
+        var report = {!! json_encode($reports) !!}.find(report => report.id == reportId);
+
         $('#tambahKontenModal').modal('show');
+        $('#report_id').val(report.id);
+        $('#satker').val(report.satker);
+        $('#nama_user').val(report.nama_user);
+        $('#tanggal').val(report.tanggal);
+        $('#insiden_type').val(report.insiden_type);
+        $('#keterangan').val(report.keterangan);
+        $('#penanganan').val(report.penanganan);
+        $('#status').val(report.status);
+
+        // Check if the report has a bukti (image)
+        if (report.bukti) {
+            // Set the filename in the hidden input and preview
+            buktiFilename = report.bukti;
+            $('#bukti-filename').val(buktiFilename);
+            $('#filename-preview').text(buktiFilename);
+        } else {
+            // Clear the filename in the hidden input and preview
+            buktiFilename = '';
+            $('#bukti-filename').val(buktiFilename);
+            $('#filename-preview').text('No Image');
+        }
+    }
+
+    function updateFileName() {
+        var buktiInput = $('#bukti');
+        var filename = buktiInput.val().replace(/^.*[\\\/]/, '');
+
+        // Menetapkan nama file ke dalam hidden input dan preview
+        buktiFilename = filename;
+        $('#bukti-filename').val(buktiFilename);
+        $('#filename-preview').text(buktiFilename);
     }
 
     function tutupModal() {
-        $('#tutupModalButton').click(function () {
-            $('#tambahKontenModal').modal('hide');
-        });
+        // Membersihkan variabel nama file ketika menutup modal
+        buktiFilename = '';
+        $('#tambahKontenModal').modal('hide');
     }
-    
 </script>
 @endpush
-@section('title','Admin | Report Managemen')
+@endsection
+@section('title','Admin | Report Managemen')
