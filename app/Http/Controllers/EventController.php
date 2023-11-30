@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class EventController extends Controller
 {
@@ -18,7 +19,19 @@ class EventController extends Controller
 
         return view('user.event', ['events' => $events]);
     }
-    public function store(Request $request)
+    public function show($id)
+    {
+        $event = Event::find($id);
+
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+
+        return response()->json($event);
+    }
+
+
+    public function storeOrUpdate(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -27,18 +40,37 @@ class EventController extends Controller
             'end_date' => 'required',
             'location' => 'required',
         ]);
-
-
-        Event::create([
+    
+        $eventId = $request->input('event_id');
+        $eventData = [
             'name' => $request->name,
-            'description' =>$request->description,
+            'description' => $request->description,
             'start_date' => $request->start_date,
-            'end_date' =>  $request->end_date,
+            'end_date' => $request->end_date,
             'location' => $request->location,
-        ]);
-
-        return redirect()->route('admin.eventManagement');
+        ];
+    
+        $formMethod = $request->get('formMethod');
+    
+        if ($formMethod === "store") {
+            // Store new event
+            Event::create($eventData);
+    
+            return redirect()->route('admin.eventManagement')->with('success', 'New event created successfully');
+        } elseif ($formMethod === "update") {
+            // Update existing event
+            $event = Event::find($eventId);
+    
+            if (!$event) {
+                return redirect()->route('admin.eventManagement')->with('error', 'Event not found');
+            }
+    
+            $event->update($eventData);
+    
+            return redirect()->route('admin.eventManagement')->with('success', 'Event updated successfully');
+        }
     }
+    
     public function delete($id)
     {
 

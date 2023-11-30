@@ -16,29 +16,59 @@ class UserController extends Controller
         return view('superuser.superuser', compact('users'));
     }
 
-    public function store(Request $request)
+    public function show($id)
     {
-        $request->validate([
-            'role_user' => 'required',
-            'nama_user' => 'required',
-            'email_user' => 'required|email|unique:users,email_user',
-            'password' => 'required',
-        ]);
+        $user = User::find($id);
 
-        try {
-            User::create([
-                'role_user' => $request->role_user,
-                'nama_user' => $request->nama_user,
-                'email_user' => $request->email_user,
-                'password' => bcrypt($request->password),
-            ]);
-
-            return redirect()->route('admin.userManagement')->with('success', 'User created successfully');
-        } catch (\Exception $e) {
-            // Handle any exceptions here, e.g., log the error
-            return redirect()->route('admin.userManagement')->with('error', 'Failed to create user');
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
         }
+
+        return response()->json($user);
     }
+    public function storeOrUpdate(Request $request)
+{
+    $request->validate([
+        'role_user' => 'required',
+        'nama_user' => 'required',
+        'email_user' => 'required|email|unique:users,email_user',
+        'password' => 'required_if:formMethod,store', // Only required for store action
+    ]);
+
+    $userId = $request->input('user_id');
+    $userData = [
+        'role_user' => $request->role_user,
+        'nama_user' => $request->nama_user,
+        'email_user' => $request->email_user,
+    ];
+
+    // Add password to $userData only if it is provided
+    if ($request->filled('password')) {
+        $userData['password'] = Hash::make($request->password);
+    }
+
+    $formMethod = $request->get('formMethod');
+
+    if ($formMethod === "store") {
+        // Store new user
+        User::create($userData);
+
+        return redirect()->route('superuser')->with('success', 'User created successfully');
+    } elseif ($formMethod === "update") {
+        // Update existing user
+        $user = User::find($userId);
+
+        if (!$user) {
+            return redirect()->route('superuser')->with('error', 'User not found');
+        }
+
+        $user->update($userData);
+
+        return redirect()->route('superuser')->with('success', 'User updated successfully');
+    }
+}
+
+    
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -87,5 +117,21 @@ class UserController extends Controller
         }
 
         return redirect()->route('admin.userManagement')->with('error', 'User not found');
+    }
+    public function deleteUsermanagement($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            try {
+                $user->delete();
+                return redirect()->route('superuser')->with('success', 'User deleted successfully');
+            } catch (\Exception $e) {
+                // Handle any exceptions here, e.g., log the error
+                return redirect()->route('superuser')->with('error', 'Failed to delete user');
+            }
+        }
+
+        return redirect()->route('superuser')->with('error', 'User not found');
     }
 }

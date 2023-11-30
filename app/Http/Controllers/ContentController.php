@@ -12,12 +12,20 @@ class ContentController extends Controller
 {
     public function show($id)
     {
-        // Retrieve the content by ID
-        $content = Content::findOrFail($id);
+        $content = Content::find($id);
 
-        // Return the content as JSON
-        return response()->json($content);
+        return response()->json([
+            'id' => $content->id,
+            'judul' => $content->judul,
+            'isi_konten' => $content->isi_konten,
+            'gambar' => $content->gambar,
+            'type' => $content->type,
+        ]);
     }
+
+
+
+
     public function index()
     {
         $contents = Content::all();
@@ -62,7 +70,7 @@ class ContentController extends Controller
     // Controller method
     public function storeOrUpdate(Request $request)
     {
-        $contentId = $request->input('id');
+        $contentId = $request->input('content_id');
 
         $request->validate([
             'judul' => 'required',
@@ -71,8 +79,27 @@ class ContentController extends Controller
             'type' => 'required',
         ]);
 
-        // Store or update the content based on the presence of content ID
-        if ($contentId) {
+        $formMethod = $request->get('formMethod');
+
+        if ($formMethod === "store") {
+            // Store new content
+            $request->validate([
+                'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+    
+            $gambarPath = $request->file('gambar')->store('images', 'public');
+    
+            // Save the file path in the database
+            $newContent = Content::create([
+                'judul' => $request->judul,
+                'isi_konten' => $request->isiKonten,
+                'gambar' => $gambarPath,
+                'type' => $request->type,
+            ]);
+    
+            // Handle the response after creating, for example, redirect with success message
+            return redirect()->route('admin.contentManagement')->with('success', 'New content created successfully');
+        } else if ($formMethod === "update") {
             // Update existing content
             $content = Content::find($contentId);
             if (!$content) {
@@ -101,29 +128,9 @@ class ContentController extends Controller
 
             // Handle the response after updating, for example, redirect with success message
             return redirect()->route('admin.contentManagement')->with('success', 'Content updated successfully');
-        } else {
-            // Store new content
-            $request->validate([
-                'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-    
-            $gambarPath = $request->file('gambar')->store('images', 'public');
-    
-            // Save the file path in the database
-            $newContent = Content::create([
-                'judul' => $request->judul,
-                'isi_konten' => $request->isiKonten,
-                'gambar' => $gambarPath,
-                'type' => $request->type,
-            ]);
-    
-            // Handle the response after creating, for example, redirect with success message
-            return redirect()->route('admin.contentManagement')->with('success', 'New content created successfully');
         }
     }
     
-
-
 
     public function delete($id)
     {

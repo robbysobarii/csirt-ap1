@@ -23,7 +23,7 @@
                     <tbody>
                         @foreach($reports as $report)
                         <tr>
-                            <th scope="row">{{ $report->id }}</th>
+                            <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $report->satker }}</td>
                             <td>{{ $report->user->nama_user }}</td>
                             <td>{{ $report->tanggal }}</td>

@@ -5,6 +5,12 @@
 <div class="container-fluid pt-4 px-4">
     <div class="col-8 mx-auto bg-light rounded h-100 p-4">
         <h2 class="mb-4 text-center">Edit Profile</h2>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <form action="{{ auth()->check() ? route('updateProfil', ['id' => auth()->user()->id]) : '#' }}" method="post">
             @csrf
             @method('PUT')
@@ -24,11 +30,6 @@
             <div class="mb-3">
                 <label for="password">New Password</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-        
-            <div class="mb-3">
-                <label for="password_confirmation">Confirm New Password</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
             </div>
         
             <button type="submit" class="btn btn-primary">Update Password</button>

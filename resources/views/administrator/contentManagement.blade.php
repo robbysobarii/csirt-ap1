@@ -53,12 +53,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Konten</h5>
+                <h5 class="modal-title">Konten</h5>
             </div>
             <div class="modal-body">
                 <!-- Update the form action URL and method -->
                 <form id="editForm" method="post" enctype="multipart/form-data" action="{{ route('contents.storeOrUpdate') }}">
+
                     @csrf
+                    <input type="hidden" id="formMethod" name="formMethod" value="">
                     <!-- Include hidden field for content ID -->
                     <input type="hidden" name="content_id" id="editContentId" value="">
                     <div class="mb-3">
@@ -71,8 +73,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="editGambar">Gambar</label>
-                        <input type="file" class="form-control" id="editGambar" name="gambar">
+                        <input type="file" class="form-control" id="editGambar" name="gambar" onchange="updateFileName()">
+                        <div id="filename-preview"></div>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="editType">Type</label>
                         <select class="form-select" id="editType" name="type">
@@ -104,36 +108,64 @@
             $('#editForm').attr('action', '{{ route("contents.storeOrUpdate") }}');
             // Update the save button text
             $('#saveButton').text('Simpan');
+            $('#formMethod').val('store');
         }
 
         function tampilkanEditModal(id) {
-            var updateRouteUrl = "/contents/" + id;
-            
+            // Use the direct route URL in the script
+            var routeUrl = "/contents/" + id;
+
             // Use AJAX to fetch the existing data for the content
             $.ajax({
-                url: updateRouteUrl,
+                url: routeUrl,
                 type: 'GET',
                 success: function (data) {
+                    console.log('Server response:', data);
+
                     // Fill the form fields with the existing data
-                    $('#editContentId').val(data.id); // Update the hidden input for content ID
+                    $('#editContentId').val(data.id);
                     $('#editJudul').val(data.judul);
                     $('#editIsiKonten').val(data.isi_konten);
                     $('#editType').val(data.type);
+                    $('#formMethod').val('update');
 
-                    // Set the form method to PUT
-                    $('#editForm').attr('method', 'put');
                     // Update the form action to the update route
-                    $('#editForm').attr('action', updateRouteUrl);
+                    $('#editForm').attr('action', '{{ route("contents.storeOrUpdate", ['id' => '']) }}' + '/' + id);
                     // Update the save button text
                     $('#saveButton').text('Update');
-                    
+
                     // Show the modal
                     $('#tambahKontenModal').modal('show');
+
+                    // Display the filename preview
+                    if (data.gambar) {
+                        // Set the filename in the hidden input and preview
+                        var buktiFilename = data.gambar;
+                        console.log('Image filename:', buktiFilename);
+                        $('#editGambar').val(buktiFilename);
+                        console.log('Setting filename:', buktiFilename);
+                        $('#filename-preview').text(buktiFilename);
+
+                    } else {
+                        // Clear the filename in the hidden input and preview
+                        $('#editGambar').val(null); // Use null to clear the value
+                        $('#filename-preview').text('No Image');
+                    }
                 },
                 error: function (error) {
                     console.log(error);
                 }
             });
+        }
+
+        function updateFileName() {
+            var buktiInput = $('#editGambar');
+            var filename = buktiInput.val().replace(/^.*[\\\/]/, '');
+
+            // Declare buktiFilename using var or let
+            var buktiFilename = filename;
+            $('#editGambar').val(buktiFilename);
+            $('#filename-preview').text(buktiFilename);
         }
 
         function tutupModal() {

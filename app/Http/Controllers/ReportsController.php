@@ -6,6 +6,7 @@ use App\Models\Reports;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 class ReportsController extends Controller
@@ -17,7 +18,6 @@ class ReportsController extends Controller
 
         return view('administrator.report', compact('reports', 'auth'));
     }
-
 
     public function store(Request $request)
     {
@@ -137,10 +137,107 @@ class ReportsController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.reportManagement')->with('success', 'Laporan berhasil diperbarui');
+        return back()->with('success', 'Laporan berhasil ditambahkan');
+    }
+    public function show($id)
+    {
+        $report = Reports::find($id);
+    
+        if (!$report) {
+            abort(404);
+        }
+    
+        return response()->json($report);
     }
 
+    public function storeOrUpdate(Request $request)
+    {
+        $request->validate([
+            'bukti' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+        ]);
 
-    
+        $user = User::find($request->user_id);
+
+        if ($request->formMethod === 'store') {
+            return $this->storePelapor($request, $user);
+        } elseif ($request->formMethod === 'update') {
+            return $this->updatePelapor($request, $user);
+
+        }
+    }
+
+    protected function storePelapor(Request $request, User $user)
+    {
+        $imageName = $this->uploadImage($request);
+
+        Reports::create([
+            'user_id' => $request->user_id,
+            'satker' => $request->satker,
+            'tanggal' => $request->tanggal,
+            'insiden_type' => $request->insiden_type,
+            'keterangan' => $request->keterangan,
+            'penanganan' => $request->penanganan,
+            'nama_user' => $user->nama_user,
+            'status' => $request->status,
+            'bukti' => $imageName,
+        ]);
+
+        return redirect()->route('pelapor.reportPelapor')->with('success', 'Laporan berhasil ditambahkan');
+    }
+
+    protected function updatePelapor(Request $request, User $user)
+{
+    DB::beginTransaction();
+
+    try {
+        $report = Reports::find($request->report_id);
+
+        if (!$report) {
+            return back()->with('error', 'Laporan tidak ditemukan');
+        }
+
+        // Check if a new image is provided
+        $imageName = $this->uploadImage($request);
+
+        // Update the report data
+        $report->update([
+            'tanggal' => $request->tanggal,
+            'insiden_type' => $request->insiden_type,
+            'keterangan' => $request->keterangan,
+            'penanganan' => $request->penanganan,
+            'status' => $request->status,
+            'bukti' => $imageName,
+        ]);
+
+        // Commit the database transaction
+        DB::commit();
+
+        return back()->with('success', 'Laporan berhasil diperbarui');
+    } catch (\Exception $e) {
+        // An error occurred, rollback the database transaction
+        DB::rollback();
+
+        // Output the exception message for debugging
+        dd($e->getMessage());
+
+        return back()->with('error', 'Error updating the report: ' . $e->getMessage());
+    }
+}
+
+
+protected function uploadImage(Request $request)
+{
+    // Check if a new image is provided
+    if ($request->hasFile('bukti')) {
+        // Upload and store the new image
+        return $request->bukti->storeAs('images', time() . '.' . $request->bukti->extension(), 'public');
+    }
+
+    return null;
+}
 
 }
+
+
+
+ 

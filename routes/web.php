@@ -101,38 +101,49 @@ Route::prefix('/admin')->middleware(['auth', 'role:Admin,Superuser'])->name('adm
     Route::get('/reportManagement',  [ReportsController::class, 'index'])->name('reportManagement');
 });
 
-Route::post('/galleries', [GalleryController::class, 'store'])->name('galleries.store');
-Route::delete('/galleries/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
+Route::post('/admin/galleries/storeOrUpdate', [GalleryController::class, 'storeOrUpdate'])->name('galleries.storeOrUpdate');
+Route::delete('/admin/galleries/delete/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
+Route::get('/galleries/show/{id}', [GalleryController::class, 'show'])->name('gallery.show');
 
 Route::post('contents/storeOrUpdate', [ContentController::class, 'storeOrUpdate'])->name('contents.storeOrUpdate');
 Route::delete('contents/delete/{id}', [ContentController::class, 'delete'])->name('contents.delete');
+Route::get('/contents/{id}', [ContentController::class, 'show'])->name('contents.show');
 
-Route::post('/event', [EventController::class, 'store'])->name('event.store');
-Route::delete('/event/{id}', [EventController::class, 'delete'])->name('event.delete');
-Route::post('/carousel', [CarouselController::class, 'store'])->name('carousel.store');
-Route::delete('/carousel/{id}', [CarouselController::class, 'delete'])->name('carousel.delete');
-Route::post('/user', [UserController::class, 'store'])->name('user.store');
-Route::delete('/user/{id}', [UserController::class, 'delete'])->name('user.delete');
+
+Route::post('/events/storeOrUpdate', [EventController::class, 'storeOrUpdate'])->name('events.storeOrUpdate');
+Route::delete('/events/delete/{id}', [EventController::class, 'delete'])->name('events.delete');
+Route::get('/events/show/{id}', [EventController::class, 'show'])->name('events.show');
+
+Route::post('/admin/carousel/storeOrUpdate', [CarouselController::class, 'storeOrUpdate'])->name('carousel.storeOrUpdate');
+Route::delete('/admin/carousel/delete/{id}', [CarouselController::class, 'delete'])->name('carousel.delete');
+Route::get('/carousel/show/{id}', [CarouselController::class, 'show'])->name('carousel.show');
+
+Route::post('/user', [UserController::class, 'storeOrUpdate'])->name('users.storeOrUpdate');
+Route::delete('/user/{id}', [UserController::class, 'deleteUsermanagement'])->name('user.delete');
+Route::delete('/user/{id}', [UserController::class, 'deleteUsermanagement'])->name('users.delete');
+Route::get('/users/show/{id}', [UserController::class, 'show'])->name('users.show');
+
+Route::post('/pelapor/storeOrUpdate', [ReportsController::class, 'storeOrUpdate'])->name('pelapor.storeOrUpdate');
+Route::delete('/pelapor/{id}', [ReportsController::class, 'delete'])->name('pelapor.delete');
+Route::get('/pelapor/show/{id}', [ReportsController::class, 'show'])->name('pelapor.show');
+
 Route::post('/report', [ReportsController::class, 'store'])->name('report.store');
 Route::delete('/report/{id}', [ReportsController::class, 'delete'])->name('report.delete');
 Route::put('/report/update', [ReportsController::class, 'update'])->name('report.update');
+
 Route::put('/updateProfile/{id}', [UserController::class, 'update'])->name('updateProfil');
 Route::get('/editProfile/{id}', [UserController::class, 'editProfile'])->name('editProfil');
 
-
-
-
-
-Route::prefix('pelapor')->middleware(['auth', 'role:Pelapor,Superuser'])->name('pelapor.')->group(function () {
+Route::prefix('pelapor')->middleware(['auth', 'role:Pelapor'])->name('pelapor.')->group(function () {
     Route::get('/',  [ReportsController::class, 'indexPelapor'])->name('reportPelapor');
 });
 
-Route::prefix('pimpinan')->middleware(['auth', 'role:Pimpinan,Superuser'])->name('pimpinan.')->group(function () {
+Route::prefix('pimpinan')->middleware(['auth', 'role:Pimpinan'])->name('pimpinan.')->group(function () {
     Route::get('/', [ReportsController::class, 'showDashboard'])->name('dashboard');
     Route::get('/dataReport',  [ReportsController::class, 'indexPimpinan'])->name('dataReport');
 });
 
-Route::get('/superuser',  [UserController::class, 'index'])->middleware(['auth', 'role:Superuser,Admin'])->name('superuser');
+Route::get('/superuser',  [UserController::class, 'index'])->middleware(['auth', 'role:Superuser'])->name('superuser');
 
 Route::get('/rfc/{filename}', [RfcPdfController::class, 'showRfcPdf'])->name('rfc.pdf');
 Route::get('/detail-panduan/{filename}/{name}', [PanduanController::class, 'showDetail'])->name('detailPanduan');

@@ -63,7 +63,7 @@
                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="content" style="max-height: 320px; margin-block: 30px">
                         </div>
                         <h3>{{ $item->judul }}</h3>
-                        <p style="text-align: justify; padding: 5px">{{ \Illuminate\Support\Str::limit($item->isi_konten, 300) }}</p>
+                        <p style="text-align: justify; padding: 5px">{{ \Illuminate\Support\Str::limit($item->isi_konten, 700) }}</p>
                         <a href="{{ route('berita', ['id' => $item->id]) }}" class="selengkap">> Selengkapnya</a>
                     </div>
                 @endforeach
