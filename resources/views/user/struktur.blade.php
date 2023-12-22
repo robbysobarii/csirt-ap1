@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container text-black" style="background-color: white;">
-    <div class="breadcrumb" style="padding-top: 100px; margin-bottom: 0;">
+    <div class="breadcrumb" style="padding-top: 130px; margin-bottom: 0;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Tentang Kami</li>
             <li class="breadcrumb-item active" aria-current="page"><a href="#">Struktur Organisasi</a></li>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login Sistem Laporan Insiden</title>
+    <!-- Tambahkan tag link untuk memuat font Open Sans -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <style>
         body {
@@ -16,6 +18,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Atur font untuk seluruh body */
+            font-family: 'Open Sans', sans-serif;
+            box-sizing: border-box;
         }
     </style>
 </head>

@@ -6,7 +6,7 @@
             <h2 class="mb-4 text-center">Data Report</h2>
             <div class="table-responsive">
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-success ms-2 addButton" onclick="tampilkanModal('store')">Input Insiden</button>
+                    <button type="button" class="btn btn-success ms-2 addButton" onclick="tampilkanModal('store')">Tambah Laporan</button>
                 </div>
                 <table class="table align-middle text-center">
                     <thead>
@@ -37,7 +37,7 @@
                             <td>{{ $report->status }}</td>
                             <td>
                                 @if($report->bukti)
-                                    <img src="{{ Storage::url('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                    <img src="{{ Storage::url('/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
                                 @else
                                     No Image
                                 @endif
@@ -46,7 +46,7 @@
                             <td>
                                 @if($report->status == 'Pending')
                                     <button class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal('update', {{ $report->id  }})">Edit</button>
-                                    <form action="{{ route('pelapor.delete', ['id' => $report->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this content?')">
+                                    <form action="{{ route('pelapor.delete', ['id' => $report->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this report?')">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-sm btn-danger ButtonAksi">Hapus</button>
@@ -67,7 +67,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Konten</h5>
+                <h5 class="modal-title">Tambah Laporan</h5>
             </div>
             <div class="modal-body">
                 <form id="editForm" method="post" enctype="multipart/form-data" action="{{ route('pelapor.storeOrUpdate') }}">

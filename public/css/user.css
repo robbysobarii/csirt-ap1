@@ -3,31 +3,66 @@ body {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    font-family: 'Inter', sans-serif !important; 
 }
-
+pre{    
+    font-family: 'Inter', sans-serif !important; 
+}
 .navbarBG {
-    background: rgba(0, 114, 185, 0.72) !important;
+    background: rgba(0, 114, 185, 0.80)!important;
 }
 
 .navbar-logo{
     margin-right: auto;
 }
+.navbar-nav .dropdown-menu {
+    background-color: rgba(229, 239, 254, 0.8);
+}
 
+.navbar-nav .dropdown-menu {
+    background-color: rgba(229, 239, 254, 0.8);
+}
 
+.navbar-nav .dropdown-menu a {
+    position: relative;
+    display: block;
+    text-align: center; 
+    padding: 10px 0; 
+    color: #0D2E5B;; 
+}
+
+.navbar-nav .dropdown-menu a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 10%; 
+    width: 80%; 
+    height: 1px; 
+    background-color: #ABC9D7;
+}
+
+.navbar-nav .dropdown-menu a:hover {
+    background-color: #66B82E; 
+    color: #fff; 
+}
+
+.navbar-nav .dropdown-menu a:last-child::after {
+    display: none;
+}
 .navbar-nav .fitur p {
     margin-bottom: 0;
 }
 .fitur {
     color: #FFF !important;
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     line-height: normal;
-    margin-left: 30px;
+    margin-left: 20px;
 }
 .fiturNav{
-    width: 70%;
+    width: 90%;
 }
 .bg{
     background-color: white;
@@ -48,6 +83,11 @@ body {
     opacity: 90%;
 }
 
+.carousel-control-prev,
+.carousel-control-next {
+    color: #66B82E !important;
+    font-size: 30px;
+}
 .text-container {
     display: flex;
     flex-direction: column;
@@ -59,11 +99,10 @@ body {
 }
 
 .containerAJudul{
-    background-color: #66B82E;
+    background-color: rgba(102, 184, 46, 0.75); 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    opacity: 75%;
     bottom: 0;
 
 }
@@ -102,13 +141,13 @@ hr{
 .main{
     display: flex;
     flex-direction: row;
-    margin-bottom: 100px;
 }
 .kiri{
-    padding: 30px;
+    margin-top: 30px;
 }
 .kanan{
     background-color: rgba(234, 241, 255, 0.4);
+    margin-left: 35px;
 }
 .tgl{
     color: #66B82E;
@@ -116,10 +155,9 @@ hr{
 }
 .selengkap{
     color: #0072B9;
-    margin-top: 80px;
 }
 .contentBerita{
-    padding: 10px;
+    padding: 15px;
     text-align: center;
 }
 .selengkapKanan{
@@ -132,30 +170,76 @@ hr{
     text-align: center;
     width: 100%;
 }
+.lihatSemuaSatu{
+    background-color: #E5EFFE;
+    color: #0072B9;    
+    margin-top: 30px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
 .carousel-inner-galery {
     display: flex;
-    transition: transform 0.5s ease;
-    overflow-x: auto;
-    width: 80%;
-    margin: auto;
-    
+    transition: transform 0.5s ease-in-out;
+    justify-content: center; /* Menyusun item di tengah */
 }
 
 .carousel-item-galery {
-    flex: 0 0 auto;
-    margin-right: 1px;
-    width: 20%;
-    word-wrap: break-word;
+    max-height: 300px;
+    width: 30%; /* Sesuaikan dengan lebar yang diinginkan */
+    margin-right: 1%; /* Sesuaikan dengan jarak yang diinginkan */
+    box-sizing: border-box;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
 }
-.bgGalery{
-    background-color: rgba(0, 0, 0, 0.35);
+
+.carousel-item-galery img {
+    object-fit: cover;
+    max-height: 200px !important;
+    max-width: 280px;
+}
+
+.bgGalery {
+    background-color: rgba(0, 0, 0, 0.75); /* Opacity of 75% */
     padding: 10px;
     text-align: justify;
     position: absolute;
     bottom: 0;
     width: 100%;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease-in-out;
 }
+
+.carousel-item-galery:hover .bgGalery {
+    opacity: 1; /* Show on hover */
+}
+
+.bgGalery p {
+    color: white;
+}
+
+.carousel-control-prev-galery,
+.carousel-control-next-galery {
+    position: absolute;
+    display: flex;
+    margin: auto;
+    z-index: 1;
+    font-size: 24px;
+    padding: 10px;
+    background-color: transparent;
+    color: #66B82E !important;
+    font-size: 30px;
+    border: none;
+}
+
+.carousel-control-prev-galery {
+    left: 0;
+}
+
+.carousel-control-next-galery {
+    right: 0;
+}
+
 
 .footer{
     
@@ -164,7 +248,6 @@ hr{
 
 .lowerFooter{
     width: 100%;    
-    background: rgba(0, 29, 69, 0.31);
     justify-content: center;
     align-items: center;
     position: relative;
@@ -200,7 +283,6 @@ hr{
 .green-box-list h4 {
     margin-bottom: 10px;
 }
-
 .green-box-list ul {
     list-style-type: none; 
     padding: 0;
@@ -211,18 +293,14 @@ hr{
     padding-left: 40px; 
     margin-bottom: 5px;
 }
-
 .green-box-list li::before {
     content: "\25A0"; 
     color: #66B82E; 
     font-size: 20px; 
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
     margin-right: 5px; 
 }
-
 .profil > .konten > div {
     margin-right: 20px;
 }

@@ -2,7 +2,7 @@
 @section('title', 'Layanan | Panduan Teknis')
 @section('content')
 <div class="container">
-    <div class="breadcrumb" style="padding-top: 100px; margin-bottom: 0;">
+    <div class="breadcrumb" style="padding-top: 130px; margin-bottom: 0;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Layanan</li>
             <li class="breadcrumb-item active" aria-current="page"><a href="#">Panduan Teknis</a></li>

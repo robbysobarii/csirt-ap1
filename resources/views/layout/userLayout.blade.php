@@ -45,12 +45,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <div class="navbar-nav">
-            <a class="nav-link fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}">Beranda</a>
+            <a class="nav-link fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}">BERANDA</a>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown"
                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Tentang Kami
+                    TENTANG KAMI
                 </a>
                 <div class="dropdown-menu" aria-labelledby="tentangKamiDropdown">
                     <a class="dropdown-item" href="{{ route('tentangKami.profil')}}">Profil</a>
@@ -73,9 +73,9 @@
                 </div>
             </li>
 
-            <a class="nav-link fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">Event</a>
-            <a class="nav-link fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">Hubungi Kami</a>
-            <a class="nav-link fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">Laporkan Insiden</a>
+            <a class="nav-link fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">EVENT</a>
+            <a class="nav-link fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">HUBUNGI KAMI</a>
+            <a class="nav-link fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">LAPORKAN INSIDEN</a>
         </div>
     </div>
 </nav>
@@ -93,7 +93,7 @@
 <div class="footer">
     <div class="highFooter" style="display: flex; justify-content: space-between; padding: 50px;">
         <div class="satu" style="width: 30%; padding-inline: 50px; font-size: 14px; padding-top: 20px">
-            <h6 style="color: white">TENTANG KAMI</h6>
+            <h6 style="color: white; margin-bottom: 20px">TENTANG KAMI</h6>
             <p>Profil</p>
             <p>Visi Misi</p>
             <p>Struktur Organisasi</p>
@@ -108,7 +108,7 @@
         </div>
         
         <div class="dua" style="width: 30%;  font-size: 14px; padding-top: 20px;border-right: 1px solid #fff; ">
-            <h6 style="color: white;">LAYANAN</h6>
+            <h6 style="color: white;margin-bottom: 20px">LAYANAN</h6>
             <p>Aduan Siber</p>
             <p>Layanan VA</p>
             <p>Panduan Teknis</p>
@@ -121,15 +121,28 @@
             <p style="padding: 0;margin: 0;">Faks. +62-21 6541514</p>
         </div>
         <div class="empat" style="width: 60%; padding-left: 60px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="display: flex; align-items: center;">
+
+            <!-- Contact Center 172 -->
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
                 <img src="/img/call_foot.svg" alt="Call Footer">
-                <p style="margin: 10px;">Contact Center 172</p>
+                <div style="margin-left: 10px;">
+                    <p style="margin: 0; ">Contact Center </p>
+                    <p style="margin: 0; ">172</p>
+                </div>
+                
             </div>
-            <div style="display: flex; align-items: center; margin-top: 20px;">
+        
+            <!-- Informasi, Saran dan Keluhan -->
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
                 <img src="/img/write_foot.svg" alt="Write Footer">
-                <p style="margin: 10px;">Informasi, Saran dan Keluhan: cc172@ap1.co.id</p>
+                <div style="margin-left: 10px;">
+                    <p style="margin: 0;">Informasi, Saran dan Keluhan: </p>
+                    <p style="margin: 0;">cc172@ap1.co.id</p>
+                </div>
             </div>
+        
         </div>
+        
     </div>
     <div class="lowerFooter" >
         <p>© Copyright 2023 PT Angkasa Pura I</p>

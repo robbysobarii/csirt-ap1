@@ -10,11 +10,14 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index()
-    {
-        $users = User::all();
+{
+    // Assuming 'role_user' is a column in the users table
+    $users = User::where('role_user', '!=', 'Superuser')->get();
+    $formMethod = 'store';
 
-        return view('superuser.superuser', compact('users'));
-    }
+    return view('superuser.superuser', compact('users','formMethod'));
+}
+
 
     public function show($id)
     {
@@ -69,29 +72,44 @@ class UserController extends Controller
 }
 
     
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'password' => 'sometimes|required',
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'old_password' => 'required',
+        'password' => 'sometimes|required|confirmed',
+        'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        try {
-            // Find the user by ID
-            $user = User::findOrFail($id);
+    try {
+        $user = User::findOrFail($id);
 
-            // Update the user attributes
-            $user->update([
-                'nama_user' => $request->nama_user,
-                'email_user' => $request->email_user,
-                'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
-            ]);
-
-            return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('success', 'Profile updated successfully');
-        } catch (\Exception $e) {
-            // Handle any exceptions here, e.g., log the error
-            return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('error', 'Failed to update profile');
+        if (!Hash::check($request->old_password, $user->password)) {
+            return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('error', 'Old password is incorrect');
         }
+
+        $userData = [
+            'nama_user' => $request->nama_user,
+            'email_user' => $request->email_user,
+        ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('profile_picture')) {
+            $imagePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $userData['profile_picture'] = $imagePath;
+        }
+
+        $user->update($userData);
+
+        return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('success', 'Profile updated successfully');
+    } catch (\Exception $e) {
+        return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('error', 'Failed to update profile');
     }
+}
+
+
     public function editProfile($id)
     {
         // Retrieve user information based on $id
