@@ -30,9 +30,21 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/berita/{id}', [ContentController::class, 'showNews'])->name('berita');
 
 
-Route::get('/masuk', [AuthController::class, 'showLoginForm'])->name('masuk');
-Route::post('/masuk', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::get('/masuk', [AuthController::class, 'showLoginForm'])->name('masuk');
+// Route::post('/masuk', [AuthController::class, 'login']);
+
+
+// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
+    Route::post('/logout', [UserController::class, 'logout']);
+});
+
 
 Route::controller(ContentController::class)->group(function(){
     Route::get('/', 'getContentsBeranda')->name('user.beranda');
@@ -77,6 +89,8 @@ Route::get('/detailPanduan', function () {
 Route::get('/event', function () {
     return view('user.event');
 })->name('user.event');
+
+Route::post('/show-countdown-popup', [AuthController::class, 'showCountdownPopup']);
 
 Route::get('/event', [EventController::class, 'eventBeranda'])->name('user.event');
 

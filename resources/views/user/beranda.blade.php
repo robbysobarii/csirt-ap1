@@ -6,7 +6,7 @@
     <div class="carousel-inner" style="max-height: 600px">
         @include('user.components._carousel-item')
         <!-- Container for ARTIKEL DAN BERITA -->
-        <div class="containerAJudul w-100 py-3 position-absolute px-5">
+        <div class="containerAJudul w-100 position-absolute px-5" style="padding: 22px">
             <h4 >| ARTIKEL DAN BERITA</h4>
             
         </div>
@@ -72,10 +72,10 @@
         </div>
     @endif
 
-    <div class="galery mb-10 position-relative" style="margin-top: 100px; position: relative;">
-        <img src="/img/galeryHead.svg" class="w-100 mb-5" alt="Heading">
+    <div class="galery container-fluid mb-10 position-relative" style="margin-top: 100px; position: relative;">
+        <img src="/img/galeryHead.svg" class="w-100 mb-5" alt="Heading" >
         <div id="galleryCarousel" class="carousel d-flex align-items-center justify-content-center"> 
-            <div class="carousel-inner-galery">
+            <div class="carousel-inner-galery container-fluid">
                 @include('user.components._galery-item')
             </div>
             @include('user.components._galery-move')

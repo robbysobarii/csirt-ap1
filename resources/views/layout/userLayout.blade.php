@@ -30,52 +30,114 @@
 
     {{-- css global ours --}}
     <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    <style>
+        body {
+            overflow-x: hidden; 
+        }
+
+        .navbar-logo img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        @media (max-width: 900px) {
+            body {
+                font-size: 14px;
+            }
+            .highFooter,
+            .highFooter a,
+            .highFooter p,
+            .highFooter h6 {
+                font-size: 12px; 
+            }
+            .icon{
+                font-size: 16px;
+            }
+            .kiriFooter{
+                width: 60%
+            }
+            .satu{
+                padding-right: 30px;
+                width: 100%;
+            }
+            .dua{
+                padding-right: 20px;
+                width: 100%;
+            }
+            .contentBerita p, .contentBerita h6{
+                font-size: 13px
+            }
+            .galeriWidth{
+                width: 90%;
+                font-size: 12px
+            }
+            .ahref{
+                max-height: 100px;
+            }
+            .galeriWidth img{
+                min-height: 100px;
+                width: 100%
+            }
+            .layanDrop{
+                text-align: left;
+                padding: 0;
+                margin: 0;
+                width: 100%
+                
+            }
+            .fiturMenu  {
+                font-size: 11px
+            }
+        }
+
+
+    </style>
 </head>
 
 <body>
 
    <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-light navbar-light fixed-top mr-4 py-0 navbarBG">
-    <div class="navbar-logo">
-        <img src="{{ asset('img/logo.svg') }}" alt="logo">
+    <div class="navbar-logo" style="width: 40%;margin: 0;padding: 0">
+        <img src="{{ asset('/img/logo.svg') }}" alt="logo" style="width: 100%;">
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
+        <span class="navbar-toggler-icon" ></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <div class="navbar-nav">
-            <a class="nav-link fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}">BERANDA</a>
+            <a class="nav-link fiturMenu fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}">BERANDA</a>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown"
+                <a class="nav-link fiturMenu dropdown-toggle fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown"
                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     TENTANG KAMI
                 </a>
                 <div class="dropdown-menu" aria-labelledby="tentangKamiDropdown">
-                    <a class="dropdown-item" href="{{ route('tentangKami.profil')}}">Profil</a>
-                    <a class="dropdown-item" href="{{ route('tentangKami.visiMisi')}}">Visi Misi</a>
-                    <a class="dropdown-item" href="{{ route('tentangKami.struktur')}}">Struktur Organisasi</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.profil')}}">Profil</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.visiMisi')}}">Visi Misi</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.struktur')}}">Struktur Organisasi</a>
                 </div>
             </li>
 
-            <a class="nav-link fitur{{ $rfcActive ?? '' }}" href="{{ route('user.rfc')}}">RFC 2350</a>
+            <a class="nav-link fiturMenu fitur{{ $rfcActive ?? '' }}" href="{{ route('user.rfc')}}">RFC 2350</a>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle fitur{{ $layananActive ?? '' }}" href="#" id="layananDropdown"
+            <li class="nav-item dropdown layanDrop" >
+                <a class="nav-link fiturMenu dropdown-toggle fitur{{ $layananActive ?? '' }}" href="#" id="layananDropdown"
                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Layanan
+                    LAYANAN
                 </a>
                 <div class="dropdown-menu" aria-labelledby="layananDropdown">
-                    <a class="dropdown-item" href="{{ route('layanan.aduanSiber')}}">Aduan Siber</a>
-                    <a class="dropdown-item" href="{{ route('layanan.layananVA')}}">Layanan VA</a>
-                    <a class="dropdown-item" href="{{ route('layanan.panduan')}}">Panduan Teknis</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('layanan.aduanSiber')}}">Aduan Siber</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('layanan.layananVA')}}">Layanan VA</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('layanan.panduan')}}">Panduan Teknis</a>
                 </div>
             </li>
 
-            <a class="nav-link fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">EVENT</a>
-            <a class="nav-link fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">HUBUNGI KAMI</a>
-            <a class="nav-link fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">LAPORKAN INSIDEN</a>
+            <a class="nav-link fiturMenu fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">EVENT</a>
+            <a class="nav-link fiturMenu fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">HUBUNGI KAMI</a>
+            <a class="nav-link fiturMenu fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">LAPORKAN INSIDEN</a>
         </div>
     </div>
 </nav>
@@ -91,29 +153,35 @@
 
   <!-- Footer Start -->
 <div class="footer">
-    <div class="highFooter" style="display: flex; justify-content: space-between; padding: 50px;">
-        <div class="satu" style="width: 30%; padding-inline: 50px; font-size: 14px; padding-top: 20px">
-            <h6 style="color: white; margin-bottom: 20px">TENTANG KAMI</h6>
-            <p>Profil</p>
-            <p>Visi Misi</p>
-            <p>Struktur Organisasi</p>
+    <div class="highFooter" style="display: flex; justify-content: space-between; padding: 30px;">
+        <div class="kiriFooter" style="border-right: 1px solid #fff; width: 50%; padding-inline: 40px; ">
+            <div class="fiturKiri" style="display: flex; justify-content: space-between; padding-right: 30px">
+                <div class="satu" style=" padding-left: 50px; font-size: 14px; padding-top: 20px;">
+                    <h6 style="color: white; margin-bottom: 20px">TENTANG KAMI</h6>
+                    <a href="{{ route('tentangKami.profil')}}" style="color: white; text-decoration: none; display: block; margin-bottom: 5px;">Profil</a>
+                    <a href="{{ route('tentangKami.visiMisi')}}" style="color: white; text-decoration: none; display: block; margin-bottom: 5px;">Visi Misi</a>
+                    <a href="{{ route('tentangKami.struktur')}}" style="color: white; text-decoration: none; display: block; margin-bottom: 5px;">Struktur Organisasi</a>
         
+                </div>
+                
+                <div class="dua" style="font-size: 14px; padding-top: 20px; ">
+                    <h6 style="color: white;margin-bottom: 20px">LAYANAN</h6>
+                    <a href="{{ route('layanan.aduanSiber')}}" style="color: white; text-decoration: none; display: block; margin-bottom: 5px;" >Aduan Siber</a>
+                    <a href="{{ route('layanan.layananVA')}}" style="color: white; text-decoration: none; display: block; margin-bottom: 5px;" >Layanan VA</a>
+                    <a href="{{ route('layanan.panduan')}}" style="color: white; text-decoration: none; display: block; margin-bottom: 5px;" >Panduan Teknis</a>
+                </div>
+            </div>
+    
             <!-- Social Media Icons -->
-            <div style="margin-top: 20px; margin-bottom: 40px;">
-                <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;"><i class="fab fa-facebook"></i></a>
-                <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;"><i class="fab fa-instagram"></i></a>
-                <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;"><i class="fab fa-twitter"></i></a>
-                <a href="#" style="color: white; text-decoration: none; font-size: 20px;"><i class="fab fa-youtube"></i></a>
+            <div style="margin-top: 20px; margin-bottom: 20px; display: flex; padding-left: 50px" class="social">
+                <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-facebook"></i></a>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-instagram"></i></a>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-twitter"></i></a>
+                <a href="#" style="color: white; text-decoration: none; font-size: 20px;" ><i class="icon fab fa-youtube"></i></a>
             </div>
         </div>
-        
-        <div class="dua" style="width: 30%;  font-size: 14px; padding-top: 20px;border-right: 1px solid #fff; ">
-            <h6 style="color: white;margin-bottom: 20px">LAYANAN</h6>
-            <p>Aduan Siber</p>
-            <p>Layanan VA</p>
-            <p>Panduan Teknis</p>
-        </div>
-        <div class="tiga" style="width: 50%; padding-inline: 50px; padding-bottom: 50px;">
+
+        <div class="tiga" style="width: 50%; padding-left: 50px; font-size: 14px;margin-bottom: 20px">
             <img src="/img/foot_logo.svg" alt="Logo">
             <h6 style="color: white; padding-top: 30px">PT Angkasa Pura I</h6>
             <p style="padding: 0;margin: 0;">Kota Baru Bandar Kemayoran Blok B12 Kav.2 Jakarta Pusat, DKI Jakarta - Indonesia</p>
@@ -123,7 +191,7 @@
         <div class="empat" style="width: 60%; padding-left: 60px; display: flex; flex-direction: column; justify-content: center;">
 
             <!-- Contact Center 172 -->
-            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; margin-bottom: 20px">
                 <img src="/img/call_foot.svg" alt="Call Footer">
                 <div style="margin-left: 10px;">
                     <p style="margin: 0; ">Contact Center </p>
@@ -133,7 +201,7 @@
             </div>
         
             <!-- Informasi, Saran dan Keluhan -->
-            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center;">
                 <img src="/img/write_foot.svg" alt="Write Footer">
                 <div style="margin-left: 10px;">
                     <p style="margin: 0;">Informasi, Saran dan Keluhan: </p>

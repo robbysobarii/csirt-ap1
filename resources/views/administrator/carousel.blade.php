@@ -1,4 +1,4 @@
-@extends('layout.adminLayout')
+@extends('layout.AdminLayout')
 @section('content')
 <div class="container-fluid pt-4 px-4">
     <div class="col-10 tableContent g-4">

@@ -1,4 +1,3 @@
-@extends('layout.' . auth()->user()->role_user  . 'Layout')
 @section('title', 'Edit Profile')
 @section('content')
 

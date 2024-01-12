@@ -5,151 +5,95 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
-    public function index()
-{
-    // Assuming 'role_user' is a column in the users table
-    $users = User::where('role_user', '!=', 'Superuser')->get();
-    $formMethod = 'store';
-
-    return view('superuser.superuser', compact('users','formMethod'));
-}
-
-
-    public function show($id)
+    public function register(Request $request)
     {
-        $user = User::find($id);
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
 
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        return response()->json($user);
-    }
-    public function storeOrUpdate(Request $request)
-{
-    $request->validate([
-        'role_user' => 'required',
-        'nama_user' => 'required',
-        'email_user' => 'required|email|unique:users,email_user',
-        'password' => 'required_if:formMethod,store', // Only required for store action
-    ]);
+        $token = JWTAuth::fromUser($user);
 
-    $userId = $request->input('user_id');
-    $userData = [
-        'role_user' => $request->role_user,
-        'nama_user' => $request->nama_user,
-        'email_user' => $request->email_user,
-    ];
-
-    // Add password to $userData only if it is provided
-    if ($request->filled('password')) {
-        $userData['password'] = Hash::make($request->password);
+        return response()->json(compact('token'));
     }
 
-    $formMethod = $request->get('formMethod');
-
-    if ($formMethod === "store") {
-        // Store new user
-        User::create($userData);
-
-        return redirect()->route('superuser')->with('success', 'User created successfully');
-    } elseif ($formMethod === "update") {
-        // Update existing user
-        $user = User::find($userId);
-
-        if (!$user) {
-            return redirect()->route('superuser')->with('error', 'User not found');
-        }
-
-        $user->update($userData);
-
-        return redirect()->route('superuser')->with('success', 'User updated successfully');
-    }
-}
-
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        $credentials['email'] = trim($credentials['email']);
     
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'old_password' => 'required',
-        'password' => 'sometimes|required|confirmed',
-        'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    try {
-        $user = User::findOrFail($id);
-
-        if (!Hash::check($request->old_password, $user->password)) {
-            return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('error', 'Old password is incorrect');
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'Invalid credentials'], 401);
         }
-
-        $userData = [
-            'nama_user' => $request->nama_user,
-            'email_user' => $request->email_user,
-        ];
-
-        if ($request->filled('password')) {
-            $userData['password'] = Hash::make($request->password);
+    
+        $user = JWTAuth::user();
+    
+        // Check if the user has the 'role' attribute
+        if (!$user->role_user) {
+            // Handle the case where the user's role is not set
+            return response()->json(['error' => 'Role information not found for the user'], 401);
         }
-
-        if ($request->hasFile('profile_picture')) {
-            $imagePath = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $userData['profile_picture'] = $imagePath;
-        }
-
-        $user->update($userData);
-
-        return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('success', 'Profile updated successfully');
-    } catch (\Exception $e) {
-        return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('error', 'Failed to update profile');
+    
+        $role_user = $user->role_user;
+    
+        // Menentukan rute berdasarkan peran (role) pengguna
+        $redirectRoute = $this->getRedirectRouteByRole($role_user);
+    
+        return response()->json([
+            'token' => $token,
+            'role' => $role_user,
+            'redirect_route' => $redirectRoute,
+        ]);
     }
-}
-
-
-    public function editProfile($id)
+    
+    private function getRedirectRouteByRole($role_user)
     {
-        // Retrieve user information based on $id
-        $user = User::find($id);
-
-        // Pass the $user data to the view
-        return view('editProfile', ['user' => $user]);
+        switch ($role_user) {
+            case 'Admin':
+                return 'admin.contentManagement';
+            case 'Pelapor':
+                return 'pelapor.reportPelapor';
+            case 'Pimpinan':
+                return 'pimpinan.dashboard';
+            case 'Superuser':
+                return 'superuser';
+            default:
+                return 'user.beranda';
+        }
     }
+    
 
 
-    public function delete($id)
+    public function getAuthenticatedUser()
     {
-        $user = User::find($id);
-
-        if ($user) {
-            try {
-                $user->delete();
-                return redirect()->route('admin.userManagement')->with('success', 'User deleted successfully');
-            } catch (\Exception $e) {
-                // Handle any exceptions here, e.g., log the error
-                return redirect()->route('admin.userManagement')->with('error', 'Failed to delete user');
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
             }
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json(['token_expired'], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(['token_invalid'], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json(['token_absent' => $e->getMessage()], 401);
         }
 
-        return redirect()->route('admin.userManagement')->with('error', 'User not found');
+        return response()->json(compact('user'));
     }
-    public function deleteUsermanagement($id)
+
+    public function logout()
     {
-        $user = User::find($id);
+        JWTAuth::invalidate();
 
-        if ($user) {
-            try {
-                $user->delete();
-                return redirect()->route('superuser')->with('success', 'User deleted successfully');
-            } catch (\Exception $e) {
-                // Handle any exceptions here, e.g., log the error
-                return redirect()->route('superuser')->with('error', 'Failed to delete user');
-            }
-        }
-
-        return redirect()->route('superuser')->with('error', 'User not found');
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

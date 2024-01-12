@@ -11,23 +11,33 @@ pre{
 .navbarBG {
     background: rgba(0, 114, 185, 0.80)!important;
 }
+.navbar-toggler-icon {
+    border-radius: 2px; 
+    font-size: 15px;
+}
+.navbar-toggler{
+    margin-right: 10px;
+}
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    box-shadow: none; /* Hilangkan shadow saat aktif */
+    outline: none; /* Hilangkan outline pada focus */
+}
 
 .navbar-logo{
     margin-right: auto;
 }
-.navbar-nav .dropdown-menu {
-    background-color: rgba(229, 239, 254, 0.8);
-}
 
 .navbar-nav .dropdown-menu {
     background-color: rgba(229, 239, 254, 0.8);
+    margin-inline: auto;
 }
 
 .navbar-nav .dropdown-menu a {
     position: relative;
     display: block;
     text-align: center; 
-    padding: 10px 0; 
+    margin:auto;
     color: #0D2E5B;; 
 }
 
@@ -39,6 +49,10 @@ pre{
     width: 80%; 
     height: 1px; 
     background-color: #ABC9D7;
+}
+.layanDrop{
+    width: 130px;
+    text-align: center
 }
 
 .navbar-nav .dropdown-menu a:hover {
@@ -79,14 +93,11 @@ pre{
     align-items: center;
     justify-content: center;
 }
-.carousel-item{
-    opacity: 90%;
-}
-
 .carousel-control-prev,
 .carousel-control-next {
     color: #66B82E !important;
     font-size: 30px;
+    font-weight: bold;
 }
 .text-container {
     display: flex;
@@ -245,20 +256,20 @@ hr{
     
     background: linear-gradient(180deg, #015EC5 0%, #002E6E 100%);
 }
-
+.highFooter p{
+    padding: 0;
+    margin: 0;
+}
 .lowerFooter{
-    width: 100%;    
     justify-content: center;
     align-items: center;
     position: relative;
     color: white;
     display: flex;
-    padding-top: 20px;
 
 }
 .highFooter{
     color: white; 
-    padding: 20px; 
 }
 .konten{
     display: flex;
@@ -306,9 +317,13 @@ hr{
 }
 .layanan{
     margin-top: 30px;
+    margin-inline:0 ;
+    padding: 0;
 }
+
 .layanan li{
-    margin: 10px;
+    padding: 0;
+    margin: 0;
 }
 .alamat{
     padding-bottom: 20px;

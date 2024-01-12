@@ -1,4 +1,4 @@
-@extends('layout.pimpinanLayout')
+@extends('layout.PimpinanLayout')
 @section('content')
 <style>
     table {

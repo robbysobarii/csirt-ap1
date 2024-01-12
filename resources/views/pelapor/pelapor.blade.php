@@ -1,4 +1,4 @@
-@extends('layout.pelaporLayout')
+@extends('layout.PelaporLayout')
 @section('content')
 <div class="container-fluid pt-4 px-4">
     <div class="col-10 tableContent g-4">

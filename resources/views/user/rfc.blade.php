@@ -4,73 +4,81 @@
 @section('title', 'RFC 2350')
 @section('content')
 <style>
-    h3 {
+    .rfc h4 {
         margin-top: 25px;
         margin-left: 0; 
+        font-size: 21px;
     }
 
-    h4 {
+    .rfc h5 {
         margin-top: 15px;
         margin-left: 30px;
     }
 
-    h5 {
+    .rfc h6 {
         margin-top: 10px;
         margin-left: 80px;
     }
+
+    .rfc p{
+        font-size: 15px;
+        margin-left: 70px;
+        margin-block: 0;
+        padding: 0;
+    }
 </style>
-<div class="container" style="padding-top: 130px;">
+<div class="container rfc" style="padding-top: 130px;">
 
     <h3>RFC 2350 AP1-CSIRT</h3>
     <hr>
 
-    <h3>1. Informasi Mengenai Dokumen</h3>
-    <p style="margin-left: 30px">Dokumen ini berisi deskripsi AP1-CSIRT berdasarkan RFC 2350, yaitu informasi dasar mengenai AP1-CSIRT, menjelaskan tanggung jawab, layanan yang diberikan, dan cara untuk menghubungi AP1-CSIRT.</p>
+    <h4>1. Informasi Mengenai Dokumen</h4>
+    <p style="margin-left: 22px">Dokumen ini berisi deskripsi AP1-CSIRT berdasarkan RFC 2350, yaitu informasi dasar mengenai AP1-CSIRT, menjelaskan tanggung jawab, layanan yang diberikan, dan cara untuk menghubungi AP1-CSIRT.</p>
 
-    <h4>1.1. Tanggal Update Terakhir</h4>
-    <p style="margin-left: 80px">Dokumen merupakan dokumen versi 1.0 yang diterbitkan pada tanggal …… 2023.</p>
+    <h5>1.1. Tanggal Update Terakhir</h5>
+    <p >Dokumen merupakan dokumen versi 1.0 yang diterbitkan pada tanggal …… 2023.</p>
 
-    <h4>1.2. Daftar Distribusi untuk Pemberitahuan</h4>
-    <p style="margin-left: 80px">Tidak ada daftar distribusi untuk pemberitahuan mengenai pembaharuan dokumen.</p>
+    <h5>1.2. Daftar Distribusi untuk Pemberitahuan</h5>
+    <p >Tidak ada daftar distribusi untuk pemberitahuan mengenai pembaharuan dokumen.</p>
 
-    <h4>1.3. Lokasi dimana Dokumen ini bisa didapat</h4>
-    <p style="margin-left: 80px">Dokumen ini tersedia pada : https://csirt[at]ap1.co.id (versi Bahasa Indonesia)</p>
+    <h5>1.3. Lokasi dimana Dokumen ini bisa didapat</h5>
+    <p >Dokumen ini tersedia pada : https://csirt[at]ap1.co.id (versi Bahasa Indonesia)</p>
 
-    <h4>1.4. Keaslian Dokumen</h4>
-    <p style="margin-left: 80px">Kedua dokumen telah ditandatangani dengan PGP Key milik AP1-CSIRT. Untuk lebih jelas dapat dilihat pada Subbab 2.8.</p>
+    <h5>1.4. Keaslian Dokumen</h5>
+    <p >Kedua dokumen telah ditandatangani dengan PGP Key milik AP1-CSIRT. Untuk lebih jelas dapat dilihat pada Subbab 2.8.</p>
 
-    <h4>1.5 Identifikasi Dokumen</h4>
-    <p style="margin-left: 80px">Dokumen memiliki atribut, yaitu : Judul : RFC 2350 AP1-CSIRT; Versi : 1.0; Tanggal Publikasi : …. 2023; Kedaluwarsa : Dokumen ini valid hingga dokumen terbaru dipublikasikan.</p>
+    <h5>1.5 Identifikasi Dokumen</h5>
+    <p >Dokumen memiliki atribut, yaitu : Judul : RFC 2350 AP1-CSIRT; Versi : 1.0; Tanggal Publikasi : …. 2023; Kedaluwarsa : Dokumen ini valid hingga dokumen terbaru dipublikasikan.</p>
 {{-- no 2 --}}
-    <h3>2. Informasi Data/Kontak</h3>
+    <h4>2. Informasi Data/Kontak</h4>
     
-    <h4>2.1. Nama Tim</h4>
-    <p style="margin-left: 80px">Computer Security Incident Response Team PT. Angkasa Pura I</p>
-     <p style="margin-left: 80px">Disingkat : AP1-CSIRT.</p>   
+    <h5>2.1. Nama Tim</h5>
+    <p >Computer Security Incident Response Team PT. Angkasa Pura I</p>
+     <p >Disingkat : AP1-CSIRT.</p>   
 
-    <h4>2.2. Alamat</h4>
-    <p style="margin-left: 80px">Kantor Pusat – Jakarta</p>
-    <p style="margin-left: 80px">Grha Angkasa Pura I Kota Baru Bandar Kemayoran Blok B12 Kav.2</p>
-    <p style="margin-left: 80px">Jakarta Pusat, DKI Jakarta – Indonesia</p>
-    <p style="margin-left: 80px">Indonesia [10610]</p>
+    <h5>2.2. Alamat</h5>
+    <p >Kantor Pusat – Jakarta</p>
+    <p >Grha Angkasa Pura I Kota Baru Bandar Kemayoran Blok B12 Kav.2</p>
+    <p >Jakarta Pusat, DKI Jakarta – Indonesia</p>
+    <p >Indonesia [10610]</p>
     
-    <h4>2.3. Zona Waktu</h4>
-    <p style="margin-left: 80px">Jakarta (GMT+07:00)</p>
+    <h5>2.3. Zona Waktu</h5>
+    <p >Jakarta (GMT+07:00)</p>
 
-    <h4>2.4. Nomor Telepon</h4>
-    <p style="margin-left: 80px">(021) 6541961 ext.2161</p>
+    <h5>2.4. Nomor Telepon</h5>
+    <p >(021) 6541961 ext.2161</p>
 
-    <h4>2.5. Nomor Fax</h4>
-    <p style="margin-left: 80px">-</p>
+    <h5>2.5. Nomor Fax</h5>
+    <p >-</p>
     
-    <h4>2.6. Telekomunikasi Lain</h4>
-    <p style="margin-left: 80px">Tidak ada</p>
+    <h5>2.6. Telekomunikasi Lain</h5>
+    <p >Tidak ada</p>
 
-    <h4>2.7. Alamat Surat Elektronik (E-mail)</h4>
-    <p style="margin-left: 80px">csirt[at]ap1.co.id</p>
+    <h5>2.7. Alamat Surat Elektronik (E-mail)</h5>
+    <p >csirt[at]ap1.co.id</p>
 
-    <h4>2.8. Kunci Publik (Public Key) dan Informasi/Data Enkripsi lain</h4>
-    <pre style="margin-left: 50px">
+    <h5>2.8. Kunci Publik (Public Key) dan Informasi/Data Enkripsi lain</h5>
+    <pre style="margin-left: 40px">
         Bits : 4.096
         ID : 1A1A1A12
         Key Fingerprint : 1C7D 18B1 B298 7622 DAF6 8347 CE45 D819 A395 ECAB
@@ -92,7 +100,7 @@
         5GhHWjXvImiwHG8HCaLde2DLBtxnyHWJ7LrE7Oypk9flHQxHCVLRzyYgRoSH0Mqb
         dgnx+/AGanwO0+r27MLCVGi5RMCggKB/zDMFhjGlcx/2TzxNthCeqsGS1j0ydEH7
         qi2/v0qdSyvTDaZ+PILt6+j1J0LcOg1MN3EnFkMxfXaNS4JzPsJdP+SAL1yQVUg5
-        El3qLBx0akrq5nh4A0+7eVIVblQJu2pIdmzTizJjax7vWmwUL58pp+uORAEZSawI
+        El3qLBx0akrq5nh5A0+7eVIVblQJu2pIdmzTizJjax7vWmwUL58pp+uORAEZSawI
         -3-
         l75wJcz+9Y6ebacSAb9mkcuq0pbYnVoZtGOHLIXOwM0EZV7IUwEMANR0OLZvmed+
         qYYCX5a6ccNm37vR/TtT1A7ZNhsvxeVEDOf0eJ9/sjDBxsmdb3yycGc7Dv1u1koq
@@ -118,27 +126,27 @@
         File PGP key ini tersedia pada :
         https://websitecsirt.go.id /publickey.asc</pre>
 
-        <h4>2.9. Anggota Tim </h4>
-        <p style="margin-left: 80px">Metode yang disarankan untuk menghubungi AP1-CSIRT adalah melalui e-mail pada
+        <h5>2.9. Anggota Tim </h5>
+        <p >Metode yang disarankan untuk menghubungi AP1-CSIRT adalah melalui e-mail pada
             alamat csirt[at]ap1.go.id.</p>
 
-        <h4>2.10. Informasi/Data lain </h4>
-        <p style="margin-left: 80px">Tidak ada.</p>
+        <h5>2.10. Informasi/Data lain </h5>
+        <p >Tidak ada.</p>
     
-        <h4>2.11. Catatan-catatan pada Kontak AP1-CSIRT</h4>
-        <p style="margin-left: 80px">Metode yang disarankan untuk menghubungi AP1-CSIRT adalah melalui e-mail pada
+        <h5>2.11. Catatan-catatan pada Kontak AP1-CSIRT</h5>
+        <p >Metode yang disarankan untuk menghubungi AP1-CSIRT adalah melalui e-mail pada
             alamat csirt[at]ap1.go.id.</p>
             
-        <h3>3. Informasi Mengenai Dokumen</h3>
+        <h4>3. Informasi Mengenai Dokumen</h4>
         
-        <h4>3.1. Visi</h4>
-        <p style="margin-left: 80px">Visi AP1-CSIRT adalah mewujudkan pengelolaan keamanan informasi di lingkungan
+        <h5>3.1. Visi</h5>
+        <p >Visi AP1-CSIRT adalah mewujudkan pengelolaan keamanan informasi di lingkungan
             PT. Angkasa Pura I yang sesuai dengan prinsip keamanan informasi yaitu untuk
             menjamin ketersediaan (availability), keutuhan (integrity), dan kerahasiaan
             (confidentiality) Aset Informasi PT. Angkasa Pura I.</p>
 
-        <h4>3.2. Misi</h4>
-        <pre style="margin-left: 50px">
+        <h5>3.2. Misi</h5>
+        <pre style="margin-left: 40px">
         Misi dari AP1-CSIRT, yaitu :
         a. Mendorong kegiatan pengamanan informasi dan pencegahan insiden
         keamanan informasi.
@@ -151,66 +159,66 @@
         pemulihan keamanan siber di lingkungan PT. Angkasa Pura I.
             </pre>
 
-        <h4>3.3. Konstituen</h4>
-        <p style="margin-left: 80px">Konstituen AP1-CSIRT meliputi PT. Angkasa Pura I dan seluruh kantor cabang</p>
+        <h5>3.3. Konstituen</h5>
+        <p >Konstituen AP1-CSIRT meliputi PT. Angkasa Pura I dan seluruh kantor cabang</p>
 
-        <h4>3.4. Sponsorship dan/atau Afiliasi</h4>
-        <p style="margin-left: 80px">Rencana Kerja dan Anggaran Perusahaan PT. Angkasa Pura I Republik Indonesia.</p>
+        <h5>3.4. Sponsorship dan/atau Afiliasi</h5>
+        <p >Rencana Kerja dan Anggaran Perusahaan PT. Angkasa Pura I Republik Indonesia.</p>
 
-        <h4>3.5. Otoritas </h4>
-        <p style="margin-left: 80px">AP1-CSIRT merespon dan melaksanakan penanganan secara teknis terhadap
+        <h5>3.5. Otoritas </h5>
+        <p >AP1-CSIRT merespon dan melaksanakan penanganan secara teknis terhadap
             insiden keamanan siber yang terjadi di lingkungan PT. Angkasa Pura I dan unit kerja
             dibawahnya.</p>
         
 
-        <h3>4. Kebijakan – Kebijakan</h3>
+        <h4>4. Kebijakan – Kebijakan</h4>
 
-        <h4>4.1. Jenis-jenis Insiden dan Tingkat/Level Dukungan </h4>
-        <p style="margin-left: 80px">AP1-CSIRT memiliki kewenangan untuk menangani berbagai insiden keamanan
+        <h5>4.1. Jenis-jenis Insiden dan Tingkat/Level Dukungan </h5>
+        <p >AP1-CSIRT memiliki kewenangan untuk menangani berbagai insiden keamanan
             siber yang terjadi atau yang mengancam konstituen AP1-CSIRT. Dukungan yang
             diberikan oleh AP1-CSIRT kepada konstituen dapat bervariasi bergantung dari jenis
             dan dampak insiden.</p>
 
-        <h4>4.2. Kerja sama, Interaksi dan Pengungkapan Informasi/ data</h4>
-        <p style="margin-left: 80px">AP1-CSIRT akan menjalin kerja sama dan berbagi informasi dengan
+        <h5>4.2. Kerja sama, Interaksi dan Pengungkapan Informasi/ data</h5>
+        <p >AP1-CSIRT akan menjalin kerja sama dan berbagi informasi dengan
             CSIRT/organisasi lainnya dalam lingkup keamanan siber. Seluruh informasi yang
             diterima oleh AP1-CSIRT akan dirahasiakan.</p>
 
-        <h4>4.3. Komunikasi dan Autentikasi</h4>
-        <p style="margin-left: 80px">Untuk komunikasi biasa AP1-CSIRT dapat menggunakan alamat e-mail dan telepon.
+        <h5>4.3. Komunikasi dan Autentikasi</h5>
+        <p >Untuk komunikasi biasa AP1-CSIRT dapat menggunakan alamat e-mail dan telepon.
             Namun, untuk komunikasi yang memuat informasi rahasia dapat menggunakan email yang ter-enkripsi.</p>
 
-         <h3>5. Layanan </h3>
+         <h4>5. Layanan </h4>
         
-        <h4>5.1. Layanan Utama</h4>
-        <p style="margin-left: 80px">Layanan utama dari AP1-CSIRT yaitu :</p>
+        <h5>5.1. Layanan Utama</h5>
+        <p >Layanan utama dari AP1-CSIRT yaitu :</p>
 
-        <h5>5.1.1. Pemberian Peringatan Terkait Keamanan Siber</h5>
+        <h6>5.1.1. Pemberian Peringatan Terkait Keamanan Siber</h6>
         <p style="margin-left: 120px">Layanan ini dilaksanakan oleh AP1-CSIRT berupa pemberian peringatan
             adanya insiden siber kepada pemilik sistem elektronik dan informasi statistik
             terkait layanan ini diberikan oleh AP1-CSIRT
             </p>
-        <h5>5.1.2. Penanganan Insiden Siber</h5>
+        <h6>5.1.2. Penanganan Insiden Siber</h6>
         <p style="margin-left: 120px">Layanan ini merupakan layanan teknis terkait penanganan insiden yang
             terjadi pada konstituen yang meliputi koordinasi, analisis, rekomendasi
             teknis, dan bantuan on-site jika diperlukan, agar sebuah insiden tidak
             terulang kembali.            
             </p>
 
-        <h4>5.2. Layanan Tambahan </h4>
-        <p style="margin-left: 80px">Layanan tambahan dari AP1-CSIRT yaitu :</p>
+        <h5>5.2. Layanan Tambahan </h5>
+        <p >Layanan tambahan dari AP1-CSIRT yaitu :</p>
 
-        <h5>5.2.1. Konsultasi terkait kesiapan penanganan insiden siber</h5>
+        <h6>5.2.1. Konsultasi terkait kesiapan penanganan insiden siber</h6>
         <p style="margin-left: 120px">Layanan ini berupa konsultasi terkait kesiapan penanggulangan dan
             pemulihan insiden yang terjadi di lingkungan PT. Angkasa Pura I dan unit
             kerja dibawahnya.
             </p>
-        <h5>5.2.2. Pembangunan kesadaran dan kepedulian terhadap keamanan siber</h5>
+        <h6>5.2.2. Pembangunan kesadaran dan kepedulian terhadap keamanan siber</h6>
         <p style="margin-left: 120px">Layanan ini berupa sosialisasi kepada konstituen AP1-CSIRT yang bertujuan
             untuk meningkatkan kesadaran dan kepedulian tentang keamanan informasi.                       
             </p>
     <h4>6. Pelaporan Insiden </h4>
-    <pre style="margin-left: 30px">
+    <pre >
         Laporan insiden keamanan siber dapat di input oleh konstituen melalui aplikasi
         LAPORKAN INSIDEN pada website AP1-CSIRT atau dikirimkan ke alamat
         csirt[at]ap1.co.id dengan melampirkan :
@@ -219,7 +227,7 @@
             c. Atau penjelasan tambahan lainnya.</pre>
 
     <h4>7. Disclaimer</h4>
-    <p style="margin-left: 60px">Terkait penanganan jenis insiden, menyesuaikan tingkat dan dampak insiden serta ketersediaan perangkat dan sumberdaya yang dimiliki.</p>
+    <p style="margin-left: 22px">Terkait penanganan jenis insiden, menyesuaikan tingkat dan dampak insiden serta ketersediaan perangkat dan sumberdaya yang dimiliki.</p>
 
 </div>
 
