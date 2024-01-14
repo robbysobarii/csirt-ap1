@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Role;
+use App\Http\Middleware\AuthApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,8 +24,9 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
-    Route::post('login', 'AuthController@login');
+    Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+
+    Route::middleware('api.auth')->group(fn () => Route::post('me', [AuthController::class, 'me'])->middleware(AuthApi::class));
 });

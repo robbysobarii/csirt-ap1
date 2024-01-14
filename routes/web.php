@@ -38,13 +38,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [UserController::class, 'login'])->name('login');
-Route::middleware('auth:api')->group(function () {
-    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
-    Route::post('/logout', [UserController::class, 'logout']);
-});
-
 
 Route::controller(ContentController::class)->group(function(){
     Route::get('/', 'getContentsBeranda')->name('user.beranda');

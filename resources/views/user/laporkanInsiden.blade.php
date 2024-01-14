@@ -52,7 +52,7 @@
                 <h2 style="font-size: 20px; margin: 0; padding: 0;">LAPORKAN INSIDEN</h2>
             </div>
             <div class="login-form">
-                <form id="loginForm" method="post" action="{{ route('login') }}">
+                <form id="loginForm" method="post" action="{{ url('api/auth/login') }}">
                     @csrf
                     <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
@@ -103,13 +103,13 @@
         function submitForm() {
             var emailInput = document.getElementById('email');
             var passwordInput = document.getElementById('password');
-
+    
             if (!emailInput.value.endsWith('@gmail.com')) {
-                alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
+                alert('Please enter an email address ending with @gmail.com.');
                 return;
             }
-
-            fetch('{{ route('login') }}', {
+    
+            fetch('{{ url('api/auth/login') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,16 +123,16 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    alert(data.error); // Display any error message from the server
+                    alert(data.error);
                 } else {
-                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('token', data.access_token);
                     var redirectRoute = data.redirect_route || "{{ route('user.beranda') }}";
                     window.location.href = redirectRoute;
                 }
             })
             .catch(error => {
                 console.error('Error during login:', error);
-                alert('Login gagal. Silakan coba lagi.');
+                alert('Login failed. Please try again.');
             });
         }
     </script>
