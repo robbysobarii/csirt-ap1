@@ -52,24 +52,104 @@
                 <h2 style="font-size: 20px; margin: 0; padding: 0;">LAPORKAN INSIDEN</h2>
             </div>
             <div class="login-form">
-                <form id="loginForm" method="post" action="{{ url('api/auth/login') }}">
+                <form id="loginForm" method="post">
                     @csrf
                     <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                     <p style="font-size: 10px; color:#323232">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
-                    <button type="button" onclick="submitForm()">Login</button>
+                    <button onclick="submitForm()">Login</button>
                 </form>
             </div>
         </div>
         <div class="right-box">
             <img src="img/loginGambar.svg" alt="Login Image" style="max-height: 100%; max-width: 100%;">
-            @if (isset($token) && isset($role))
-                <script>
-                    var token = "{{ $token }}";
-                    var role = "{{ $role }}";
-                    var redirectRoute = "";
+            <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
+        </div>
 
-                    switch (role) {
+        @if ($errors->has('popup'))
+            <script>
+                alert('Anda telah mencapai batas percobaan login maksimum. Silakan tunggu selama 20 detik.');
+            </script>
+        @endif
+
+        @if (isset($token) && isset($role_user))
+            <script>
+                console.log('Token and Role_user are set. Redirecting...');
+                var token = "{{ $token }}";
+                var role_user = "{{ $role_user }}";
+                
+                // Simulate the response data for testing
+                var responseData = {
+                    access_token: token,
+                    user: {
+                        role_user: role_user
+                    }
+                };
+
+                // Log the entire response for debugging
+                console.log('Login response:', responseData);
+
+                var redirectRoute;
+
+                switch (responseData.user.role_user) {
+                    case 'Admin':
+                        redirectRoute = "{{ route('admin.contentManagement') }}";
+                        break;
+                    case 'Pelapor':
+                        redirectRoute = "{{ route('pelapor.reportPelapor') }}";
+                        break;
+                    case 'Pimpinan':
+                        redirectRoute = "{{ route('pimpinan.dashboard') }}";
+                        break;
+                    case 'Superuser':
+                        redirectRoute = "{{ route('superuser') }}";
+                        break;
+                    default:
+                        redirectRoute = "{{ route('user.beranda') }}";
+                }
+
+                // Set the values to data attributes
+                document.getElementById('loginForm').setAttribute('data-token', token);
+                document.getElementById('loginForm').setAttribute('data-role-user', role_user);
+                document.getElementById('loginForm').setAttribute('data-redirect-route', redirectRoute);
+            </script>
+        @endif
+    </div>
+
+    <script>
+        function submitForm() {
+            var emailInput = document.getElementById('email');
+            var passwordInput = document.getElementById('password');
+
+            if (!emailInput.value.endsWith('@gmail.com')) {
+                alert('Please enter an email address ending with @gmail.com.');
+                return;
+            }
+
+            fetch('{{ url('api/auth/login') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({
+                    email: emailInput.value,
+                    password: passwordInput.value,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Login response:', data);
+
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('role_user', data.user.role_user);
+
+                    var redirectRoute;
+
+                    switch (data.user.role_user) {
                         case 'Admin':
                             redirectRoute = "{{ route('admin.contentManagement') }}";
                             break;
@@ -87,47 +167,8 @@
                     }
 
                     window.location.href = redirectRoute;
-                </script>
-            @endif
-
-            <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
-        </div>
-        @if ($errors->has('popup'))
-            <script>
-                alert('Anda telah mencapai batas percobaan login maksimum. Silakan tunggu selama 20 detik.');
-            </script>
-        @endif
-    </div>
-
-    <script>
-        function submitForm() {
-            var emailInput = document.getElementById('email');
-            var passwordInput = document.getElementById('password');
-    
-            if (!emailInput.value.endsWith('@gmail.com')) {
-                alert('Please enter an email address ending with @gmail.com.');
-                return;
-            }
-    
-            fetch('{{ url('api/auth/login') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                },
-                body: JSON.stringify({
-                    email: emailInput.value,
-                    password: passwordInput.value,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    localStorage.setItem('token', data.access_token);
-                    var redirectRoute = data.redirect_route || "{{ route('user.beranda') }}";
-                    window.location.href = redirectRoute;
+                    console.log(data.role_user);
+                    console.log(redirectRoute);
                 }
             })
             .catch(error => {

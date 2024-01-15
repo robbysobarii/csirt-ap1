@@ -16,11 +16,27 @@ class Role
      */
     public function handle(Request $request, Closure $next, string ...$role): Response
     {
-        $roleUser = auth()->user()->role_user;
-        if (in_array($roleUser, $role)) {
+        // Check if the requested route is the login route
+        if ($request->routeIs('user.laporkanInsiden')) {
+            // Allow access to the login route
             return $next($request);
         }
 
-        return redirect()->route(ControllersRole::redirectBasedOnRole($roleUser));
+        // Check if the user is authenticated
+        if (auth()->check()) {
+            $roleUser = auth()->user()->role_user;
+
+            // Check if the user has the required role
+            if (in_array($roleUser, $role)) {
+                return $next($request);
+            }
+
+            // Redirect based on the user's role
+            return redirect()->route(ControllersRole::redirectBasedOnRole($roleUser));
+        }
+
+        // If the user is not authenticated and not accessing the login route,
+        // you can handle it accordingly, for example, redirect to the login page.
+        return redirect()->route('user.laporkanInsiden');
     }
 }
