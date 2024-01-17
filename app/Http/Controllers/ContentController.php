@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ContentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('api.auth');
+    }
+
     public function getContentsBeranda()
     {
         $content = Content::latest()->get();

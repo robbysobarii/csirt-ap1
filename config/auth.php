@@ -1,5 +1,4 @@
 <?php
-namespace App\Models;
 
 return [
 
@@ -63,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => User::class,
+            'model' => \App\Models\User::class,
         ],
     ],
 
