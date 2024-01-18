@@ -7,6 +7,7 @@ use App\Models\Gallery;
 use App\Models\Carousel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class ContentController extends Controller
 {
@@ -23,6 +24,8 @@ class ContentController extends Controller
     public function index()
     {
         $contents = Content::latest()->get();
+
+
         return view('administrator.contentManagement', compact('contents'));
     }
     public function storeOrUpdate(Request $request)

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Admin')</title>
     <!-- Favicon -->
-    <link href={{ asset('img/favicon.ico') }} rel="icon">
+    <link href="{{ asset('img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,17 +18,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href={{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }} rel="stylesheet">
-    <link href={{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }} rel="stylesheet" />
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href={{ asset('css/bootstrap.min.css') }} rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href={{ asset('css/style.css') }} rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     {{-- css global ours --}}
-    <link rel="stylesheet" href={{ asset('css/admin.css') }}>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
     <!-- Sidebar Start -->
@@ -39,16 +39,20 @@
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . user()->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
+                    @if($user && $user->profile_picture)
+                        <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . $user->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
+                    @else
+                        <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                    @endif
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                 </div>
                 <div class="ms-3">
-                    @auth
-                        <h6 class="mb-0">{{ auth()->user()->nama_user }}</h6>
-                        <span>{{ auth()->user()->role_user }}</span>
+                    @if($user)
+                        <h6 class="mb-0">{{ $user->nama_user }}</h6>
+                        <span>{{ $user->role_user }}</span>
                     @else
                         <p>No user logged in</p>
-                    @endauth
+                    @endif
                 </div>
             </div>
             <div class="navbar-nav w-100">
@@ -64,8 +68,6 @@
                 </li>
             </div>
             
-            
-            
             <div class="navbar-nav w-100">
                 <li class="nav-item dropdown custom-dropdown">
                     <a class="nav-link text-center menu" href="#" id="dropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,11 +75,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1 ">
                         <a class="dropdown-item text-center" href="{{ route('admin.carousel') }}">Carousel</a>
-                        {{-- <a class="dropdown-item text-center" href="{{ route('admin.activate') }}">Aktivasi Fitur</a> --}}
                     </div>
                 </li>
             </div>
-
 
             <div class="navbar-nav w-100">
                 <a href="{{ route('admin.reportManagement') }}" class="nav-item nav-link text-center menu">Report Managemen</a>
@@ -93,24 +93,26 @@
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . $user->profile_picture) }}" alt="" style="width: 40px; height: 40px;">          
+                    @if($user && $user->profile_picture)
+                        <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . $user->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
+                    @else
+                        <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                    @endif               
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                    <a href="{{ route('editProfil', ['id' => auth()->user()->id]) }}" class="dropdown-item">Edit Profile</a>
-                    <form  method="post">
+                    <a href="{{ route('editProfil', ['id' => $user->id]) }}" class="dropdown-item">Edit Profile</a>
+                    <form method="post">
                         @csrf
                         <button type="submit" class="dropdown-item">Log Out</button>
                     </form>
                 </div>
             </div>
-            
         </div>
     </nav>
     <!-- Navbar End -->
     </div>
 
     {{--content--}}
-
     <div class="content" style="background: white; padding: 50px; ">
         @yield('content')
     </div>
@@ -119,15 +121,15 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src={{ asset('lib/chart/chart.min.js') }}></script>
-    <script src={{ asset('lib/easing/easing.min.js') }}></script>
-    <script src={{ asset('lib/waypoints/waypoints.min.js') }}></script>
-    <script src={{ asset('lib/owlcarousel/owl.carousel.min.js') }}></script>
-    <script src={{ asset('lib/tempusdominus/js/moment.min.js') }}></script>
-    <script src={{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}></script>
-    <script src={{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}></script>
+    <script src="{{ asset('lib/chart/chart.min.js') }}"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src={{ asset('js/main.js') }}></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

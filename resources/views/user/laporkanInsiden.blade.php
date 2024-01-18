@@ -114,6 +114,7 @@
                 } else {
                     localStorage.setItem('token', data.access_token);
                     localStorage.setItem('role_user', data.user.role_user);
+                    localStorage.setItem('id', data.user.id);
 
                     window.location.replace(data.redirect_route);
                 }
