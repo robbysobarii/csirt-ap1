@@ -1,114 +1,42 @@
 <?php
 
+
+// app/Http/Controllers/AuthController.php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+
+    public function showLoginForm()
     {
-        $this->middleware('api.auth', ['except' => ['login']]);
+        return view('auth.login');
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only('email_user', 'password');
 
-        if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }              
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        return $this->respondWithToken($token);
-    }
-
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth('api')->user());
-    }
-    
-
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(JWTAuth::refresh());
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        $user = auth()->user();
-
-        $redirectRoute = '';
-
-        switch ($user->role_user) {
-            case 'Admin':
-                $redirectRoute = route('admin.contentManagement');
-                break;
-            case 'Pelapor':
-                $redirectRoute = route('pelapor.reportPelapor');
-                break;
-            case 'Pimpinan':
-                $redirectRoute = route('pimpinan.dashboard');
-                break;
-            case 'Superuser':
-                $redirectRoute = route('superuser');
-                break;
-            default:
-                $redirectRoute = route('user.beranda');
+            $user = Auth::user();
+            $redirectTo = Role::redirectBasedOnRole($user->role_user);
+            return redirect()->route($redirectTo);
         }
 
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60,
-            'user' => [
-                'id' => $user->id,
-                'email' => $user->email,
-                'role_user' => $user->role_user, 
-                'nama_user'=> $user->nama_user,
-                'profile_picture'=> $user->profile_picture, 
-            ],
-            'redirect_route' => $redirectRoute,
-        ]);
+        return redirect()->route('user.laporkanInsiden')->with('error', 'Invalid login credentials');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('user.laporkanInsiden');
     }
 }

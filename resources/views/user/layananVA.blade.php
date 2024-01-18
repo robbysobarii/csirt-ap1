@@ -8,18 +8,18 @@
             <li class="breadcrumb-item active" aria-current="page"><a href="#">Layanan VA</a></li>
         </ol>
     </div>
-    <div > 
-        <h3>Layanan VA</h3>
-        <hr>
-        <div class="layanan" >
-            <p><b style="color: rgba(0, 0, 0, 0.8);">Layanan Vulnerability Assesment (VA)</b> dikhususkan bagi konstituen CSIRT Angkasa Pura I yaitu PT Angkasa Pura I dan seluruh kantor cabang dibawahnya. Adapun informasi yang perlu disiapkan untuk pengajuan layanan ini adalah :</p>
-            <ol style="padding-left: 20px;"> 
-                <li>Nama Aplikasi/Website yang akan di VA.</li>
-                <li>PIC aplikasi/website (No. HP & Email).</li>
-                <li>Target IP/Domain.</li>
-                <li>Upload surat permohonan dari satker kepada CSIRT Angkasa Pura I.</li>
-            </ol>
-        </div>
+    <h3>Layanan VA</h3>
+    <hr>
+    <div class="layanan" style="color: rgba(0, 0, 0, 0.8);
+    ">
+        <ol>
+            <p><b>Layanan Vulnerability Assesment (VA)</b> dikhusukan bagi konstituen CSIRT Angkasa Pura I yaitu PT Angkasa Pura I dan seluruh kantor cabang dibawahnya. Adapun informasi yang perlu disiapkan untuk pengajuan layanan ini adalah : </p>
+            <li>Nama Aplikasi/Website yang akan di VA.</li>
+            <li>PIC aplikasi/website (No. HP & Email). </li>
+            <li>Target IP/Domain.</li>
+            <li>Upload surat permohonan dari satker kepada CSIRT Angkasa Pura I.</li>
+        </ol>
     </div>
 </div>
+
 @endsection

@@ -1,4 +1,4 @@
-@extends('layout.PimpinanLayout')
+@extends('layout.pimpinanLayout')
 @section('content')
 <style>
     /* CSS untuk efek hover muncul dan efek 3D */

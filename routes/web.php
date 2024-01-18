@@ -34,9 +34,16 @@ Route::get('/', [ContentController::class, 'getContents'])->name('user.beranda')
 
 Route::get('/daftarBerita', [ContentController::class, 'listContent'])->name('daftarBerita');
 
-Route::get('/berita/{id}', [ContentController::class, 'showNews'])->name('berita');
+Route::get('/masuk', [AuthController::class, 'showLoginForm'])->name('masuk');
+Route::post('/masuk', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/galeri/{id}', [GalleryController::class, 'showGalery'])->name('galeri');
+Route::controller(ContentController::class)->group(function(){
+    Route::get('/', 'getContentsBeranda')->name('user.beranda');
+    Route::get('/daftarBerita', 'listContent')->name('daftarBerita');
+    Route::get('/berita/{id}', 'showNews')->name('berita');
+
+});
 
 Route::prefix('tentangKami')->name('tentangKami.')->group(function () {
     Route::get('/tentangKami/profil', function () {
@@ -77,8 +84,6 @@ Route::get('/detailPanduanList', function () {
 Route::get('/event', function () {
     return view('user.event');
 })->name('user.event');
-
-Route::post('/show-countdown-popup', [AuthController::class, 'showCountdownPopup']);
 
 Route::get('/event', [EventController::class, 'eventBeranda'])->name('user.event');
 

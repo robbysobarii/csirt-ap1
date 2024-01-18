@@ -1,4 +1,4 @@
-@extends('layout.PimpinanLayout')
+@extends('layout.pimpinanLayout')
 @section('content')
 <style>
     /* Custom CSS to set the height of td elements */
