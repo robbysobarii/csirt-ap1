@@ -53,6 +53,7 @@
             </div>
             <div class="login-form">
                 <form id="loginForm" method="post" onsubmit="submitForm(event)">
+
                     @csrf
                     <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
@@ -140,13 +141,50 @@
 
                     console.log(redirectRoute);
 
-                    // Redirect without showing token in URL
-                    window.location.replace(redirectRoute);
+            <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
+        </div>
+        @if ($errors->has('popup'))
+            <script>
+                alert('Anda telah mencapai batas percobaan login maksimum. Silakan tunggu selama 20 detik.');
+            </script>
+        @endif
+    </div>
+
+    <script>
+        function submitForm() {
+            var emailInput = document.getElementById('email');
+            var passwordInput = document.getElementById('password');
+
+            if (!emailInput.value.endsWith('@gmail.com')) {
+                alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
+                return;
+            }
+
+            fetch('{{ route('login') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({
+                    email: emailInput.value,
+                    password: passwordInput.value,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error); // Display any error message from the server
+                } else {
+                    localStorage.setItem('token', data.token);
+                    var redirectRoute = data.redirect_route || "{{ route('user.beranda') }}";
+                    window.location.href = redirectRoute;
+
                 }
             })
             .catch(error => {
                 console.error('Error during login:', error);
-                alert('Login failed. Please try again.');
+                alert('Login gagal. Silakan coba lagi.');
             });
         }
 

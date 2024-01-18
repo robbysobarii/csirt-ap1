@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Role;
-use App\Http\Middleware\AuthApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +27,5 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
 
     Route::middleware('api.auth')->group(fn () => Route::post('me', [AuthController::class, 'me'])->middleware(AuthApi::class));
+
 });
