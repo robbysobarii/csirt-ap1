@@ -28,32 +28,29 @@ class ContentController extends Controller
     public function storeOrUpdate(Request $request)
     {
         $contentId = $request->input('content_id');
-
-        
-
         $formMethod = $request->get('formMethod');
 
-        if ($formMethod == "store") {
-            
+        if ($formMethod == "store" && $request->hasFile('gambar')) {
+
             $request->validate([
                 'judul' => 'required|string',
                 'isiKonten' => 'required|string',
                 'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'type' => 'required',
             ]);
-    
+
             $gambarPath = $request->file('gambar')->store('images', 'public');
-    
+
             $newContent = Content::create([
                 'judul' => $request->judul,
                 'isi_konten' => $request->isiKonten,
                 'gambar' => $gambarPath,
                 'type' => $request->type,
             ]);
-    
+
             return redirect()->route('admin.contentManagement')->with('message', 'Berhasil Menambahkan');
-        } else if ($formMethod == "update") {
-            
+        } else if ($formMethod == "update" && $request->hasFile('gambar')) {
+
             $content = Content::findOrFail($contentId);
 
             $request->validate([
@@ -71,8 +68,6 @@ class ContentController extends Controller
 
             if ($request->hasFile('gambar')) {
                 Storage::disk('public')->delete($content->gambar);
-
-               
                 $gambarPath = $request->file('gambar')->store('images', 'public');
                 $contentData['gambar'] = $gambarPath;
             }

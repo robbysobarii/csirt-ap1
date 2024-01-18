@@ -71,82 +71,57 @@
                 alert('Anda telah mencapai batas percobaan login maksimum. Silakan tunggu selama 20 detik.');
             </script>
         @endif
-
-    
     </div>
 
     <script>
-        function submitForm(e) {
+        async function submitForm(e) {
             e.preventDefault();
-    
+            var token =  localStorage.getItem('token');
+
             var emailInput = document.getElementById('email');
             var passwordInput = document.getElementById('password');
-    
+
             if (!emailInput.value.endsWith('@gmail.com')) {
                 alert('Please enter an email address ending with @gmail.com.');
                 return;
             }
-    
-            // Fetch data from the API
-            fetch('{{ url('api/auth/login') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                },
-                body: JSON.stringify({
-                    email: emailInput.value,
-                    password: passwordInput.value,
-                }),
-            })
-            .then(response => {
+
+            try {
+                console.log(token);
+                const response = await fetch('{{ url('api/auth/login') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    body: JSON.stringify({
+                        email: emailInput.value,
+                        password: passwordInput.value,
+                    }),
+                });
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                return response.json();
-            })
-            .then(data => {
+
+                const data = await response.json();
+
                 console.log('Login response:', data);
-    
+
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    // Save token and role_user to localStorage
                     localStorage.setItem('token', data.access_token);
                     localStorage.setItem('role_user', data.user.role_user);
-    
-                    // Redirect based on user role
-                    var redirectRoute;
-    
-                    switch (data.user.role_user) {
-                        case 'Admin':
-                            redirectRoute = "{{ route('admin.contentManagement') }}";
-                            break;
-                        case 'Pelapor':
-                            redirectRoute = "{{ route('pelapor.reportPelapor') }}";
-                            break;
-                        case 'Pimpinan':
-                            redirectRoute = "{{ route('pimpinan.dashboard') }}";
-                            break;
-                        case 'Superuser':
-                            redirectRoute = "{{ route('superuser') }}";
-                            break;
-                        default:
-                            redirectRoute = "{{ route('user.beranda') }}";
-                    }
-    
-                    console.log(redirectRoute);
-    
-                    // Append the token as a query parameter to the redirect route
-                    window.location.href = `${redirectRoute}?token=${localStorage.getItem('token')}`;
+
+                    window.location.replace(data.redirect_route);
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error during login:', error);
                 alert('Login failed. Please try again.');
-            });
+            }
         }
     </script>
-    
 </body>
 </html>

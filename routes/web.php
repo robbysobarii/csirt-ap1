@@ -100,7 +100,7 @@ Route::get('/login', function () {
     return view('user.laporkanInsiden');
 })->name('login');
 
-Route::middleware(['api.auth', 'role:Admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['api','api.auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [ContentController::class, 'index'])->name('contentManagement');
     Route::get('/galeryManagement', [GalleryController::class, 'index'])->name('galeryManagement');
     Route::get('/eventManagement', [EventController::class, 'getEvents'])->name('eventManagement');
@@ -141,16 +141,16 @@ Route::put('/report/update', [ReportsController::class, 'update'])->name('report
 Route::put('/updateProfile/{id}', [UserController::class, 'update'])->name('updateProfil');
 Route::get('/editProfile/{id}', [UserController::class, 'editProfile'])->name('editProfil');
 
-Route::middleware(['api.auth', 'role:Pelapor'])->prefix('pelapor')->name('pelapor.')->group(function () {
+Route::middleware(['api','api.auth'])->prefix('pelapor')->name('pelapor.')->group(function () {
     Route::get('/',  [ReportsController::class, 'indexPelapor'])->name('reportPelapor');
 });
 
-Route::middleware(['api.auth', 'role:Pimpinan'])->prefix('pimpinan')->name('pimpinan.')->group(function () {
+Route::middleware(['api','api.auth'])->prefix('pimpinan')->name('pimpinan.')->group(function () {
     Route::get('/', [ReportsController::class, 'showDashboard'])->name('dashboard');
     Route::get('/dataReport',  [ReportsController::class, 'indexPimpinan'])->name('dataReport');
 });
 
-Route::get('/superuser',  [UserController::class, 'index'])->middleware(['api.auth', 'role:Superuser'])->name('superuser');
+Route::get('/superuser',  [UserController::class, 'index'])->middleware(['api','api.auth'])->name('superuser');
 
 Route::get('/rfc/{filename}', [RfcPdfController::class, 'showRfcPdf'])->name('rfc.pdf');
 Route::get('/detail-panduan/{filename}/{name}', [PanduanController::class, 'showDetail'])->name('detailPanduan');

@@ -105,6 +105,8 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'email' => $user->email,
                 'role_user' => $user->role_user, 
+                'nama_user'=> $user->nama_user,
+                'profile_picture'=> $user->profile_picture, 
             ],
             'redirect_route' => $redirectRoute,
         ]);

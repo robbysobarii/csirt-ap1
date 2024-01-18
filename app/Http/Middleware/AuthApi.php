@@ -13,12 +13,19 @@ class AuthApi
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    // Example middleware logic
+    public function handle($request, Closure $next)
     {
-        if (!auth()->user()) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $token = $request->header('Authorization');
+
+        if (empty($token)) {
+            // Token not found in headers, try getting it from the URL
+            $token = $request->query('token');
         }
+
+        // Validate and authenticate based on the $token
 
         return $next($request);
     }
+
 }
