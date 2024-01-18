@@ -112,7 +112,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link fiturMenu dropdown-toggle fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown"
                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    TENTANG KAMI
+                    Tentang Kami
                 </a>
                 <div class="dropdown-menu" aria-labelledby="tentangKamiDropdown">
                     <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.profil')}}">Profil</a>
@@ -135,9 +135,9 @@
                 </div>
             </li>
 
-            <a class="nav-link fiturMenu fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">EVENT</a>
-            <a class="nav-link fiturMenu fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">HUBUNGI KAMI</a>
-            <a class="nav-link fiturMenu fitur{{ $loginActive ?? '' }}" href="{{ route('login')}}">LAPORKAN INSIDEN</a>
+            <a class="nav-link fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">Event</a>
+            <a class="nav-link fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">Hubungi Kami</a>
+            <a class="nav-link fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">Laporkan Insiden</a>
         </div>
     </div>
 </nav>
@@ -193,24 +193,15 @@
             <!-- Contact Center 172 -->
             <div style="display: flex; align-items: center; margin-bottom: 20px">
                 <img src="/img/call_foot.svg" alt="Call Footer">
-                <div style="margin-left: 10px;">
-                    <p style="margin: 0; ">Contact Center </p>
-                    <p style="margin: 0; ">172</p>
-                </div>
-                
+                <p style="margin: 10px;">Contact Center 172</p>
             </div>
         
             <!-- Informasi, Saran dan Keluhan -->
             <div style="display: flex; align-items: center;">
                 <img src="/img/write_foot.svg" alt="Write Footer">
-                <div style="margin-left: 10px;">
-                    <p style="margin: 0;">Informasi, Saran dan Keluhan: </p>
-                    <p style="margin: 0;">cc172@ap1.co.id</p>
-                </div>
+                <p style="margin: 10px;">Informasi, Saran dan Keluhan: cc172@ap1.co.id</p>
             </div>
-        
         </div>
-        
     </div>
     <div class="lowerFooter" >
         <p>© Copyright 2023 PT Angkasa Pura I</p>

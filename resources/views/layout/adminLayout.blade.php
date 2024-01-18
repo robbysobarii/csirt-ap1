@@ -32,18 +32,14 @@
 </head>
 <body>
     <!-- Sidebar Start -->
-    <div class="sidebar pe-4 pb-3 styleNav" >
+    <div class="sidebar pe-4 pb-3 styleNav">
         <nav class="navbar bg-light navbar-light">
             <a href="index.html" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary">PT Angkasa Pura I</h3>
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    @if($user && $user->profile_picture)
-                        <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . $user->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
-                    @else
-                        <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                    @endif
+                    <img class="rounded-circle" src={{ asset('img/user.png') }} alt="" style="width: 40px; height: 40px;">
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                 </div>
                 <div class="ms-3">
@@ -93,11 +89,7 @@
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    @if($user && $user->profile_picture)
-                        <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . $user->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
-                    @else
-                        <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                    @endif               
+                    <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                     <a href="{{ route('editProfil', ['id' => $user->id]) }}" class="dropdown-item">Edit Profile</a>
@@ -113,7 +105,8 @@
     </div>
 
     {{--content--}}
-    <div class="content" style="background: white; padding: 50px; ">
+
+    <div class="content">
         @yield('content')
     </div>
 

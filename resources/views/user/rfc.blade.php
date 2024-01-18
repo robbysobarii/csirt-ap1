@@ -1,5 +1,3 @@
-
-
 @extends('layout.userLayout')
 @section('title', 'RFC 2350')
 @section('content')
@@ -230,5 +228,15 @@
     <p style="margin-left: 22px">Terkait penanganan jenis insiden, menyesuaikan tingkat dan dampak insiden serta ketersediaan perangkat dan sumberdaya yang dimiliki.</p>
 
 </div>
-
 @endsection
+@push('scripts')
+<script>
+    document.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+    });
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+</script>
+
+@endpush

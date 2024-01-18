@@ -14,7 +14,7 @@ class CreateContentsTable extends Migration
             $table->id();
             $table->string('judul');
             $table->text('isi_konten');
-            $table->string('gambar')->nullable();
+            $table->string('gambar');
             $table->string('type');
             $table->timestamps();
         });

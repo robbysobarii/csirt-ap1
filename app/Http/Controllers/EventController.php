@@ -9,7 +9,7 @@ class EventController extends Controller
 {
     public function getEvents()
     {
-        $events = Event::latest()->get();
+        $events = Event::all();
 
         return view('administrator.event', ['events' => $events]);
     }
@@ -24,7 +24,7 @@ class EventController extends Controller
         $event = Event::find($id);
 
         if (!$event) {
-            return response()->json(['alert' => 'Event not found'], 404);
+            return response()->json(['error' => 'Event not found'], 404);
         }
 
         return response()->json($event);
@@ -53,19 +53,21 @@ class EventController extends Controller
         $formMethod = $request->get('formMethod');
     
         if ($formMethod === "store") {
+            // Store new event
             Event::create($eventData);
     
-            return redirect()->route('admin.eventManagement')->with('alert', 'Berhasil ditambahkan');
+            return redirect()->route('admin.eventManagement')->with('success', 'New event created successfully');
         } elseif ($formMethod === "update") {
+            // Update existing event
             $event = Event::find($eventId);
     
             if (!$event) {
-                return redirect()->route('admin.eventManagement')->with('alert', 'Eror');
+                return redirect()->route('admin.eventManagement')->with('error', 'Event not found');
             }
     
             $event->update($eventData);
     
-            return redirect()->route('admin.eventManagement')->with('alert', 'Berhasil Diupdate');
+            return redirect()->route('admin.eventManagement')->with('success', 'Event updated successfully');
         }
     }
     
@@ -76,10 +78,10 @@ class EventController extends Controller
 
         if ($content) {
             $content->delete();
-            return redirect()->route('admin.eventManagement')->with('alert', 'Berhasil dihapus');
+            return redirect()->route('admin.eventManagement')->with('success', 'Content deleted successfully');
         }
 
-        return redirect()->route('admin.eventManagement')->with('alert', 'Gagal dihapus');
+        return redirect()->route('admin.eventManagement')->with('error', 'Content not found');
     }
 
 }

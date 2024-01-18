@@ -24,32 +24,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/masuk', [AuthController::class, 'showLoginForm'])->name('masuk');
+Route::post('/masuk', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/', [ContentController::class, 'getContents'])->name('user.beranda');
+
 // Route::get('/get-content/{type}', [ContentController::class, 'getContent']);
-// Route::get('/', [ContentController::class, 'getContents'])->name('user.beranda');
-// Route::get('/daftarBerita', [ContentController::class, 'listContent'])->name('daftarBerita');
-// Route::get('/berita/{id}', [ContentController::class, 'showNews'])->name('berita');
 
+Route::get('/daftarBerita', [ContentController::class, 'listContent'])->name('daftarBerita');
 
-// Route::get('/masuk', [AuthController::class, 'showLoginForm'])->name('masuk');
-// Route::post('/masuk', [AuthController::class, 'login']);
+Route::get('/berita/{id}', [ContentController::class, 'showNews'])->name('berita');
 
-
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
-Route::middleware('auth:api')->group(function () {
-    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
-    Route::post('/logout', [UserController::class, 'logout']);
-});
-
-
-Route::controller(ContentController::class)->group(function(){
-    Route::get('/', 'getContentsBeranda')->name('user.beranda');
-    Route::get('/daftarBerita', 'listContent')->name('daftarBerita');
-    Route::get('/berita/{id}', 'showNews')->name('berita');
-
-});
+Route::get('/galeri/{id}', [GalleryController::class, 'showGalery'])->name('galeri');
 
 Route::prefix('tentangKami')->name('tentangKami.')->group(function () {
     Route::get('/tentangKami/profil', function () {
@@ -67,6 +54,9 @@ Route::get('/rfc', function () {
     return view('user.rfc');
 })->name('user.rfc');
 
+Route::get('/layanan', function () {
+    return view('user.layanan');
+})->name('user.layanan');
 
 Route::prefix('layanan')->name('layanan.')->group(function () {
     Route::get('/layanan/aduanSiber', function () {
@@ -100,22 +90,27 @@ Route::get('/login', function () {
     return view('user.laporkanInsiden');
 })->name('login');
 
-Route::middleware(['api','api.auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('/admin')->middleware(['auth', 'role:Admin,Superuser'])->name('admin.')->group(function () {
     Route::get('/', [ContentController::class, 'index'])->name('contentManagement');
+
+
     Route::get('/galeryManagement', [GalleryController::class, 'index'])->name('galeryManagement');
+
     Route::get('/eventManagement', [EventController::class, 'getEvents'])->name('eventManagement');
+
     Route::get('/carouselManagement', [CarouselController::class, 'showCarousels'])->name('carousel');
+
     Route::get('/reportManagement',  [ReportsController::class, 'index'])->name('reportManagement');
 });
+
+Route::post('/admin/galleries/storeOrUpdate', [GalleryController::class, 'storeOrUpdate'])->name('galleries.storeOrUpdate');
+Route::delete('/admin/galleries/delete/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
+Route::get('/galleries/show/{id}', [GalleryController::class, 'show'])->name('gallery.show');
 
 Route::post('contents/storeOrUpdate', [ContentController::class, 'storeOrUpdate'])->name('contents.storeOrUpdate');
 Route::delete('contents/delete/{id}', [ContentController::class, 'delete'])->name('contents.delete');
 Route::get('/contents/{id}', [ContentController::class, 'show'])->name('contents.show');
 
-Route::get('/galleries/{id}', [GalleryController::class, 'showGalery'])->name('galeri');
-Route::post('/galleries/storeOrUpdate', [GalleryController::class, 'storeOrUpdate'])->name('galleries.storeOrUpdate');
-Route::delete('/galleries/delete/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
-Route::get('/galleries/show/{id}', [GalleryController::class, 'show'])->name('gallery.show');
 
 Route::post('/events/storeOrUpdate', [EventController::class, 'storeOrUpdate'])->name('events.storeOrUpdate');
 Route::delete('/events/delete/{id}', [EventController::class, 'delete'])->name('events.delete');

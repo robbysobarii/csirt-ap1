@@ -68,22 +68,20 @@ super -> usermanagement
 
 ------------------------------------------------------------
 pelapor
-pelapor bisa update keterangan, hapus selama pending -> validasi ilangin update dan hapus done
+pelapor bisa update keterangan, hapus selama pending -> validasi ilangin update dan hapus
 
 
 pimpinan
-comparison -> type done
-sorting tgl status done
-pending jam done
-pending done
-in progress done
-close done
+comparison -> type 
+sorting tgl status
+pending jam
+pending 
+in progress
+close
 download table pimpinan -> minor
 
-
-edit profile on progress
+edit profile
 gambar -> bisa update
-
 
 superuser
 password ga perlu muncul
@@ -99,16 +97,9 @@ superuser ga bisa edit dirinya di table
 
 
 
-admin done
-content admin done
-galery done
-event done
-report done
 
 
-pelapor done
 
-pimpinan
 
 
 

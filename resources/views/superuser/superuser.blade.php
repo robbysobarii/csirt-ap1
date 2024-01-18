@@ -15,6 +15,7 @@
                             <th scope="col">Role User</th>
                             <th scope="col">Nama User</th>
                             <th scope="col">Email User</th>
+                            <th scope="col">Password</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -25,6 +26,7 @@
                                 <td>{{ $user->role_user }}</td>
                                 <td>{{ $user->nama_user }}</td>
                                 <td>{{ $user->email_user }}</td>
+                                <td>{{ $user->password }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal('update', {{ $user->id  }})">Edit</button>
                                     <form action="{{ route('users.delete', ['id' => $user->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?')">
@@ -47,11 +49,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah User</h5>
+                <h5 class="modal-title">Tambah Konten</h5>
             </div>
             <div class="modal-body">
                 <form action="{{ route('users.storeOrUpdate') }}" method="post" enctype="multipart/form-data" id="editForm">
                     @csrf
+                    <!-- Add formMethod and user_id input fields -->
                     <input type="hidden" name="formMethod" id="formMethod" value="store">
                     <input type="hidden" name="user_id" id="user_id">
                     <div class="mb-3">
@@ -72,14 +75,8 @@
                         <input type="email" class="form-control" id="email_user" name="email_user">
                     </div>
                     <div class="mb-3">
-                        <label for="password">New Password</label>
-                        <input type="password" class="form-control" id="password" name="password" oninput="checkPasswordStrength()">
-                        <div id="passwordStrength" class="text-muted"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm_password">Confirm New Password</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" oninput="checkPasswordMismatch()">
-                        <div id="passwordMismatch" class="text-danger"></div>
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -96,18 +93,19 @@
     function tampilkanModal(action, id = null) {
         $('#tambahKontenModal').modal('show');
 
+        // Set the form method and action based on the provided action
         if (action === 'store') {
+            // For creating a new user, reset the form
             $('#role_user').val('Pelapor');
             $('#nama_user').val('');
             $('#email_user').val('');
             $('#password').val('');
-            $('#passwordStrength').text('');
-            $('#passwordMismatch').text('');
 
             $('#editForm').attr('method', 'post');
             $('#editForm').attr('action', '{{ route("users.storeOrUpdate") }}');
             $('#formMethod').val('store');
         } else if (action === 'update' && id) {
+            // For updating an existing user, fetch the existing data using AJAX
             $.ajax({
                 url: "{{ url('/users/show/') }}" + '/' + id,
                 type: 'GET',
@@ -115,14 +113,23 @@
                     if (data.error) {
                         console.error(data.error);
                     } else {
+                        // Fill the form fields with the existing data
                         $('#role_user').val(data.role_user);
                         $('#nama_user').val(data.nama_user);
                         $('#email_user').val(data.email_user);
+                        $('#password').val(data.password);
                         
+
+                        // Note: I removed the password field for security reasons
+
+                        // Set the user_id for updating
                         $('#user_id').val(id);
 
+                        // Update the form method to the update route
                         $('#editForm').attr('method', 'post');
+                        // Remove the existing '/id' from the action
                         $('#editForm').attr('action', '{{ route("users.storeOrUpdate") }}');
+                        // Update the form method to 'update'
                         $('#formMethod').val('update');
                     }
                 },
@@ -133,67 +140,10 @@
         }
     }
 
-    function checkPasswordStrength() {
-        var password = $('#password').val();
-        var strength = 0;
-
-        // Check the password strength and update the indicator
-        if (password.match(/[a-z]+/)) {
-            strength += 1;
-        }
-        if (password.match(/[A-Z]+/)) {
-            strength += 1;
-        }
-        if (password.match(/[0-9]+/)) {
-            strength += 1;
-        }
-        if (password.match(/[$@#&!]+/)) {
-            strength += 1;
-        }
-
-        if (password.length < 8) {
-            strength = 0;
-        }
-
-        switch (strength) {
-            case 0:
-                $('#passwordStrength').text('');
-                break;
-            case 1:
-                $('#passwordStrength').text('Weak');
-                break;
-            case 2:
-                $('#passwordStrength').text('Moderate');
-                break;
-            case 3:
-            case 4:
-                $('#passwordStrength').text('Strong');
-                break;
-        }
+    function tutupModal() {
+        // Use direct dismissal without relying on a click event
+        $('#tambahKontenModal').modal('hide');
     }
-
-    function checkPasswordMismatch() {
-        var password = $('#password').val();
-        var confirm_password = $('#confirm_password').val();
-
-        if (password !== confirm_password) {
-            $('#passwordMismatch').text('Password tidak sesuai.');
-        } else {
-            $('#passwordMismatch').text('');
-        }
-    }
-
-    // $('#editForm').submit(function (event) {
-    //     var password = $('#password').val();
-    //     var confirm_password = $('#confirm_password').val();
-
-    //     if (password !== confirm_password) {
-    //         $('#passwordMismatch').text('Password tidak sesuai.');
-    //         event.preventDefault();
-    //     } else {
-    //         $('#passwordMismatch').text('');
-    //     }
-    // });
 </script>
 @endpush
 

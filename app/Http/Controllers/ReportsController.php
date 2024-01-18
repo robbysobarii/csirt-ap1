@@ -13,12 +13,8 @@ class ReportsController extends Controller
 {
     public function index()
     {
-        try {
-            $reports = Reports::latest()->get();
-            $auth = auth()->user();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        $reports = Reports::all();
+        $auth = auth()->user();
 
         return view('administrator.report', compact('reports', 'auth'));
     }
@@ -67,45 +63,20 @@ class ReportsController extends Controller
 
         return redirect()->route('admin.reportManagement')->with('error', 'User not found');
     }
-    public function deletePelapor($id)
-    {
-        $user = Reports::find($id);
-
-        if ($user) {
-            try {
-                $user->delete();
-                return redirect()->route('admin.reportManagement')->with('success', 'Deleted successfully');
-            } catch (\Exception $e) {
-                return redirect()->route('admin.reportManagement')->with('error', 'Failed to delete');
-            }
-        }
-
-        return redirect()->route('pelapor.reportPelapor')->with('error', 'User not found');
-    }
     public function indexPelapor()
     {
         $auth = auth()->user();
-        $reports = Reports::where('user_id', $auth->id)
-                        ->latest() // Order by the created_at timestamp in descending order
-                        ->get();
+        $reports = Reports::where('user_id', $auth->id)->get();
 
-        return view('pelapor.pelapor', compact('reports', 'auth'));
+        return view('pelapor.pelapor', compact('reports','auth'));
     }
-
     public function indexPimpinan()
     {
-        try {
-            $auth = auth()->user();
-            $reports = Reports::all();
-    
-            return view('pimpinan.dataReport', compact('reports', 'auth'));
-        } catch (\Exception $e) {
-            // Log or display the error
-            dd($e->getMessage());
-        }
-    }
-    
+        $auth = auth()->user();
+        $reports = Reports::all();
 
+        return view('pimpinan.dataReport', compact('reports', 'auth'));
+    }
     public function showDashboard()
     {
         $reports = Reports::all();
@@ -142,30 +113,32 @@ class ReportsController extends Controller
 
             // Update the report with the new image
             $report->update([
+                'user_id' => $request->user_id,
+                'satker' => $request->satker,
                 'tanggal' => $request->tanggal,
                 'insiden_type' => $request->insiden_type,
                 'keterangan' => $request->keterangan,
                 'penanganan' => $request->penanganan,
+                'nama_user' => $user->nama_user,
                 'status' => $request->status,
                 'bukti' => $imageName,
             ]);
         } else {
             // No new image provided, update the report without changing the existing image
-            // Keep the original values of satker and nama_user
             $report->update([
-                'satker' => $report->satker,
-                'nama_user' => $report->nama_user,
+                'user_id' => $request->user_id,
+                'satker' => $request->satker,
                 'tanggal' => $request->tanggal,
                 'insiden_type' => $request->insiden_type,
                 'keterangan' => $request->keterangan,
                 'penanganan' => $request->penanganan,
+                'nama_user' => $user->nama_user,
                 'status' => $request->status,
             ]);
         }
 
         return back()->with('success', 'Laporan berhasil ditambahkan');
     }
-
     public function show($id)
     {
         $report = Reports::find($id);

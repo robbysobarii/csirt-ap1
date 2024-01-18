@@ -5,7 +5,6 @@
         <div class="bg-light rounded h-100 p-4">
             <h2 class="mb-4 text-center">Data Laporan</h2>
             <div class="table-responsive">
-                @if(count($reports) > 0)
                 <table class="table align-middle text-center">
                     <thead>
                         <tr>
@@ -22,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($reports as $report)
+                        @foreach($reports as $report)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $report->satker }}</td>
@@ -34,7 +33,7 @@
                             <td>{{ $report->status }}</td>
                             <td>
                                 @if($report->bukti)
-                                    <img src="{{ Storage::url('/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                    <img src="{{ Storage::url('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
                                 @else
                                     No Image
                                 @endif
@@ -50,13 +49,8 @@
                             
                         </tr>
                     @endforeach
-                        
-                        
                     </tbody>
                 </table>
-                @else
-                    <p class="text-center">No data available</p>
-                @endif
             </div>
         </div>
     </div>
@@ -67,7 +61,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Laporan</h5>
+                <h5 class="modal-title">Update Konten</h5>
             </div>
             <div class="modal-body">
                 <form action="{{ route('report.update') }}" method="post" enctype="multipart/form-data">
@@ -78,12 +72,11 @@
                     
                     <div class="mb-3">
                         <label for="satker">SATKER</label>
-                        <input class="form-control" type="text" name="satker" id="satker" value="{{ $report->satker }}" readonly>
-
+                        <input class="form-control" type="text" name="satker" id="satker" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="nama_user">Nama User</label>
-                        <input class="form-control" type="text" name="nama_user" id="nama_user" value="{{ $report->nama_user }}" readonly >
+                        <input class="form-control" type="text" name="nama_user" id="nama_user" readonly >
                     </div>
                     <div class="mb-3">
                         <label for="tanggal">Tanggal</label>
@@ -97,7 +90,6 @@
                             <option value="Phishing">Serangan Phishing</option>
                             <option value="SQL Injection">Serangan SQL Injection</option>
                             <option value="Web Defacement">Web Defacement</option>
-                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -112,7 +104,7 @@
                         <label for="status">Status</label>
                         <select class="form-control" id="status" name="status" required>
                             <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
+                            <option value="Ditangani">Ditangani</option>
                             <option value="Close">Close</option>
                         </select>
                     </div>
@@ -139,6 +131,8 @@
 
         $('#tambahKontenModal').modal('show');
         $('#report_id').val(report.id);
+        $('#satker').val(report.satker);
+        $('#nama_user').val(report.nama_user);
         $('#tanggal').val(report.tanggal);
         $('#insiden_type').val(report.insiden_type);
         $('#keterangan').val(report.keterangan);

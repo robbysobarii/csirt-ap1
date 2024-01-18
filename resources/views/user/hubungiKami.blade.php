@@ -2,7 +2,7 @@
 @section('title', 'Hubungi Kami')
 @section('content')
 
-<div class="container" style="padding-top: 130px">
+<div class="container" style="padding-top: 120px">
     <h3>Hubungi Kami</h3>
     <hr style="margin-bottom: 30px">
 
