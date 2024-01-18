@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthApi
 {
@@ -16,16 +15,10 @@ class AuthApi
      */
     public function handle(Request $request, Closure $next): Response
     {
-        try {
-            $token = JWTAuth::parseToken()->authenticate();
-            if (!$token) {
-                throw new \Exception('User not found');
-            }
-        } catch (\Exception $e) {
+        if (!auth()->user()) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $next($request);
     }
-
 }

@@ -12,12 +12,10 @@ class Role
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$role)
+    public function handle(Request $request, Closure $next, string ...$role): Response
     {
-        $user = auth()->user();
-
         // Check if the requested route is the login route
         if ($request->routeIs('user.laporkanInsiden')) {
             // Allow access to the login route
@@ -25,8 +23,8 @@ class Role
         }
 
         // Check if the user is authenticated
-        if ($user) {
-            $roleUser = $user->role_user;
+        if (auth()->check()) {
+            $roleUser = auth()->user()->role_user;
 
             // Check if the user has the required role
             if (in_array($roleUser, $role)) {

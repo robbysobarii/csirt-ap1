@@ -102,7 +102,7 @@ Route::get('/login', function () {
     return view('user.laporkanInsiden');
 })->name('user.laporkanInsiden');
 
-Route::prefix('/admin')->middleware(['api', 'api.auth'])->name('admin.')->group(function () {
+Route::prefix('/admin')->middleware(['auth', 'role:Admin'])->name('admin.')->group(function () {
     Route::get('/', [ContentController::class, 'index'])->name('contentManagement');
     Route::get('/galeryManagement', [GalleryController::class, 'index'])->name('galeryManagement');
     Route::get('/eventManagement', [EventController::class, 'getEvents'])->name('eventManagement');

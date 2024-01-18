@@ -105,7 +105,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                     <a href="{{ route('editProfil', ['id' => auth()->user()->id]) }}" class="dropdown-item">Edit Profile</a>
-                    <form  method="post">
+                    <form action="{{ route('logout') }}" method="post">
                         @csrf
                         <button type="submit" class="dropdown-item">Log Out</button>
                     </form>
