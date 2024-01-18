@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
@@ -15,7 +15,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('api.auth', ['except' => ['login']]);
     }
 
     /**
@@ -23,13 +23,13 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only(['email', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        }              
 
         return $this->respondWithToken($token);
     }
@@ -41,8 +41,9 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth('api')->user());
     }
+    
 
     /**
      * Log the user out (Invalidate the token).
@@ -77,6 +78,25 @@ class AuthController extends Controller
     {
         $user = auth()->user();
 
+        $redirectRoute = '';
+
+        switch ($user->role_user) {
+            case 'Admin':
+                $redirectRoute = route('admin.contentManagement');
+                break;
+            case 'Pelapor':
+                $redirectRoute = route('pelapor.reportPelapor');
+                break;
+            case 'Pimpinan':
+                $redirectRoute = route('pimpinan.dashboard');
+                break;
+            case 'Superuser':
+                $redirectRoute = route('superuser');
+                break;
+            default:
+                $redirectRoute = route('user.beranda');
+        }
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
@@ -86,6 +106,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'role_user' => $user->role_user, 
             ],
+            'redirect_route' => $redirectRoute,
         ]);
     }
 }

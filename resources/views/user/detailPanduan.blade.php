@@ -1,4 +1,4 @@
-<!-- DetailPanduan.blade.php -->
+<!-- detailPanduanList.blade.php -->
 @extends('layout.userLayout')
 @section('title', 'Layanan | Panduan Teknis')
 @section('content')

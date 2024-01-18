@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\Role as ControllersRole;
+use App\Http\Controllers\RoleController;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +12,14 @@ class Role
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Closure  $next
+     * @param  string  ...$role
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, string ...$role): Response
+    public function handle(Request $request, Closure $next, ...$role): Response
     {
         // Check if the requested route is the login route
-        if ($request->routeIs('user.laporkanInsiden')) {
+        if ($request->routeIs('login')) {
             // Allow access to the login route
             return $next($request);
         }
@@ -32,11 +34,11 @@ class Role
             }
 
             // Redirect based on the user's role
-            return redirect()->route(ControllersRole::redirectBasedOnRole($roleUser));
+            return redirect()->route(RoleController::redirectBasedOnRole($roleUser));
         }
 
         // If the user is not authenticated and not accessing the login route,
         // you can handle it accordingly, for example, redirect to the login page.
-        return redirect()->route('user.laporkanInsiden');
+        return redirect()->route('login');
     }
 }

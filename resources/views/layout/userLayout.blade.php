@@ -137,7 +137,7 @@
 
             <a class="nav-link fiturMenu fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">EVENT</a>
             <a class="nav-link fiturMenu fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">HUBUNGI KAMI</a>
-            <a class="nav-link fiturMenu fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">LAPORKAN INSIDEN</a>
+            <a class="nav-link fiturMenu fitur{{ $loginActive ?? '' }}" href="{{ route('login')}}">LAPORKAN INSIDEN</a>
         </div>
     </div>
 </nav>

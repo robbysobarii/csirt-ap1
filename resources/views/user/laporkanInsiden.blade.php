@@ -52,12 +52,12 @@
                 <h2 style="font-size: 20px; margin: 0; padding: 0;">LAPORKAN INSIDEN</h2>
             </div>
             <div class="login-form">
-                <form id="loginForm" method="post">
+                <form id="loginForm" method="post" onsubmit="submitForm(event)">
                     @csrf
                     <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                     <p style="font-size: 10px; color:#323232">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
-                    <button onclick="submitForm()">Login</button>
+                    <button type="submit">Login</button>
                 </form>
             </div>
         </div>
@@ -71,53 +71,13 @@
                 alert('Anda telah mencapai batas percobaan login maksimum. Silakan tunggu selama 20 detik.');
             </script>
         @endif
-
-        @if (isset($token) && isset($role_user))
-            <script>
-                console.log('Token and Role_user are set. Redirecting...');
-                var token = "{{ $token }}";
-                var role_user = "{{ $role_user }}";
-                
-                // Simulate the response data for testing
-                var responseData = {
-                    access_token: token,
-                    user: {
-                        role_user: role_user
-                    }
-                };
-
-                // Log the entire response for debugging
-                console.log('Login response:', responseData);
-
-                var redirectRoute;
-
-                switch (responseData.user.role_user) {
-                    case 'Admin':
-                        redirectRoute = "{{ route('admin.contentManagement') }}";
-                        break;
-                    case 'Pelapor':
-                        redirectRoute = "{{ route('pelapor.reportPelapor') }}";
-                        break;
-                    case 'Pimpinan':
-                        redirectRoute = "{{ route('pimpinan.dashboard') }}";
-                        break;
-                    case 'Superuser':
-                        redirectRoute = "{{ route('superuser') }}";
-                        break;
-                    default:
-                        redirectRoute = "{{ route('user.beranda') }}";
-                }
-
-                // Set the values to data attributes
-                document.getElementById('loginForm').setAttribute('data-token', token);
-                document.getElementById('loginForm').setAttribute('data-role-user', role_user);
-                document.getElementById('loginForm').setAttribute('data-redirect-route', redirectRoute);
-            </script>
-        @endif
     </div>
 
     <script>
-        function submitForm() {
+        async function submitForm(e) {
+            e.preventDefault();
+            var token = localStorage.getItem('token');
+
             var emailInput = document.getElementById('email');
             var passwordInput = document.getElementById('password');
 
@@ -126,19 +86,32 @@
                 return;
             }
 
-            fetch('{{ url('api/auth/login') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                },
-                body: JSON.stringify({
-                    email: emailInput.value,
-                    password: passwordInput.value,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                console.log(token);
+                const response = await fetch('{{ url('api/auth/login') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    body: JSON.stringify({
+                        email: emailInput.value,
+                        password: passwordInput.value,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Invalid content type. Expected JSON.');
+                }
+
+                const data = await response.json();
+
                 console.log('Login response:', data);
 
                 if (data.error) {
@@ -147,78 +120,14 @@
                     localStorage.setItem('token', data.access_token);
                     localStorage.setItem('role_user', data.user.role_user);
 
-                    var redirectRoute;
-
-                    switch (data.user.role_user) {
-                        case 'Admin':
-                            redirectRoute = "{{ route('admin.contentManagement') }}";
-                            break;
-                        case 'Pelapor':
-                            redirectRoute = "{{ route('pelapor.reportPelapor') }}";
-                            break;
-                        case 'Pimpinan':
-                            redirectRoute = "{{ route('pimpinan.dashboard') }}";
-                            break;
-                        case 'Superuser':
-                            redirectRoute = "{{ route('superuser') }}";
-                            break;
-                        default:
-                            redirectRoute = "{{ route('user.beranda') }}";
-                    }
-
-                    window.location.href = redirectRoute;
-                    console.log(data.role_user);
-                    console.log(redirectRoute);
-<<<<<<< HEAD
-
-            <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
-        </div>
-        @if ($errors->has('popup'))
-            <script>
-                alert('Anda telah mencapai batas percobaan login maksimum. Silakan tunggu selama 20 detik.');
-            </script>
-        @endif
-    </div>
-
-    <script>
-        function submitForm() {
-            var emailInput = document.getElementById('email');
-            var passwordInput = document.getElementById('password');
-
-            if (!emailInput.value.endsWith('@gmail.com')) {
-                alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
-                return;
-            }
-
-            fetch('{{ route('login') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                },
-                body: JSON.stringify({
-                    email: emailInput.value,
-                    password: passwordInput.value,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error); // Display any error message from the server
-                } else {
-                    localStorage.setItem('token', data.token);
-                    var redirectRoute = data.redirect_route || "{{ route('user.beranda') }}";
-                    window.location.href = redirectRoute;
-
-=======
->>>>>>> parent of 1769ad2 (login)
+                    window.location.replace(data.redirect_route);
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error during login:', error);
-                alert('Login gagal. Silakan coba lagi.');
-            });
+                alert('Login failed. Please try again.');
+            }
         }
+
     </script>
 </body>
 </html>
