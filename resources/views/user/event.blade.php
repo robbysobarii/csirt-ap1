@@ -9,21 +9,21 @@
     <table class="table" style="border-collapse: collapse; width: 100%; margin: auto;">
         <thead>
             <tr>
-                <th>Acara</th>
-                <th>Deskripsi</th>
-                <th>Tanggal Awal</th>
-                <th>Tanggal Akhir</th>
-                <th>Tempat</th>
+                <th><h5>Acara</h5></th>
+                <th><h5>Deskripsi</h5></th>
+                <th><h5>Tanggal Awal</h5></th>
+                <th><h5>Tanggal Akhir</h5></th>
+                <th><h5>Tempat</h5></th>
             </tr>
         </thead>
         <tbody>
             @foreach ($events as $event)
             <tr>
-                <td>{{ $event->name }}</td>
-                <td>{{ $event->description }}</td>
-                <td>{{ $event->start_date }}</td>
-                <td>{{ $event->end_date }}</td>
-                <td>{{ $event->location }}</td>
+                <td><p>{{ $event->name }}</p></td>
+                <td><p>{{ $event->description }}</p></td>
+                <td><p>{{ $event->start_date }}</p></td>
+                <td><p>{{ $event->end_date }}</p></td>
+                <td><p>{{ $event->location }}</p></td>
             </tr>
             @endforeach
         </tbody>

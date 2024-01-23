@@ -2,7 +2,7 @@
 @section('title', 'Layanan | Panduan Teknis')
 @section('content')
 <div class="container">
-    <div class="breadcrumb" style="padding-top: 100px; margin-bottom: 0;">
+    <div class="breadcrumb breadTop" >
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Layanan</li>
             <li class="breadcrumb-item active" aria-current="page"><a href="#">Panduan Teknis</a></li>
@@ -18,34 +18,34 @@
     <table class="table" style="border-collapse: collapse; width: 100%; margin: auto;">
         <tbody>
             <tr>
-                <td style="border-bottom: 1px solid #dee2e6;">
-                    <a href="{{ route('detailPanduanList', ['filename' => 'panduan_malware.pdf', 'name' => 'Panduan Penanganan Insiden Malware']) }}">Panduan Penanganan Insiden Malware</a>
-                    <span id="file_size_panduan_malware" style="float: right;">(PDF - Loading...)</span>
+                <td style="border-bottom: 1px solid #dee2e6;display: flex;justify-content: space-between;align-content: center">
+                    <a href="{{ route('detailPanduan', ['filename' => 'panduan_malware.pdf', 'name' => 'Panduan Penanganan Insiden Malware']) }}" style="margin: 0;padding: 0"><p>Panduan Penanganan Insiden Malware</p></a>
+                    <span id="file_size_panduan_malware" style="float: right;"><p>(PDF - Loading...)</p></span>
                 </td>
             </tr>
             <tr>
 
-                <td style="border-bottom: 1px solid #dee2e6;">
-                    <a href="{{ route('detailPanduanList', ['filename' => 'panduan_ddos.pdf', 'name' => 'Panduan Penanganan Insiden Serangan DDoS']) }}">Panduan Penanganan Insiden Serangan DDoS</a>
-                    <span id="file_size_panduan_ddos" style="float: right;">(PDF - Loading...)</span>
+                <td style="border-bottom: 1px solid #dee2e6;display: flex;justify-content: space-between;align-content: center">
+                    <a href="{{ route('detailPanduan', ['filename' => 'panduan_ddos.pdf', 'name' => 'Panduan Penanganan Insiden Serangan DDoS']) }}" style="margin: 0;padding: 0"><p>Panduan Penanganan Insiden Serangan DDoS</p></a>
+                    <span id="file_size_panduan_ddos" style="float: right;"><p>(PDF - Loading...)</p></span>
                 </td>
             </tr>
             <tr>
-                <td style="border-bottom: 1px solid #dee2e6;">
-                    <a href="{{ route('detailPanduanList', ['filename' => 'panduan_phishing.pdf', 'name' => 'Panduan Penanganan Insiden Serangan Phishing']) }}">Panduan Penanganan Insiden Serangan Phishing</a>
-                    <span id="file_size_panduan_phising" style="float: right;">(PDF - Loading...)</span>
+                <td style="border-bottom: 1px solid #dee2e6;display: flex;justify-content: space-between;align-content: center">
+                    <a href="{{ route('detailPanduan', ['filename' => 'panduan_phishing.pdf', 'name' => 'Panduan Penanganan Insiden Serangan Phishing']) }}" style="margin: 0;padding: 0"><p>Panduan Penanganan Insiden Serangan Phishing</p></a>
+                    <span id="file_size_panduan_phising" style="float: right;"><p>(PDF - Loading...)</p></span>
                 </td>
             </tr>
             <tr>
-                <td style="border-bottom: 1px solid #dee2e6;">
-                    <a href="{{ route('detailPanduanList', ['filename' => 'panduan_sql_injection.pdf', 'name' => 'Panduan Penanganan Insiden Serangan SQL Injection']) }}">Panduan Penanganan Insiden Serangan SQL Injection</a>
-                    <span id="file_size_panduan_injection" style="float: right;">(PDF - Loading...)</span>
+                <td style="border-bottom: 1px solid #dee2e6;display: flex;justify-content: space-between;align-content: center">
+                    <a href="{{ route('detailPanduan', ['filename' => 'panduan_sql_injection.pdf', 'name' => 'Panduan Penanganan Insiden Serangan SQL Injection']) }}" style="margin: 0;padding: 0"><p>Panduan Penanganan Insiden Serangan SQL Injection</p></a>
+                    <span id="file_size_panduan_injection" style="float: right;"><p>(PDF - Loading...)</p></span>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <a href="{{ route('detailPanduanList', ['filename' => 'panduan_web_defacement.pdf', 'name' => 'Panduan Penanganan Insiden Web Defacement']) }}">Panduan Penanganan Insiden Web Defacement</a>
-                    <span id="file_size_panduan_defacement" style="float: right;">(PDF - Loading...)</span>
+                <td style="display: flex;justify-content: space-between;align-content: center">
+                    <a href="{{ route('detailPanduan', ['filename' => 'panduan_web_defacement.pdf', 'name' => 'Panduan Penanganan Insiden Web Defacement']) }}" style="margin: 0;padding: 0"><p>Panduan Penanganan Insiden Web Defacement</p></a>
+                    <span id="file_size_panduan_defacement" style="float: right;"><p>(PDF - Loading...)</p></span>
                 </td>
             </tr>
         </tbody>

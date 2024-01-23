@@ -11,8 +11,8 @@ class CreateCarouselsTable extends Migration
     {
         Schema::create('carousels', function (Blueprint $table) {
             $table->id();
-            $table->string('heading_caption')->nullable()->change();;
-            $table->string('caption')->nullable()->change();;
+            $table->string('heading_caption')->nullable();;
+            $table->string('caption')->nullable();;
             $table->string('image_path'); // You may want to store the path or URL of the image
             $table->timestamps();
         });

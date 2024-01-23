@@ -18,9 +18,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Atur font untuk seluruh body */
             font-family: 'Open Sans', sans-serif;
             box-sizing: border-box;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            text-align: center;
+            color: rgba(0, 114, 185, 0.90);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: rgba(0, 114, 185, 0.90);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -32,9 +53,9 @@
                 <p style="margin: 0;padding: 0;">SISTEM LAPORKAN INSIDEN</p>
             </div>
             <div class="login-form">
-                <form id="loginForm" method="post" action="{{ route('masuk') }}">
+                <form id="loginForm" method="post"action="{{ url('/masuk') }}" >
                     @csrf
-                    <input type="email" name="email_user" id="email_user" class="form-control" placeholder="Email" required>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                     <p style="font-size: 10px; color:#323232">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
                     <button type="submit">Login</button>
@@ -43,7 +64,7 @@
         </div>
         <div class="right-box">
             <!-- Tambahkan elemen untuk gambar -->
-            <img src="img/loginGambar.svg" alt="Login Image" style="max-height: 100%; max-width: 100%;">
+            <img src="img/loginGambar.svg" alt="Login Image" class="img-fluid" style="max-height: 100%; max-width: 100%;">
             <!-- Tambahkan tautan kembali ke beranda -->
             <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
         </div>
@@ -51,7 +72,7 @@
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
-            var emailInput = document.getElementById('email_user');
+            var emailInput = document.getElementById('email');
             if (!emailInput.value.endsWith('@gmail.com')) {
                 alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
                 event.preventDefault(); // Mencegah form dari pengiriman jika email tidak valid

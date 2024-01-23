@@ -3,48 +3,107 @@ body {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    font-family: 'Inter', sans-serif !important; 
 }
-
+pre{    
+    font-family: 'Inter', sans-serif !important; 
+}
 .navbarBG {
-    background: rgba(0, 114, 185, 0.72) !important;
+    background: rgba(0, 114, 185, 0.80)!important;
+}
+.navbar-toggler-icon {
+    border-radius: 2px; 
+    font-size: 15px;
+}
+.navbar-toggler{
+    margin-right: 10px;
+}
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    box-shadow: none;
+    outline: none; 
 }
 
-.navbar-logo{
-    margin-right: auto;
+.navbar-logo {
+    width: 30%; 
 }
-.navbar-nav .dropdown-menu {
-    background-color: rgba(229, 239, 254, 0.8);
+.navbar {
+    padding: 10px;
+    background-color: rgba(0, 114, 185, 0.80);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.navbar-nav .dropdown-menu {
-    background-color: rgba(229, 239, 254, 0.8);
+.navbar-logo img {
+    width: 100%;
+    height: auto;
 }
 
-.navbar-nav .dropdown-menu a {
+.navbar-toggler {
+    background-color: #fff;
+}
+
+.navbar-toggler-icon {
+    border-radius: 2px;
+    font-size: 15px;
+    color: #0072B9;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-nav { 
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-item {
+    font-size: 15px;
+    margin-left: 10px; 
+}
+.nav-link {
+    font-size: 15px;
+    color: #0D2E5B;
+    text-decoration: none;
+}
+
+.dropdown {
     position: relative;
-    display: block;
-    text-align: center; 
-    padding: 10px 0; 
-    color: #0D2E5B;; 
+    display: inline-block;
 }
 
-.navbar-nav .dropdown-menu a::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 10%; 
-    width: 80%; 
-    height: 1px; 
-    background-color: #ABC9D7;
-}
-
-.navbar-nav .dropdown-menu a:hover {
-    background-color: #66B82E; 
-    color: #fff; 
-}
-
-.navbar-nav .dropdown-menu a:last-child::after {
+.dropdown-content {
     display: none;
+    position: absolute;
+    background-color: rgba(229, 239, 254, 0.8);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+
+.dropdown-content a {
+    color: #0D2E5B;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #66B82E;
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .nav-link {
+    color: #66B82E;
 }
 .navbar-nav .fitur p {
     margin-bottom: 0;
@@ -52,18 +111,15 @@ body {
 .fitur {
     color: #FFF !important;
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     line-height: normal;
-    margin-left: 30px;
-}
-.fiturNav{
-    width: 70%;
+    margin-left: 20px;
 }
 .bg{
     background-color: white;
-    padding-bottom: 100px;
+    padding-bottom: 50px;
 }
 .overlay-text {
     position: absolute;
@@ -76,10 +132,6 @@ body {
     align-items: center;
     justify-content: center;
 }
-.carousel-item{
-    opacity: 90%;
-}
-
 .carousel-control-prev,
 .carousel-control-next {
     color: #66B82E !important;
@@ -94,37 +146,20 @@ body {
     height: 40%;
     justify-content: center;
 }
-
 .containerAJudul{
-    background-color: #66B82E;
+    background-color: rgba(102, 184, 46, 0.75); 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    opacity: 75%;
     bottom: 0;
 
 }
 .containerAJudul h4{
     color: white;
     margin-block:auto ;
-}
-.search-container {
-    position: relative;
+    margin-left: 60px;
 }
 
-.search-bar {
-    border: none;
-    border-radius: 20px;
-    width: 100%;
-}
-
-.search-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    color: #333; /* You can change the color as needed */
-}
 .containerContent{
     margin-top: 40px;
     display: flex;
@@ -139,10 +174,11 @@ hr{
 .main{
     display: flex;
     flex-direction: row;
-    margin-bottom: 100px;
+    justify-content: space-around;
+    box-sizing: border-box;
 }
 .kiri{
-    padding: 30px;
+    margin-top: 30px;
 }
 .kanan{
     background-color: rgba(234, 241, 255, 0.4);
@@ -153,10 +189,9 @@ hr{
 }
 .selengkap{
     color: #0072B9;
-    margin-top: 80px;
 }
 .contentBerita{
-    padding: 10px;
+    padding: 15px;
     text-align: center;
 }
 .selengkapKanan{
@@ -169,74 +204,87 @@ hr{
     text-align: center;
     width: 100%;
 }
+.lihatSemuaSatu{
+    background-color: #E5EFFE;
+    color: #0072B9;    
+    margin-top: 30px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
 .carousel-inner-galery {
     display: flex;
-    transition: transform 0.5s ease;
-    overflow-x: auto;
-    width: 80%;
-    margin: auto;
-    
+    overflow: hidden; 
 }
 
 .carousel-item-galery {
-    flex: 0 0 auto;
-    margin-right: 1px;
-    width: 20%;
-    word-wrap: break-word;
+    max-height: 300px;
+    width: 30%; 
+    margin-right: 1%; 
+    box-sizing: border-box;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
+    transition: transform 0.5s ease-in-out; 
 }
-.bgGalery{
-    background-color: rgba(0, 0, 0, 0.35);
+
+
+.carousel-item-galery img {
+    object-fit: cover;
+    max-height: 200px !important;
+    max-width: 270px;
+    margin: auto;
+}
+
+.bgGalery {
+    background-color: rgba(0, 0, 0, 0.75); 
     padding: 10px;
     text-align: justify;
     position: absolute;
     bottom: 0;
     width: 100%;
+    opacity: 0; 
+    transition: opacity 0.3s ease-in-out;
 }
 
-.footer{
-    
-    background: linear-gradient(180deg, #015EC5 0%, #002E6E 100%);
+.carousel-item-galery:hover .bgGalery {
+    opacity: 1; 
 }
 
-.lowerFooter{
-    width: 100%;    
-    justify-content: center;
-    align-items: center;
-    position: relative;
+.bgGalery p {
     color: white;
-    display: flex;
-    padding-top: 20px;
+}
 
+.carousel-control-prev-galery,
+.carousel-control-next-galery {
+    position: absolute;
+    display: flex;
+    margin: auto;
+    z-index: 1;
+    font-size: 24px;
+    background-color: transparent;
+    color: #66B82E !important;
+    font-size: 30px;
+    border: none;
 }
-.highFooter{
-    color: white; 
-    padding: 20px; 
+
+.carousel-control-prev-galery {
+    left: 0;
 }
+
+.carousel-control-next-galery {
+    right: 0;
+}
+
+
+
 .konten{
     display: flex;
     flex-direction: row;
-}
-.profilKiri{
-    background-color: #F5F9FF;
-    width: 30%;
-    padding: 30px;
-    color: rgba(0, 0, 0, 0.8);
-    text-align: justify;
-}
-.profilKanan{
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    margin-inline: auto;
-    width: 70%;
-    text-align: center;
 }
 
 .green-box-list h4 {
     margin-bottom: 10px;
 }
-
 .green-box-list ul {
     list-style-type: none; 
     padding: 0;
@@ -247,27 +295,328 @@ hr{
     padding-left: 40px; 
     margin-bottom: 5px;
 }
-
 .green-box-list li::before {
     content: "\25A0"; 
     color: #66B82E; 
     font-size: 20px; 
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
     margin-right: 5px; 
-}
-
-.profil > .konten > div {
-    margin-right: 20px;
 }
 .layanan{
     margin-top: 30px;
+    margin-inline:0 ;
+    padding: 0;
 }
+
 .layanan li{
-    margin: 10px;
+    padding: 0;
+    margin: 0;
 }
 .alamat{
     padding-bottom: 20px;
 }
+
+.galery-head{
+    position: relative; 
+    margin: 0;
+    padding: 0; 
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+.footer {
+    background: linear-gradient(180deg, #015EC5 0%, #002E6E 100%);
+}
+.lowerFooter{
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: white;
+    display: flex;
+
+}
+.highFooter {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 30px;
+    padding-left: 100px;
+    color: white;
+}
+.satu, .dua{
+    padding-top: 50px;
+}
+.tiga{
+    display: flex;
+    border-left: 1px solid #fff; 
+    justify-content: center;
+    flex-direction: column;
+    width: 28%;
+    padding-left: 50px;
+    padding-bottom: 30px;
+}
+.tiga img{
+    width: 70%;
+}
+.empat {
+    width: 30%;
+}
+.satu h6, .dua h6{
+    color: white;
+    margin-bottom: 20px;
+}
+
+.satu a, .dua a{
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.tiga h6{
+    margin-top: 30px;
+    color: white;
+}
+
+.social {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.social a {
+    padding-right: 7px;
+    font-size: 18px; 
+    color: white;
+}
+.empat{
+    display: flex; 
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contactFoot{
+    display: flex;
+}
+.contactFoot p{
+    padding: 10px;
+    width: 90%;
+}
+.infoFoot{
+    display: flex;
+}
+.infoFoot p{
+    padding: 10px;
+    width: 90%;
+}
+
+.breadTop{
+    padding-top: 130px; 
+    margin-bottom: 0;
+}
+.rfc{
+    padding-top: 130px;
+    width: 80%;
+}
+.rfc h4 {
+    margin-top: 25px;
+    margin-left: 0; 
+    font-size: 21px;
+}
+
+.rfc h5 {
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.rfc h6 {
+    margin-top: 10px;
+    margin-left: 80px;
+}
+
+.rfc p{
+    font-size: 15px;
+    margin-left: 70px;
+    margin-block: 0;
+    padding: 0;
+}
+.aduanSiber img{
+    width: 30%;
+}
+.hubkiri iframe {
+    width: 100%; 
+    height: 400px; 
+    border: 0; 
+}
+.hubKanan{
+    padding: 50px;
+}
+.hubKanan img{
+    margin: 0 auto 50px; 
+    display: block;
+}
+@media only screen and (max-width: 1024px) {
+    h1,h2{
+        font-size: 21px;
+    }
+    h3{
+        font-size: 19px;
+    }
+    h4{
+        font-size: 18px;
+    }
+    h5{
+        font-size: 17px;
+    }
+    h6{
+        font-size: 16px;
+    }
+    p{
+        font-size: 12px;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: rgba(229, 239, 254, 0.8);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+    .navbar{
+        padding: 0;
+        margin: 0;
+    }
+    .bg{
+        background-color: white;
+        padding-bottom: 40px;
+    }
+    .nav-link, .fiturMenu {
+        font-size: 10px; 
+        margin: 0;
+        padding: 0;
+    }
+
+    .dropdown-content a {
+        font-size: 10px;
+        margin: 0;
+        padding: 5px 10px;
+    }
+    .dropdown-content a:hover {
+        background-color: #66B82E;
+        color: #fff;
+    }
+    
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    
+    .dropdown:hover .nav-link {
+        color: #66B82E;
+    }
+    .navbar-logo{
+        height: 40px;
+        padding: 0;
+        margin: 0;
+    }
+    .navbar-logo img{
+        margin: 0;
+        padding: 0;
+    }
+    .containerAJudul {
+        height: 10%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .containerAJudul h4 {
+        font-size: 15px;
+        margin: 0;
+    }
+    .containerContent{
+        margin-top: 30px;
+        margin-left: 12px;
+    }
+
+    .judul h2{
+        margin: 0;
+    }
+    .judul p{
+        margin-top: 5px;
+    }
+    .layanDrop{
+        width: 90px;
+        text-align: center
+    }
+    .main{
+        padding-inline: 35px;
+    }
+    .kiri{
+        margin-top: 30px;
+    }
+    .kanan{
+        background-color: rgba(234, 241, 255, 0.4);
+    }
+    .galery-head{
+        position: relative; 
+        margin: 0;
+        padding: 0; 
+        margin-top: 50px;
+        margin-bottom: 40px;
+    }
+    .carousel-item-galery img {
+        object-fit: cover;
+        max-height: 200px !important;
+        max-width: 255px;
+        margin: auto;
+    }
+    .highFooter {
+        display: flex; 
+        justify-content: space-around; 
+        padding-block: 30px; 
+        padding-left: 45px;
+        
+    
+    }
+    .highFooter a, .highFooter h6{
+        font-size: 12px;
+    }
+    .empat img{
+        width: 9%;
+    }
+    .breadTop{
+        padding-top: 80px; 
+        margin-bottom: 0;
+    }
+    .rfc{
+        padding-top: 80px;
+    }
+    .rfc h4 {
+        margin-top: 25px;
+        margin-left: 0; 
+    }
+
+    .rfc h5 {
+        margin-top: 15px;
+        margin-left: 30px;
+    }
+
+    .rfc h6 {
+        margin-top: 10px;
+        margin-left: 80px;
+        font-size: 14px;
+    }
+
+    .rfc p{
+        margin-left: 70px;
+        margin-block: 0;
+        padding: 0;
+    }
+    .hubKanan{
+        padding: 30px;
+    }
+    .hubkanan img{
+        margin: 0 auto 20px; 
+        display: block;
+    }
+  }

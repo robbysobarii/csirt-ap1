@@ -1,14 +1,14 @@
-<!-- detailPanduanList.blade.php -->
+<!-- DetailPanduan.blade.php -->
 @extends('layout.userLayout')
 @section('title', 'Layanan | Panduan Teknis')
 @section('content')
 
-<div class="container" >
+<div class="container">
     <div class="breadcrumb" style="padding-top: 100px; margin-bottom: 0;">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Layanan</li>
-            <li class="breadcrumb-item">Panduan Teknis</li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="#">{{ $name }}</a></li>
+            <li class="breadcrumb-item"><a href="#">Layanan</a></li>
+            <li class="breadcrumb-item"><a href="#">Panduan Teknis</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $name }}</li>
         </ol>
     </div>
     <h3>Panduan Teknis</h3>
@@ -22,4 +22,5 @@
         <embed src="{{ url('file/' . $filename) }}" type="application/pdf" />
     </object>
 </div>
+
 @endsection

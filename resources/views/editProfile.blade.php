@@ -23,8 +23,8 @@
             </div>
         
             <div class="mb-3">
-                <label for="email_user">Email</label>
-                <input type="email" class="form-control" id="email_user" name="email_user" value="{{ auth()->user()->email_user }}" readonly>
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ auth()->user()->email }}" readonly>
             </div>
         
             <div class="mb-3">

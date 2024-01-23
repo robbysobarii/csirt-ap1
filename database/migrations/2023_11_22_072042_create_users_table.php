@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('role_user');
             $table->string('nama_user');
-            $table->string('email_user')->unique();
+            $table->string('email')->unique();
             $table->string('password');
+            $table->string('profile_picture')->nullable(); // Ubah hanya baris ini
             $table->rememberToken();
             $table->timestamps();
         });

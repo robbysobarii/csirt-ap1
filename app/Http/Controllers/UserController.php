@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carousel;
+use App\Models\Content;
+use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +37,7 @@ class UserController extends Controller
     $request->validate([
         'role_user' => 'required',
         'nama_user' => 'required',
-        'email_user' => 'required|email|unique:users,email_user',
+        'email' => 'required|email|unique:users,email',
         'password' => 'required_if:formMethod,store', // Only required for store action
     ]);
 
@@ -42,7 +45,7 @@ class UserController extends Controller
     $userData = [
         'role_user' => $request->role_user,
         'nama_user' => $request->nama_user,
-        'email_user' => $request->email_user,
+        'email' => $request->email,
     ];
 
     // Add password to $userData only if it is provided
@@ -89,7 +92,7 @@ public function update(Request $request, $id)
 
         $userData = [
             'nama_user' => $request->nama_user,
-            'email_user' => $request->email_user,
+            'email' => $request->email,
         ];
 
         if ($request->filled('password')) {
@@ -155,69 +158,3 @@ public function update(Request $request, $id)
 }
 
     
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'password' => 'sometimes|required',
-        ]);
-
-        try {
-            // Find the user by ID
-            $user = User::findOrFail($id);
-
-            // Update the user attributes
-            $user->update([
-                'nama_user' => $request->nama_user,
-                'email_user' => $request->email_user,
-                'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
-            ]);
-
-            return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('success', 'Profile updated successfully');
-        } catch (\Exception $e) {
-            // Handle any exceptions here, e.g., log the error
-            return redirect()->route('editProfil', ['id' => auth()->user()->id])->with('error', 'Failed to update profile');
-        }
-    }
-    public function editProfile($id)
-    {
-        // Retrieve user information based on $id
-        $user = User::find($id);
-
-        // Pass the $user data to the view
-        return view('editProfile', ['user' => $user]);
-    }
-
-
-    public function delete($id)
-    {
-        $user = User::find($id);
-
-        if ($user) {
-            try {
-                $user->delete();
-                return redirect()->route('admin.userManagement')->with('success', 'User deleted successfully');
-            } catch (\Exception $e) {
-                // Handle any exceptions here, e.g., log the error
-                return redirect()->route('admin.userManagement')->with('error', 'Failed to delete user');
-            }
-        }
-
-        return redirect()->route('admin.userManagement')->with('error', 'User not found');
-    }
-    public function deleteUsermanagement($id)
-    {
-        $user = User::find($id);
-
-        if ($user) {
-            try {
-                $user->delete();
-                return redirect()->route('superuser')->with('success', 'User deleted successfully');
-            } catch (\Exception $e) {
-                // Handle any exceptions here, e.g., log the error
-                return redirect()->route('superuser')->with('error', 'Failed to delete user');
-            }
-        }
-
-        return redirect()->route('superuser')->with('error', 'User not found');
-    }
-}

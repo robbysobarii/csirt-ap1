@@ -25,7 +25,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $user->role_user }}</td>
                                 <td>{{ $user->nama_user }}</td>
-                                <td>{{ $user->email_user }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>{{ $user->password }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal('update', {{ $user->id  }})">Edit</button>
@@ -71,8 +71,8 @@
                         <input type="text" class="form-control" id="nama_user" name="nama_user">
                     </div>
                     <div class="mb-3">
-                        <label for="email_user">Email User</label>
-                        <input type="email" class="form-control" id="email_user" name="email_user">
+                        <label for="email">Email User</label>
+                        <input type="email" class="form-control" id="email" name="email">
                     </div>
                     <div class="mb-3">
                         <label for="password">Password</label>
@@ -98,7 +98,7 @@
             // For creating a new user, reset the form
             $('#role_user').val('Pelapor');
             $('#nama_user').val('');
-            $('#email_user').val('');
+            $('#email').val('');
             $('#password').val('');
 
             $('#editForm').attr('method', 'post');
@@ -116,7 +116,7 @@
                         // Fill the form fields with the existing data
                         $('#role_user').val(data.role_user);
                         $('#nama_user').val(data.nama_user);
-                        $('#email_user').val(data.email_user);
+                        $('#email').val(data.email);
                         $('#password').val(data.password);
                         
 
