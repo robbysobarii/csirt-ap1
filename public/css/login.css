@@ -1,8 +1,14 @@
-body {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+
+h2{
+    
+    font-family: 'Open Sans', sans-serif !important;
+    color: white;
+    font-size: 23px;
+    text-align: center;
+    
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .login-box {
@@ -42,15 +48,12 @@ body {
     background: rgba(0, 114, 185, 0.72);
     border-radius: 20px;
     padding-block: 20px;
+    padding-inline: 50px;
     width: 90%;
-    margin-bottom: 20px;
-    color: #FFF;
+    color: #FFF !important;
     text-align: center;
     font-family: Open Sans;
     font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
 }
 
 .login-form {
@@ -59,26 +62,45 @@ body {
     background: #FFF;
     border-bottom-left-radius: 25px;
     box-shadow: none; 
+    width: 100%;
 }
 
 .login-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid #4F9E19;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px #ABC9D7;
     box-sizing: border-box;
+    margin-bottom: 20px !important; 
+}
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    color: rgba(0, 114, 185, 0.90) !important;
 }
 
 .login-form button {
     background-color: #BDE2F3;
     width: 50%;
-    margin-top: 20px;
+    margin-top: 15px;
     color: black;
     padding: 10px 20px;
     border: none;
     border-radius: 30px;
+    cursor: pointer;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: rgba(0, 114, 185, 0.90);
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 

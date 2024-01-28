@@ -1,13 +1,13 @@
 <table class="table align-middle text-center">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Acara</th>
-            <th scope="col">Deskripsi</th>
-            <th scope="col">Tanggal Awal</th>
-            <th scope="col">Tanggal Akhir</th>
-            <th scope="col">Tempat</th>
-            <th scope="col">Aksi</th>
+            <th scope="col"><h6>#</h6></th>
+            <th scope="col"><h6>Acara</h6></th>
+            <th scope="col"><h6>Deskripsi</h6></th>
+            <th scope="col"><h6>Tanggal Awal</h6></th>
+            <th scope="col"><h6>Tanggal Akhir</h6></th>
+            <th scope="col"><h6>Tempat</h6></th>
+            <th scope="col"><h6>Aksi</h6></th>
         </tr>
     </thead>
     <tbody>

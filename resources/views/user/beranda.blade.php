@@ -6,7 +6,7 @@
     <div class="carousel-inner" style="max-height: 600px">
         @include('user.components._carousel-item')
         <!-- Container for ARTIKEL DAN BERITA -->
-        <div class="containerAJudul w-100 position-absolute px-5" style="padding: 22px">
+        <div class="containerAJudul w-100 position-absolute px-5">
             <h4 >| ARTIKEL DAN BERITA</h4>
             
         </div>
@@ -32,12 +32,12 @@
     <hr>
     <div class="main">
         @if($content->count() > 3)
-            <div class="kiri" style="width: 60%; word-wrap: break-word;">
+            <div class="kiri">
                 @include('user.components._konten-berita-kiri')
             </div>
             
 
-            <div class="kanan" style="width: 25%;margin-top: 25px;">
+            <div class="kanan">
                 @include('user.components._konten-berita-kanan')
             
                 @if($content->count() > 5)

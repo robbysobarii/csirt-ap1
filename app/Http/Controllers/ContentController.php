@@ -7,17 +7,20 @@ use App\Models\Gallery;
 use App\Models\Carousel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Jenssegers\Agent\Agent;
 class ContentController extends Controller
 {
     public function getContentsBeranda()
     {
+        $agent = new Agent();
         $content = Content::latest()->get();
         $latestContent = Content::latest()->first(); 
-        
+        // dd($screenWidth);
         $galleries = Gallery::all();
         $carousels = Carousel::all();
-        return view('user.beranda', compact('content', 'galleries','carousels','latestContent'));
+
+        return view('user.beranda', compact('content', 'galleries', 'carousels', 'latestContent', 'agent'));
+    
     }
 
     public function index()
