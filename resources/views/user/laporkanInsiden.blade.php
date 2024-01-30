@@ -77,21 +77,5 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
-            var emailInput = document.getElementById('email');
-            var passwordInput = document.getElementById('password');
-
-            // Hash the password using SHA-256
-            var hashedPassword = CryptoJS.SHA256(passwordInput.value).toString(CryptoJS.enc.Hex);
-
-            // Set the hashed password back to the input field
-            passwordInput.value = hashedPassword;
-            if (!emailInput.value.endsWith('@gmail.com')) {
-                alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
-                event.preventDefault(); // Mencegah form dari pengiriman jika email tidak valid
-            }
-        });
-    </script>
 </body>
 </html>

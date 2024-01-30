@@ -83,24 +83,23 @@ class UserController extends Controller
                 'email' => $request->email,
                 'status' => $request->status,
             ];
-            if (
-                $user->role_user == $request->role_user ||
-                $user->nama_user == $request->nama_user ||
-                $user->email == $request->email ||
-                $user->status == $request->status 
-            ) {
-                // No changes were made
-                return redirect()->route('superuser')->with('message', 'No changes made to the user');
-            }
-            // Update user data only if a new password is provided
-            if ($request->filled('password')) {
-                $userData['password'] = Hash::make($request->password);
-            }
+            
 
-            // Update existing user
-            $user->update($userData);
+            
 
-            return redirect()->route('superuser')->with('success', 'User updated successfully');
+            
+            if ($user->role_user!= $userData['role_user'] || $user->nama_user != $userData['nama_user'] || 
+                $user->email != $userData['email'] || $user->status != $userData['status'] ) {
+                // Update user data only if a new password is provided
+                if ($request->filled('password')) {
+                    $userData['password'] = Hash::make($request->password);
+                }
+                $user->update($userData);
+
+                return redirect()->route('superuser')->with('success', 'User updated successfully');
+            } else {
+                // Tidak ada perubahan yang dilakukan
+                return redirect()->route('superuser')->with('message', 'No changes made to the user');            }
         }
     } catch (\Illuminate\Validation\ValidationException $e) {
         $errors = $e->errors();
