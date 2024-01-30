@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,9 +46,8 @@
             box-sizing: border-box;
         }
     </style>
-
+    
 </head>
-
 <body>
     <div class="login-box">
         <div class="left-box">
@@ -62,13 +60,12 @@
                         {{ session('error') }}
                     </div>
                 @endif
-
-                <form id="loginForm" method="post" action="{{ url('/masuk') }}">
+                <form id="loginForm" method="post"action="{{ url('/masuk') }}" >
                     @csrf
                     <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                     <p style="font-size: 12px; color:#323232;padding:0; margin: 0">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
-                    <button type="submit" onclick="hashAndSubmit()">Login</button>
+                    <button type="submit">Login</button>
                 </form>
             </div>
         </div>
@@ -79,35 +76,22 @@
             <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/crypto-js.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/crypto-js-sha256.min.js"></script>
-
-    
 
     <script>
-        async function encryptAndSubmit() {
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
             var emailInput = document.getElementById('email');
             var passwordInput = document.getElementById('password');
-    
-            // Keep the original values
-            var originalEmail = emailInput.value;
-            var originalPassword = passwordInput.value;
-    
-            // Encrypt the email and password using Laravel's encryption
-            var encryptedEmail = CryptoJS.AES.encrypt(originalEmail, '{{ env('APP_KEY') }}').toString();
-            var encryptedPassword = CryptoJS.AES.encrypt(originalPassword, '{{ env('APP_KEY') }}').toString();
-    
-            // Set the encrypted values back to the inputs
-            emailInput.value = encryptedEmail;
-            passwordInput.value = encryptedPassword;
-    
-            // Submit the form
-            document.getElementById('loginForm').submit();
-        }
-    </script>
-    
-    
-    
-</body>
 
+            // Hash the password using SHA-256
+            var hashedPassword = CryptoJS.SHA256(passwordInput.value).toString(CryptoJS.enc.Hex);
+
+            // Set the hashed password back to the input field
+            passwordInput.value = hashedPassword;
+            if (!emailInput.value.endsWith('@gmail.com')) {
+                alert('Mohon masukkan alamat email yang berakhiran @gmail.com.');
+                event.preventDefault(); // Mencegah form dari pengiriman jika email tidak valid
+            }
+        });
+    </script>
+</body>
 </html>

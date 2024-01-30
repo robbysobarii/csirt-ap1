@@ -29,23 +29,23 @@ class ContentController extends Controller
         return view('administrator.contentManagement', compact('contents'));
     }
     public function storeOrUpdate(Request $request)
-    {
-        $contentId = $request->input('content_id');
+{
+    $contentId = $request->input('content_id');
 
-        
+    $formMethod = $request->get('formMethod');
 
-        $formMethod = $request->get('formMethod');
-
+    try{
         if ($formMethod == "store") {
-            
+        
             $request->validate([
                 'judul' => 'required|string',
                 'isiKonten' => 'required|string',
-                'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'type' => 'required',
             ]);
     
-            $gambarPath = $request->file('gambar')->store('images', 'public');
+            // Check if 'gambar' file is provided
+            $gambarPath = $request->hasFile('gambar') ? $request->file('gambar')->store('images', 'public') : null;
     
             $newContent = Content::create([
                 'judul' => $request->judul,
@@ -56,35 +56,48 @@ class ContentController extends Controller
     
             return redirect()->route('admin.contentManagement')->with('message', 'Berhasil Menambahkan');
         } else if ($formMethod == "update") {
-            
             $content = Content::findOrFail($contentId);
-
+    
             $request->validate([
                 'judul' => 'required|string',
                 'isiKonten' => 'required|string',
-                'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'type' => 'required',
             ]);
-
+    
             $contentData = [
                 'judul' => $request->judul,
                 'isi_konten' => $request->isiKonten,
                 'type' => $request->type,
             ];
-
-            if ($request->hasFile('gambar')) {
-                Storage::disk('public')->delete($content->gambar);
-
-               
-                $gambarPath = $request->file('gambar')->store('images', 'public');
-                $contentData['gambar'] = $gambarPath;
+    
+            // Check if there are any changes before updating
+            if ($request->hasFile('gambar') || $content->judul != $request->judul || $content->isi_konten != $request->isiKonten || $content->type != $request->type) {
+                if ($request->hasFile('gambar')) {
+                    // Delete old image if it exists
+                    if ($content->gambar) {
+                        Storage::disk('public')->delete($content->gambar);
+                    }
+    
+                    // Store new image
+                    $gambarPath = $request->file('gambar')->store('images', 'public');
+                    $contentData['gambar'] = $gambarPath;
+                }
+    
+                $content->update($contentData);
+                $message = 'Berhasil diupdate';
+            } else {
+                // No changes were made
+                $message = 'Tidak ada perubahan yang dilakukan';
             }
-
-            $content->update($contentData);
-
-            return redirect()->route('admin.contentManagement')->with('message', 'Berhasil diupdate');
+    
+            return redirect()->route('admin.contentManagement')->with('message', $message);
         }
+    } catch (\Exception $e) {
+        return redirect()->route('admin.contentManagement')->with('message', 'Input Gagal, Isi Form Dengan Benar');
     }
+}
+
 
     public function show($id)
     {

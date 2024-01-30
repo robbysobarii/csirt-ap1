@@ -16,59 +16,64 @@ class CarouselController extends Controller
 
    
     public function storeOrUpdate(Request $request)
-{
-    $carouselId = $request->input('carousel_id');
-
-    $request->validate([
-        'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240',
-    ]);
-
-    $formMethod = $request->get('formMethod');
-
-    if ($formMethod === "store") {
-        // Store new gallery
-        $request->validate([
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
-        ]);
-
-        $gambarPath = $request->file('image_path')->store('images', 'public');
-
-        // Save the file path in the database
-        Carousel::create([
-            'heading_caption' => $request->input('heading_caption'), // Use input() method to handle optional fields
-            'caption' => $request->input('caption'),
-            'image_path' => $gambarPath,
-        ]);
-
-        return redirect()->route('admin.carousel')->with('alert', 'Berhasil ditambahkan');
-    } elseif ($formMethod === "update") {
-        // Update existing gallery
-        $carousel = Carousel::find($carouselId);
-        if (!$carousel) {
-            return redirect()->route('admin.carousel')->with('alert', 'Eror');
+    {
+        $carouselId = $request->input('carousel_id');
+        $formMethod = $request->get('formMethod');
+    
+        try {
+            if ($formMethod == "store") {
+                $request->validate([
+                    'image_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+                ]);
+    
+                $gambarPath = $request->file('image_path')->store('images', 'public');
+    
+                Carousel::create([
+                    'heading_caption' => $request->input('heading_caption'),
+                    'caption' => $request->input('caption'),
+                    'image_path' => $gambarPath,
+                ]);
+    
+                return redirect()->route('admin.carousel')->with('message', 'Berhasil ditambahkan');
+            } elseif ($formMethod === "update") {
+                $carousel = Carousel::find($carouselId);
+    
+                $request->validate([
+                    'heading_caption' => 'string',
+                    'caption' => 'string',
+                    'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+                ]);
+    
+                $carouselData = [
+                    'heading_caption' => $request->input('heading_caption'),
+                    'caption' => $request->input('caption'),
+                ];
+    
+                if ($request->hasFile('image_path')) {
+                    Storage::disk('public')->delete($carousel->image_path);
+                    $gambarPath = $request->file('image_path')->store('images', 'public');
+                    $carouselData['image_path'] = $gambarPath;
+                }
+    
+                // Check if there are changes before updating
+                if (
+                    $carousel->heading_caption != $carouselData['heading_caption'] ||
+                    $carousel->caption != $carouselData['caption'] ||
+                    ($request->hasFile('image_path') && $carousel->image_path != $carouselData['image_path'])
+                ) {
+                    $carousel->update($carouselData);
+    
+                    return redirect()->route('admin.carousel')->with('message', 'Berhasil diupdate');
+                } else {
+                    // No changes were made
+                    return redirect()->route('admin.carousel')->with('message', 'Tidak ada perubahan yang dilakukan');
+                }
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('admin.carousel')->with('message', 'Input gagal, isi formulir dengan benar');
         }
-
-        $carouselData = [
-            'heading_caption' => $request->input('heading_caption'), // Use input() method to handle optional fields
-            'caption' => $request->input('caption'),
-        ];
-
-        // Update the image if a new one is provided
-        if ($request->hasFile('image_path')) {
-            // Delete the old image
-            Storage::disk('public')->delete($carousel->image_path);
-
-            // Store the new image
-            $gambarPath = $request->file('image_path')->store('images', 'public');
-            $carouselData['image_path'] = $gambarPath;
-        }
-
-        $carousel->update($carouselData);
-
-        return redirect()->route('admin.carousel')->with('alert', 'Berhasil diupdate');
     }
-}
-
+    
 
     public function show($id)
     {
@@ -89,9 +94,9 @@ class CarouselController extends Controller
 
         if ($carousel) {
             $carousel->delete();
-            return redirect()->route('admin.carousel')->with('alert', 'Berhasil dihapus');
+            return redirect()->route('admin.carousel')->with('message', 'Berhasil dihapus');
         }
 
-        return redirect()->route('admin.carousel')->with('alert', 'Gagal dihapus');
+        return redirect()->route('admin.carousel')->with('message', 'Gagal dihapus');
     }
 }

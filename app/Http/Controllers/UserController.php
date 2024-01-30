@@ -34,106 +34,150 @@ class UserController extends Controller
     }
     public function storeOrUpdate(Request $request)
 {
-    $request->validate([
-        'role_user' => 'required',
-        'nama_user' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required_if:formMethod,store', // Only required for store action
-    ]);
-
-    $userId = $request->input('user_id');
-    $userData = [
-        'role_user' => $request->role_user,
-        'nama_user' => $request->nama_user,
-        'email' => $request->email,
-    ];
-
-    // Add password to $userData only if it is provided
-    if ($request->filled('password')) {
-        $userData['password'] = Hash::make($request->password);
-    }
-
     $formMethod = $request->get('formMethod');
 
-    if ($formMethod === "store") {
-        // Store new user
-        User::create($userData);
-
-        return redirect()->route('superuser')->with('success', 'User created successfully');
-    } elseif ($formMethod === "update") {
-        // Update existing user
-        $user = User::find($userId);
-
-        if (!$user) {
-            return redirect()->route('superuser')->with('error', 'User not found');
-        }
-
-        $user->update($userData);
-
-        return redirect()->route('superuser')->with('success', 'User updated successfully');
-    }
-}
-public function update(Request $request, $id)
-{
-    // Check if old password, new password, and profile picture are all empty
-    if (
-        empty($request->old_password) &&
-        empty($request->new_password) &&
-        !$request->hasFile('profile_picture')
-    ) {
-        return redirect()->route('editProfil', ['id' => $id])->with('error', 'No changes made to the profile');
-    }
-
-    $request->validate([
-        'password' => 'sometimes|required|confirmed',
-        'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
     try {
-        $user = User::findOrFail($id);
-
-        // Check if the provided old password matches the hashed password in the database
-        if ($request->filled('old_password') && !Hash::check($request->old_password, $user->password)) {
-            return redirect()->route('editProfil', ['id' => $user->id])->with('error_oldPass', 'Old password is incorrect');
-        }
-
-        $userData = [
-            'nama_user' => $user->nama_user,
-            'email_user' => $user->email_user,
-        ];
-
-        // Check if the new password is provided
-        if ($request->filled('new_password')) {
-            // Check if new password matches confirmation
-            if ($request->new_password !== $request->password_confirmation) {
-                return redirect()->route('editProfil', ['id' => $user->id])->with('error_newPass', 'New password and confirmation do not match');
-            }
-
-            // Check if new password is the same as the existing password
-            if (Hash::check($request->new_password, $user->password)) {
-                return redirect()->route('editProfil', ['id' => $user->id])->with('error_newPass', 'New password must be different from the current password');
-            }
-
-            // Validate new password confirmation
+        if ($formMethod === "store") {
+            // Validation for store operation
             $request->validate([
-                'password_confirmation' => 'required|same:new_password',
+                'role_user' => 'required',
+                'nama_user' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required',
+                'status' => 'required',
             ]);
 
-            $userData['password'] = Hash::make($request->new_password);
+            $userData = [
+                'role_user' => $request->role_user,
+                'nama_user' => $request->nama_user,
+                'email' => $request->email,
+                'status' => $request->status,
+                'password' => Hash::make($request->password),
+            ];
+
+            // Store new user
+            User::create($userData);
+
+            return redirect()->route('superuser')->with('success', 'User created successfully');
+        } elseif ($formMethod === "update") {
+            // Validation for update operation
+            $request->validate([
+                'role_user' => 'required',
+                'nama_user' => 'required',
+                'email' => 'required|email|unique:users,email,' . $request->input('user_id'),
+                'status' => 'required',
+            ]);
+
+            $userId = $request->input('user_id');
+
+            // Fetch the existing user
+            $user = User::find($userId);
+
+            if (!$user) {
+                return redirect()->route('superuser')->with('error', 'User not found');
+            }
+
+            $userData = [
+                'role_user' => $request->role_user,
+                'nama_user' => $request->nama_user,
+                'email' => $request->email,
+                'status' => $request->status,
+            ];
+            if (
+                $user->role_user == $request->role_user ||
+                $user->nama_user == $request->nama_user ||
+                $user->email == $request->email ||
+                $user->status == $request->status 
+            ) {
+                // No changes were made
+                return redirect()->route('superuser')->with('message', 'No changes made to the user');
+            }
+            // Update user data only if a new password is provided
+            if ($request->filled('password')) {
+                $userData['password'] = Hash::make($request->password);
+            }
+
+            // Update existing user
+            $user->update($userData);
+
+            return redirect()->route('superuser')->with('success', 'User updated successfully');
         }
-
-        if ($request->hasFile('profile_picture')) {
-            $imagePath = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $userData['profile_picture'] = $imagePath;
-        }
-
-        $user->update($userData);
-
-        return redirect()->route('editProfil', ['id' => $user->id])->with('success', 'Profile updated successfully');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        $errors = $e->errors();
+        return back()->withErrors($errors)->withInput();
     } catch (\Exception $e) {
-        return redirect()->route('editProfil', ['id' => $user->id])->with('error', 'Failed to update profile');
+        return back()->with('error', 'An error occurred while processing the request');
     }
 }
+
+    
+    public function update(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+    
+            // Check if old password, new password, and profile picture are all empty
+            if (
+                empty($request->old_password) &&
+                empty($request->new_password) &&
+                !$request->hasFile('profile_picture')
+            ) {
+                return redirect()->route('editProfil', ['id' => $user->id])->with('error', 'No changes made to the profile');
+            }
+    
+            $request->validate([
+                'password' => 'sometimes|required|confirmed',
+                'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+    
+            // Check if the provided old password matches the hashed password in the database
+            if ($request->filled('old_password') && !Hash::check($request->old_password, $user->password)) {
+                return redirect()->route('editProfil', ['id' => $user->id])->with('error_oldPass', 'Old password is incorrect');
+            }
+    
+            $userData = [
+                'nama_user' => $user->nama_user,
+                'email_user' => $user->email_user,
+            ];
+    
+            // Check if the new password is provided
+            if ($request->filled('new_password')) {
+                // Check if new password matches confirmation
+                if ($request->new_password !== $request->password_confirmation) {
+                    return redirect()->route('editProfil', ['id' => $user->id])->with('error_newPass', 'New password and confirmation do not match');
+                }
+    
+                // Check if new password is the same as the existing password
+                if (Hash::check($request->new_password, $user->password)) {
+                    return redirect()->route('editProfil', ['id' => $user->id])->with('error_newPass', 'New password must be different from the current password');
+                }
+    
+                // Validate new password confirmation
+                $request->validate([
+                    'password_confirmation' => 'required|same:new_password',
+                ]);
+    
+                $userData['password'] = Hash::make($request->new_password);
+            }
+    
+            if ($request->hasFile('profile_picture')) {
+                $imagePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+                $userData['profile_picture'] = $imagePath;
+            }
+    
+            // Check if new password or profile picture has changed
+            if (isset($userData['password']) || isset($userData['profile_picture'])) {
+                $user->update($userData);
+                return redirect()->route('editProfil', ['id' => $user->id])->with('success', 'Profile updated successfully');
+            } else {
+                // No changes were made
+                return redirect()->route('editProfil', ['id' => $user->id])->with('error', 'Failed to update profile. No changes made.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('editProfil', ['id' => $user->id])->with('error', 'Failed to update profile');
+        }
+    }
+    
 
 
 

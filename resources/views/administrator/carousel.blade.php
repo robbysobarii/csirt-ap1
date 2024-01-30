@@ -55,15 +55,23 @@
             }
         }
 
+        document.getElementById('editForm').addEventListener('submit', function (event) {
+            var image_path = document.getElementById('image_path').value;
+            if (!image_path ) {
+                alert('Harap isi semua kolom yang wajib diisi.');
+                event.preventDefault();
+            }
+        });
+
         
         function tutupModal() {
             // Use direct dismissal without relying on a click event
             $('#tambahKontenModal').modal('hide');
         }
-        var msg = '{{Session::get('alert')}}';
-        var exist = '{{Session::has('alert')}}';
+        var msg = '{{Session::get('message')}}';
+        var exist = '{{Session::has('message')}}';
         if(exist){
-        alert(msg);
+            alert(msg);
         }
     </script>
     

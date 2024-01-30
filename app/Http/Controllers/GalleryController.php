@@ -20,43 +20,56 @@ class GalleryController extends Controller
         $galleryId = $request->input('gallery_id');
 
         $formMethod = $request->get('formMethod');
+        try {
+            if ($formMethod == "store") {
+                $request->validate([
+                    'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                ]);
 
-        if ($formMethod == "store") {
-            $request->validate([
-                'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
 
+                if ($request->hasFile('gambar')) {
+                    $gambarPath = $request->file('gambar')->store('images', 'public');
+                }else{
+                    return redirect()->route('admin.galeryManagement')->with('message', 'Input gagal, Gambar wajib diisi');
+                }
+                Gallery::create([
+                    'judul' => $request->judul,
+                    'caption' => $request->caption,
+                    'gambar' => $gambarPath,
+                ]);
 
-            if ($request->hasFile('gambar')) {
-                $gambarPath = $request->file('gambar')->store('images', 'public');
+                return redirect()->route('admin.galeryManagement')->with('message', 'Berhasil ditambahkan');
+            } elseif ($formMethod == "update") {
+                $gallery = Gallery::find($galleryId);
+                if (!$gallery) {
+                    return redirect()->route('admin.galeryManagement')->with('message', 'Eror');
+                }
+                $request->validate([
+                    'judul' => 'required|string',
+                    'caption' => 'required|string',
+                    'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                ]);
+
+                $galleryData = [
+                    'judul' => $request->judul,
+                    'caption' => $request->caption,
+                ];
+
+                if ($request->hasFile('gambar')) {
+                    Storage::disk('public')->delete($gallery->gambar);
+                    $gambarPath = $request->file('gambar')->store('images', 'public');
+                    $galleryData['gambar'] = $gambarPath;
+                }
+                if ($gallery->judul != $galleryData['judul'] || $gallery->caption != $galleryData['caption'] || ($request->hasFile('gambar') && $gallery->gambar != $galleryData['gambar'])) {
+                    $gallery->update($galleryData);
+                    return redirect()->route('admin.galeryManagement')->with('message', 'Berhasil diupdate');
+                } else {
+                    // No changes were made
+                    return redirect()->route('admin.galeryManagement')->with('message', 'Tidak ada perubahan yang dilakukan');
+                }
             }
-            Gallery::create([
-                'judul' => $request->judul,
-                'caption' => $request->caption,
-                'gambar' => $gambarPath,
-            ]);
-
-            return redirect()->route('admin.galeryManagement')->with('alert', 'Berhasil ditambahkan');
-        } elseif ($formMethod == "update") {
-            $gallery = Gallery::find($galleryId);
-            if (!$gallery) {
-                return redirect()->route('admin.galeryManagement')->with('alert', 'Eror');
-            }
-
-            $galleryData = [
-                'judul' => $request->judul,
-                'caption' => $request->caption,
-            ];
-
-            if ($request->hasFile('gambar')) {
-                Storage::disk('public')->delete($gallery->gambar);
-                $gambarPath = $request->file('gambar')->store('images', 'public');
-                $galleryData['gambar'] = $gambarPath;
-            }
-
-            $gallery->update($galleryData);
-
-            return redirect()->route('admin.galeryManagement')->with('alert', 'Berhasil diupdate');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.galeryManagement')->with('message', 'Input Gagal, Isi Form Dengan Benar');
         }
     }
 
@@ -68,7 +81,7 @@ class GalleryController extends Controller
             Storage::disk('public')->delete($gallery->gambar);
 
             $gallery->delete();
-            return redirect()->route('admin.galeryManagement')->with('alert', 'Berhasil diupdate');
+            return redirect()->route('admin.galeryManagement')->with('message', 'Berhasil diupdate');
         }
 
         return redirect()->route('admin.galeryManagement')->with('error', 'Gagal diupdate');

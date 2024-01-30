@@ -38,7 +38,7 @@
                             <td>{{ $report->status }}</td>
                             <td>
                                 @if($report->bukti)
-                                    <img src="{{ Storage::url('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                    <img src="{{ Storage::url('/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
                                 @else
                                     No Image
                                 @endif

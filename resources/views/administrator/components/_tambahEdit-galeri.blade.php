@@ -19,7 +19,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="editGambar">Gambar</label>
-                        <input type="file" class="form-control" id="editGambar" name="gambar">
+                        <input type="file" class="form-control" id="editGambar" name="gambar" >
                     </div>
                     <button type="submit" class="btn btn-primary" id="saveButton">Simpan</button>
                 </form>

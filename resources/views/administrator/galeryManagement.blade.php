@@ -68,10 +68,11 @@
             $('#tambahKontenModal').modal('hide');
         }
 
-        var msg = '{{Session::get('alert')}}';
-        var exist = '{{Session::has('alert')}}';
+        var msg = '{{Session::get('message')}}';
+        var exist = '{{Session::has('message')}}';
         if(exist){
             alert(msg);
         }
+        
     </script>
 @endpush

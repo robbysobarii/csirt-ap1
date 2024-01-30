@@ -12,79 +12,81 @@
     <div class="col-12 tableContent g-2 ">
         <!-- Dashboard Insiden -->
         <div class="container-fluid pt-4 px-4" >
-            <div class="row g-4 text-center">
-                <div class="col-sm-6 col-xl-2">
+            <div class="row g-4 text-center" >
+                <div class="col-sm-12 col-md-6 col-xl-2">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-skull fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">Malware</p>
                         <h6 class="mb-0">{{  $totalPerType['Malware'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-2">
+                <div class="col-sm-12 col-md-6 col-xl-2">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-bolt fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">DDoS</p>
                         <h6 class="mb-0">{{  $totalPerType['DDoS'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-2">
+                <div class="col-sm-12 col-md-6 col-xl-2">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-code fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">SQL Injection</p>
                         <h6 class="mb-0">{{  $totalPerType['SQL Injection'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-2">
+                <div class="col-sm-12 col-md-6 col-xl-2">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-envelope fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">Phishing</p>
                         <h6 class="mb-0">{{  $totalPerType['Phishing'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-2">
+                <div class="col-sm-12 col-md-6 col-xl-2">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-globe fa-3x text-primary mb-2" style="font-size: 2rem;padding: 1px"></i>
                         <p class="mb-2">Web Defacement</p>
                         <h6 class="mb-0">{{  $totalPerType['Web Defacement'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-2">
+                <div class="col-sm-12 col-md-6 col-xl-2">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-globe fa-3x text-primary mb-2" style="font-size: 2rem;padding: 1px"></i>
                         <p class="mb-2">Other</p>
                         <h6 class="mb-0">{{  $totalPerType['Other'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-4">
+                <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-skull fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">Pending</p>
                         <h6 class="mb-0">{{  $totalStatus['Pending'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-4">
+                <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-bolt fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">Ditangani</p>
                         <h6 class="mb-0">{{  $totalStatus['Ditangani'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-4">
+                <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="bg-light rounded d-flex flex-column align-items-center p-4" style="height: 100%;">
                         <i class="fa fa-code fa-3x text-primary mb-2" style="font-size: 2rem;padding: 2px"></i>
                         <p class="mb-2">Close</p>
                         <h6 class="mb-0">{{  $totalStatus['Close'] ?? '0' }}</h6>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-6" >
-                    <div class="bg-light rounded p-4" style="width:70%;margin: auto ">
+            </div>
+            <div class="dash">
+                <div class="col-sm-12 col-md-6 col-xl-6" >
+                    <div class="bg-light rounded p-4" >
                         <h6 class="mb-4">Insiden Type Total</h6>
                         <!-- Set the width of the canvas to 300px -->
                         <canvas id="donutchart" data-total-per-type="{{ json_encode($totalPerType) }}" style="width: 300px;"></canvas>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-6" >
-                    <div class="bg-light rounded p-4" style="width:70%;margin: auto ">
+                <div class="col-sm-12 col-md-6 col-xl-6" >
+                    <div class="bg-light rounded p-4" >
                         <h6 class="mb-4">Status</h6>
                         <!-- Set the width of the canvas to 300px -->
                         <canvas id="donut" data-total-per-status="{{ json_encode($totalStatus) }}" style="width: 300px;"></canvas>

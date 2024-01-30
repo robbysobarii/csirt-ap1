@@ -15,7 +15,7 @@
                             <th scope="col">Role User</th>
                             <th scope="col">Nama User</th>
                             <th scope="col">Email User</th>
-                            <th scope="col">Password</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -26,7 +26,7 @@
                                 <td>{{ $user->role_user }}</td>
                                 <td>{{ $user->nama_user }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->password }}</td>
+                                <td>{{ $user->status }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary ButtonAksi" onclick="tampilkanModal('update', {{ $user->id  }})">Edit</button>
                                     <form action="{{ route('users.delete', ['id' => $user->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?')">
@@ -63,7 +63,6 @@
                             <option value="Pelapor">Pelapor</option>
                             <option value="Pimpinan">Pimpinan</option>
                             <option value="Admin">Admin</option>
-                            <option value="Superuser">Superuser</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -78,6 +77,15 @@
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
+                    <div class="mb-3">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+                    
+                    
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
@@ -99,7 +107,7 @@
             $('#role_user').val('Pelapor');
             $('#nama_user').val('');
             $('#email').val('');
-            $('#password').val('');
+            $('#status').val('Aktif'); // Set default status to 'Aktif'
 
             $('#editForm').attr('method', 'post');
             $('#editForm').attr('action', '{{ route("users.storeOrUpdate") }}');
@@ -117,10 +125,7 @@
                         $('#role_user').val(data.role_user);
                         $('#nama_user').val(data.nama_user);
                         $('#email').val(data.email);
-                        $('#password').val(data.password);
-                        
-
-                        // Note: I removed the password field for security reasons
+                        $('#status').val(data.status); // Set status from fetched data
 
                         // Set the user_id for updating
                         $('#user_id').val(id);
@@ -139,11 +144,32 @@
             });
         }
     }
+    document.getElementById('editForm').addEventListener('submit', function (event) {
+    var role_user = document.getElementById('role_user').value;
+    var nama_user = document.getElementById('nama_user').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var status = document.getElementById('status').value;
 
+    var formMethod = document.getElementById('formMethod').value; 
+    if (!role_user || !nama_user || !email || !status) {
+        alert('Harap isi semua kolom yang wajib diisi.');
+        event.preventDefault();
+    } else if (formMethod === 'store' && !password) {
+        alert('Password harus diisi untuk operasi store.');
+        event.preventDefault();
+    }
+});
     function tutupModal() {
         // Use direct dismissal without relying on a click event
         $('#tambahKontenModal').modal('hide');
     }
+    var msg = '{{Session::get('message')}}';
+        var exist = '{{Session::has('message')}}';
+        if(exist){
+            alert(msg);
+        }
+        
 </script>
 @endpush
 

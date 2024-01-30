@@ -35,24 +35,26 @@
             <a href="#" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary">PT Angkasa Pura I</h3>
             </a>
-            <div class="d-flex align-items-center ms-4 mb-4">
-                <div class="position-relative">
-                    @if(auth()->user()->profile_picture)
-                        <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . auth()->user()->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
-                    @else
-                        <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
-                    @endif
-                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+            <a href="{{ route('admin.contentManagement') }}" style="text-decoration: none;color: inherit;">
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        @if(auth()->user()->profile_picture)
+                            <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . auth()->user()->profile_picture) }}" alt="" style="width: 40px; height: 40px;">
+                        @else
+                            <img class="rounded-circle me-lg-2" src="{{ asset('img/user.png') }}" alt="" style="width: 40px; height: 40px;">
+                        @endif
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        @auth
+                            <h6 class="mb-0">{{ auth()->user()->nama_user }}</h6>
+                            <span>{{ auth()->user()->role_user }}</span>
+                        @else
+                            <p>No user logged in</p>
+                        @endauth
+                    </div>
                 </div>
-                <div class="ms-3">
-                    @auth
-                        <h6 class="mb-0">{{ auth()->user()->nama_user }}</h6>
-                        <span>{{ auth()->user()->role_user }}</span>
-                    @else
-                        <p>No user logged in</p>
-                    @endauth
-                </div>
-            </div>
+            </a>
             <div class="navbar-nav w-100">
                 <li class="nav-item dropdown custom-dropdown">
                     <a class="nav-link text-center menu" href="#" id="dropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

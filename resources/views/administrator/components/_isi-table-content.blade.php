@@ -4,7 +4,11 @@
         <td style="word-wrap: break-word;"><b><p>{{ $content->judul }}</p></b></td>
         <td style="word-wrap: break-word;" ><p>{!! nl2br(e($content->isi_konten)) !!}</p></td>
         <td>
-            <img src="{{ asset('storage/' . $content->gambar) }}" alt="Logo" class="img-fluid">
+            @if ($content->gambar)
+                <img src="{{ asset('storage/' . $content->gambar) }}" alt="Image" class="img-fluid">
+            @else
+                <p>No Image</p>
+            @endif
         </td>
         <td>{{ $content->type }}</td>
         <td>

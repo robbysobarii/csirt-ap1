@@ -7,8 +7,8 @@
             <div class="modal-body">
                 <form action="{{ route('events.storeOrUpdate') }}" method="post" enctype="multipart/form-data" id="editForm">
                     @csrf
-                    <input type="hidden" name="formMethod" id="formMethod" value="store"> <!-- Add this line -->
-                    <input type="hidden" name="event_id" id="event_id">
+                    <input type="hidden" name="formMethod" id="formMethod" value="">
+                    <input type="hidden" name="event_id" id="event_id" value="">
                     <div class="mb-3">
                         <label for="name">Acara</label>
                         <input type="text" class="form-control" id="name" name="name">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="tutupModalButton" onclick="tutupModal()">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary" id="saveButton">Simpan</button>
                     </div>
                 </form>
             </div>

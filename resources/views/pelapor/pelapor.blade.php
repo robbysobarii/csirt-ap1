@@ -37,7 +37,7 @@
                             <td>{{ $report->status }}</td>
                             <td>
                                 @if($report->bukti)
-                                    <img src="{{ Storage::url('images/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
+                                    <img src="{{ Storage::url('/' . $report->bukti) }}" alt="Bukti" style="max-width: 100px; max-height: 100px;">
                                 @else
                                     No Image
                                 @endif
@@ -85,11 +85,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="tanggal">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" >
                     </div>
                     <div class="mb-3">
                         <label for="insiden_type">Insiden Type</label>
-                        <select class="form-control" id="insiden_type" name="insiden_type" required>
+                        <select class="form-control" id="insiden_type" name="insiden_type" >
                             <option value="Malware">Malware</option>
                             <option value="DDoS">Serangan DDoS</option>
                             <option value="Phishing">Serangan Phishing</option>
@@ -101,15 +101,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="keterangan">Keterangan</label>
-                        <textarea class="form-control" id="keterangan" name="keterangan" rows="4" required></textarea>
+                        <textarea class="form-control" id="keterangan" name="keterangan" rows="4" ></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="penanganan">Penanganan</label>
-                        <textarea class="form-control" id="penanganan" name="penanganan" rows="4" required></textarea>
+                        <textarea class="form-control" id="penanganan" name="penanganan" rows="4" ></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="status">Status</label>
-                        <select class="form-control" id="status" name="status" required>
+                        <select class="form-control" id="status" name="status" >
                             <option value="Pending">Pending</option>
                         </select>
                     </div>
@@ -144,6 +144,7 @@
                 url: "{{ url('/pelapor/show/') }}" + '/' + id,
                 type: 'GET',
                 success: function (data) {
+                    $('#editReportId').val(data.id);
                     $('#tanggal').val(data.tanggal);
                     $('#insiden_type').val(data.insiden_type);
                     $('#keterangan').val(data.keterangan);
@@ -172,10 +173,26 @@
             });
         }
     }
+    document.getElementById('editForm').addEventListener('submit', function (event) {
+        var tanggal = document.getElementById('tanggal').value;
+        var insiden_type = document.getElementById('insiden_type').value;
+        var keterangan = document.getElementById('keterangan').value;
+        var status = document.getElementById('status').value;
 
+
+        if (!tanggal || !insiden_type || !keterangan || !status) {
+            alert('Harap isi semua kolom yang wajib diisi.');
+            event.preventDefault();
+        }
+    });
     function tutupModal() {
         // Use direct dismissal without relying on a click event
         $('#tambahKontenModal').modal('hide');
+    }
+    var msg = '{{Session::get('message')}}';
+    var exist = '{{Session::has('message')}}';
+    if(exist){
+        alert(msg);
     }
 </script>
 

@@ -35,20 +35,22 @@
             <a href="index.html" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary">PT Angkasa Pura I</h3>
             </a>
-            <div class="d-flex align-items-center ms-4 mb-4">
-                <div class="position-relative">
-                    <img class="rounded-circle" src={{ asset('img/user.png') }} alt="" style="width: 40px; height: 40px;">
-                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+            <a href="{{ route('pelapor.reportPelapor') }}" style="text-decoration: none;color: inherit;">
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src={{ asset('img/user.png') }} alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        @auth
+                            <h6 class="mb-0">{{ auth()->user()->nama_user }}</h6>
+                            <span>{{ auth()->user()->role_user }}</span>
+                        @else
+                            <p>No user logged in</p>
+                        @endauth
+                    </div>
                 </div>
-                <div class="ms-3">
-                    @auth
-                        <h6 class="mb-0">{{ auth()->user()->nama_user }}</h6>
-                        <span>{{ auth()->user()->role_user }}</span>
-                    @else
-                        <p>No user logged in</p>
-                    @endauth
-                </div>
-            </div>
+            </a>
            
         </nav>
     </div>
