@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name=”viewport” content=”width=device-width; initial-scale=1.0; maximum-scale=1.0;”>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Admin')</title>
@@ -35,73 +35,73 @@
 </head>
 
 <body>
-
    <!-- Navbar Start -->
-   <nav class="navbar navbar-expand-lg bg-light navbar-light fixed-top p-0 navbarBG">
-        <div class="navbar-logo">
-            <img src="{{ asset('/img/logo.svg') }}" alt="logo">
-        </div>
-        <button class="navbar-toggler" id="navbar-toggler">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link fiturMenu fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}">BERANDA</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link fiturMenu fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown">
-                        TENTANG KAMI
-                    </a>
-                    <div class="dropdown-content" id="tentangKamiDropdownContent">
-                        <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.profil')}}">Profil</a>
-                        <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.visiMisi')}}">Visi Misi</a>
-                        <a class="dropdown-item fiturMenu" href="{{ route('tentangKami.struktur')}}">Struktur Organisasi</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fiturMenu fitur{{ $rfcActive ?? '' }}" href="{{ route('user.rfc')}}">RFC 2350</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link fiturMenu fitur{{ $layananActive ?? '' }}" href="#" id="layananDropdown">
-                        LAYANAN
-                    </a>
-                    <div class="dropdown-content" id="layananDropdownContent">
-                        <a class="dropdown-item fiturMenu" href="{{ route('layanan.aduanSiber')}}">Aduan Siber</a>
-                        <a class="dropdown-item fiturMenu" href="{{ route('layanan.layananVA')}}">Layanan VA</a>
-                        <a class="dropdown-item fiturMenu" href="{{ route('layanan.panduan')}}">Panduan Teknis</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fiturMenu fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}">EVENT</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fiturMenu fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}">HUBUNGI KAMI</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fiturMenu fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}">LAPORKAN INSIDEN</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+   <nav class="navbar navbar-expand-xl bg-light navbar-light fixed-top navbarBG">
+    <div class="navbar-logo">
+        <img src="{{ asset('/img/logo.svg') }}" class="navImg" alt="logo">
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars TogglerIcon" style="color: white;"></i>
+        </span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link fiturMenu fitur{{ $berandaActive ?? '' }}" href="{{ route('user.beranda')}}"><p>BERANDA</p></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link fiturMenu fitur{{ $tentangKamiActive ?? '' }}" href="#" id="tentangKamiDropdown">
+                    <p>TENTANG KAMI</p>
+                </a>
+                <div class="dropdown-content" id="tentangKamiDropdownContent">
+                    <a class="dropdown-item fiturMenu" href="{{ route('profil')}}">Profil</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('visiMisi')}}">Visi Misi</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('struktur')}}">Struktur Organisasi</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fiturMenu fitur{{ $rfcActive ?? '' }}" href="{{ route('user.rfc')}}"><p>RFC 2350</p></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link fiturMenu fitur{{ $layananActive ?? '' }}" href="#" id="layananDropdown">
+                    <p>LAYANAN</p>
+                </a>
+                <div class="dropdown-content" id="layananDropdownContent">
+                    <a class="dropdown-item fiturMenu" href="{{ route('aduanSiber')}}">Aduan Siber</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('layananVA')}}">Layanan VA</a>
+                    <a class="dropdown-item fiturMenu" href="{{ route('panduan')}}">Panduan Teknis</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fiturMenu fitur{{ $eventActive ?? '' }}" href="{{ route('user.event')}}"><p>EVENT</p></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fiturMenu fitur{{ $hubungiKamiActive ?? '' }}" href="{{ route('user.hubungiKami')}}"><p>HUBUNGI KAMI</p></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fiturMenu fitur{{ $laporkanInsidenActive ?? '' }}" href="{{ route('user.laporkanInsiden')}}"><p>LAPORKAN INSIDEN</p></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <!-- Navbar End -->
 
 
-
-    {{-- content --}}
-    <div class="bg">
-        
-        @yield('content')
-    </div>
+{{-- content --}}
+<div class="bg">
+    @yield('content')
+</div>
 
 <!-- Footer Start -->
-<div class="footer">
+<div class="footer footerDesk">
     <div class="highFooter">
         <div class="satu">
             <h6>TENTANG KAMI</h6>
-            <a href="{{ route('tentangKami.profil')}}">Profil</a>
-            <a href="{{ route('tentangKami.visiMisi')}}">Visi Misi</a>
-            <a href="{{ route('tentangKami.struktur')}}">Struktur Organisasi</a>
+            <a href="{{ route('profil')}}">Profil</a>
+            <a href="{{ route('visiMisi')}}">Visi Misi</a>
+            <a href="{{ route('struktur')}}">Struktur Organisasi</a>
             <div class="social">
                 <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-facebook"></i></a>
                 <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-instagram"></i></a>
@@ -112,9 +112,9 @@
 
         <div class="dua">
             <h6>LAYANAN</h6>
-            <a href="{{ route('layanan.aduanSiber')}}">Aduan Siber</a>
-            <a href="{{ route('layanan.layananVA')}}">Layanan VA</a>
-            <a href="{{ route('layanan.panduan')}}">Panduan Teknis</a>
+            <a href="{{ route('aduanSiber')}}">Aduan Siber</a>
+            <a href="{{ route('layananVA')}}">Layanan VA</a>
+            <a href="{{ route('panduan')}}">Panduan Teknis</a>
         </div>
 
         
@@ -149,6 +149,58 @@
         <p>© Copyright 2023 PT Angkasa Pura I</p>
     </div>
 </div>
+
+<div class="footer footerTab">
+    <div class="highFooter">
+        <img src="/img/foot_logo.svg" alt="Logo" >
+        <h6 class="footerPT">PT Angkasa Pura I</h6>
+        <p style="padding: 0;margin: 0;">Kota Baru Bandar Kemayoran Blok B12 Kav.2 </p>
+        <p style="padding: 0;margin: 0;">Jakarta Pusat, DKI Jakarta - Indonesia</p>
+        <p style="padding: 0;margin: 0;">Telp. +62-21 6541961</p>
+        <p style="padding: 0;margin: 0;">Faks. +62-21 6541514</p>
+        <div class="social">
+            <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-facebook"></i></a>
+            <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-instagram"></i></a>
+            <a href="#" style="color: white; text-decoration: none; margin-right: 10px; font-size: 20px;" ><i class="icon fab fa-twitter"></i></a>
+            <a href="#" style="color: white; text-decoration: none; font-size: 20px;" ><i class="icon fab fa-youtube"></i></a>
+        </div>
+        <div class="TLFooterTab">
+            <div class="tentang">
+                <h6>TENTANG KAMI</h6>
+                <a href="{{ route('profil')}}"><p>Profil</p></a>
+                <a href="{{ route('visiMisi')}}"><p>Visi Misi</p></a>
+                <a href="{{ route('struktur')}}"><p>Struktur Organisasi</p></a>
+            </div>
+            <div class="layanan">
+                <h6>LAYANAN</h6>
+                <a href="{{ route('aduanSiber')}}"><p>Aduan Siber</p></a>
+                <a href="{{ route('layananVA')}}"><p>Layanan VA</p></a>
+                <a href="{{ route('panduan')}}"><p>Panduan Teknis</p></a>
+            </div>
+            
+        </div>
+    </div>
+    <div class="hotline">
+        <div class="contactFoot">
+            <img src="/img/call_foot.svg" alt="Call Footer">
+            <div class="hotlineFooter">
+                <p style="margin: 0; padding: 0">Contact Center </p>
+                <p style="margin: 0; padding: 0">172</p>
+            </div>
+        </div>
+
+        <div class="infoFoot">
+            <img src="/img/write_foot.svg" alt="Write Footer">
+            <div class="hotlineFooter">
+                <p style="margin: 0; padding: 0">Informasi, Saran dan Keluhan:  </p>
+                <p style="margin: 0; padding: 0">cc172@ap1.co.id</p>
+            </div>
+        </div>
+    </div>
+    <div class="lowerFooter" >
+        <p>© Copyright 2023 PT Angkasa Pura I</p>
+    </div>
+</div>
 <!-- Footer End -->
 
 
@@ -169,6 +221,36 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    var dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(function(dropdown) {
+        dropdown.addEventListener('click', function() {
+            var dropdownContent = this.querySelector('.dropdown-content');
+            if (dropdownContent.style.display === 'block') {
+                dropdownContent.style.display = 'none';
+            } else {
+                // Hide all dropdown contents before showing the clicked one
+                dropdowns.forEach(function(dropdown) {
+                    dropdown.querySelector('.dropdown-content').style.display = 'none';
+                });
+                dropdownContent.style.display = 'block';
+            }
+        });
+    });
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(event) {
+        dropdowns.forEach(function(dropdown) {
+            if (!dropdown.contains(event.target)) {
+                dropdown.querySelector('.dropdown-content').style.display = 'none';
+            }
+        });
+    });
+});
+
+    </script>
 </body>
 
 </html>

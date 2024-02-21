@@ -37,11 +37,8 @@
             background-image: url('img/login_bg.svg');
             background-size: cover;
             background-position: center;
-            height: 100vh;
             margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding-top: 0;
             font-family: 'Open Sans', sans-serif !important;
             box-sizing: border-box;
         }
@@ -49,33 +46,76 @@
     
 </head>
 <body>
-    <div class="login-box">
-        <div class="left-box">
-            <div class="title-box">
-                <h2 style="margin: 0;padding: 0">LOGIN SISTEM LAPORKAN INSIDEN</h2>
-            </div>
-            <div class="login-form">
-                @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
+    <div class="loginContainerDesk">
+        <img src="img/logo_login.svg" alt="Login Image" class="img-fluid logoLogin" style="max-height: 100%; max-width: 100%;">
+        <div class="container container-fluid">
+            <div class="login-box">
+                <div class="left-box">
+                    <div class="title-box">
+                        <h2 style="margin: 0;padding: 0">LOGIN SISTEM LAPORKAN INSIDEN</h2>
                     </div>
-                @endif
-                <form id="loginForm" method="post"action="{{ url('/masuk') }}" >
-                    @csrf
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                    <p style="font-size: 12px; color:#323232;padding:0; margin: 0">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
-                    <button type="submit">Login</button>
-                </form>
+                    <div class="login-form">
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        <form id="loginForm" method="post"action="{{ url('/masuk') }}" >
+                            @csrf
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                            <p style="font-size: 12px; color:#323232;padding:0; margin: 0">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="right-box">
+                    <img src="img/loginGambar.svg" alt="Login Image" class="img-fluid" style="max-height: 100%; max-width: 100%;">
+                    <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
+                </div>
             </div>
         </div>
-        <div class="right-box">
-            <!-- Tambahkan elemen untuk gambar -->
-            <img src="img/loginGambar.svg" alt="Login Image" class="img-fluid" style="max-height: 100%; max-width: 100%;">
-            <!-- Tambahkan tautan kembali ke beranda -->
-            <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
+        <div class="footer">
+            <div class="lowerFooter" >
+                <p>© Copyright 2023 PT Angkasa Pura I</p>
+            </div>
         </div>
     </div>
+    <div class="loginContainerMobile">
+        <img src="img/logo_login.svg" alt="Login Image" class="img-fluid logoLogin" style="max-height: 100%; max-width: 100%;">
+        <div class="container container-fluid">
+            <div class="login-box">
+                <div class="left-box">
+                    <div class="title-box">
+                        <h2 style="margin: 0;padding: 0">LOGIN SISTEM LAPORKAN INSIDEN</h2>
+                    </div>
+                    <img src="img/loginGambar.svg" alt="Login Image" class="logoForm img-fluid" style="max-height: 100%; max-width: 100%;">
 
+                    <div class="login-form">
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        <form id="loginForm" method="post"action="{{ url('/masuk') }}" >
+                            @csrf
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                            <p style="font-size: 12px; color:#323232;padding:0; margin: 0">Jika lupa password hubungi admin di admin@ap1.co.id.</p>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                    <a href="{{ route('user.beranda') }}" class="back-to-home">Kembali Ke Beranda</a>
+     
+                </div>
+                
+            </div>
+        </div>
+        <div class="footer">
+            <div class="lowerFooter" >
+                <p>© Copyright 2023 PT Angkasa Pura I</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

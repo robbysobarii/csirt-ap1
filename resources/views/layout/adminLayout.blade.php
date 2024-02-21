@@ -77,7 +77,12 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1 ">
                         <a class="dropdown-item text-center" href="{{ route('admin.carousel') }}">Carousel</a>
-                        {{-- <a class="dropdown-item text-center" href="{{ route('admin.activate') }}">Aktivasi Fitur</a> --}}
+                        <a class="dropdown-item text-center" href="{{ route('admin.profilManagement') }}">Profil Management</a>
+                        <a class="dropdown-item text-center" href="{{ route('admin.visiMisiManagement') }}">Visi Misi Management</a>
+                        <a class="dropdown-item text-center" href="{{ route('admin.strukturManagement') }}">Struktur Management</a>
+                        <a class="dropdown-item text-center" href="{{ route('admin.aduanManagement') }}">Aduan Management</a>
+                        <a class="dropdown-item text-center" href="{{ route('admin.layananVAManagement') }}">Layanan VA Management</a>
+
                     </div>
                 </li>
             </div>

@@ -4,7 +4,7 @@
         
         @if (!empty($carousel->heading_caption) || !empty($carousel->caption))
             <div class="overlay-text">
-                <div class="text-container px-md-5 px-lg-5 px">
+                <div class="text-container px-md-5 px-lg-5">
                     @if (!empty($carousel->heading_caption))
                         <h1 class="text-black">{{ $carousel->heading_caption }}</h1>
                     @endif

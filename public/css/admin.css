@@ -31,7 +31,20 @@ tr, td {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Menambahkan shadow */
     padding: 10px; /* Padding isi dropdown */
 }
+@media only screen and (min-width: 1002px){
 
+}
+@media only screen and (max-width: 500px){
+    .imgStruktur img{
+        width: 300px;
+    }
+}
+@media only screen and (max-width: 800px )and (min-width: 501px){
+
+}
+@media only screen and (max-width: 1200px )and (min-width: 1001px) {
+    
+}
 @media only screen and (max-width: 1024px) {
     h6{
         font-size: 12px;
@@ -57,3 +70,4 @@ tr, td {
         width: 100%
     }
 }
+

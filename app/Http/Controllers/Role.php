@@ -16,6 +16,8 @@ class Role
         return 'pimpinan.dashboard';
       case 'Superuser':
         return 'superuser';
+        case 'Narahubung':
+          return 'narahubung';
       default:
         return 'user.beranda';
     }
